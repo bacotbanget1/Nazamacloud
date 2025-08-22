@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nazama cloud - Tempat Terbaik Untuk Membeli Domain Anda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --accent: #10b981;
+            --dark: #1f2937;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .domain-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .domain-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .price-tag {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-weight: bold;
+        }
+        
+        .feature-item {
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 10px;
+            padding: 12px;
+            margin: 8px 0;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .buy-btn {
+            background: linear-gradient(135deg, var(--accent), #34d399);
+            color: white;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .buy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .hero-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen py-8 px-4">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <div class="hero-section p-8 mb-8">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7d6e3614-bf40-43ea-9ed9-600da3ccae11.png" alt="Modern digital domain registration platform with glowing domain names floating in cyberspace" class="w-full max-w-md mx-auto rounded-2xl mb-6" />
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">
+                    Temukan Domain <span class="text-yellow-300">Sempurna</span>
+                </h1>
+                <p class="text-xl text-gray-100 mb-6">
+                    Dapatkan domain profesional dengan harga terjangkau untuk bisnis dan proyek Anda
+                </p>
+            </div>
+        </header>
+
+        <!-- Domain List -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <!-- .my.id -->
+            <div class="domain-card p-6 text-center">
+                <h3 class="text-3xl font-bold text-gray-800 mb-3">.my.id</h3>
+                <div class="price-tag inline-block mb-4">Rp 10.000</div>
+                <button onclick="showFeatures('myid')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
+                    Lihat Fitur <i class="ml-2 fas fa-arrow-down"></i>
+                </button>
+                <div id="features-myid" class="hidden">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt text-blue-600 mr-2"></i>
+                        Memiliki full akses kontrol kepada domain
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cloud text-blue-600 mr-2"></i>
+                        Akun Cloudflare gratis setelah pembelian
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-unlock text-blue-600 mr-2"></i>
+                        Bebas menggunakan domain sesuai kebutuhan
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                        Pembayaran dilakukan per tahun
+                    </div>
+                    <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.my.id" 
+                       class="buy-btn block text-center mt-4">
+                       <i class="fas fa-shopping-cart mr-2"></i>Buy Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- .biz.id -->
+            <div class="domain-card p-6 text-center">
+                <h3 class="text-3xl font-bold text-gray-800 mb-3">.biz.id</h3>
+                <div class="price-tag inline-block mb-4">Rp 10.000</div>
+                <button onclick="showFeatures('bizid')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
+                    Lihat Fitur <i class="ml-2 fas fa-arrow-down"></i>
+                </button>
+                <div id="features-bizid" class="hidden">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt text-blue-600 mr-2"></i>
+                        Memiliki full akses kontrol kepada domain
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cloud text-blue-600 mr-2"></i>
+                        Akun Cloudflare gratis setelah pembelian
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-unlock text-blue-600 mr-2"></i>
+                        Bebas menggunakan domain sesuai kebutuhan
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                        Pembayaran dilakukan per tahun
+                    </div>
+                    <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.biz.id" 
+                       class="buy-btn block text-center mt-4">
+                       <i class="fas fa-shopping-cart mr-2"></i>Buy Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- .cloud -->
+            <div class="domain-card p-6 text-center">
+                <h3 class="text-3xl font-bold text-gray-800 mb-3">.cloud</h3>
+                <div class="price-tag inline-block mb-4">Rp 48.000</div>
+                <button onclick="showFeatures('cloud')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
+                    Lihat Fitur <i class="ml-2 fas fa-arrow-down"></i>
+                </button>
+                <div id="features-cloud" class="hidden">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt text-blue-600 mr-2"></i>
+                        Memiliki full akses kontrol kepada domain
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cloud text-blue-600 mr-2"></i>
+                        Akun Cloudflare gratis setelah pembelian
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-unlock text-blue-600 mr-2"></i>
+                        Bebas menggunakan domain sesuai kebutuhan
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                        Pembayaran dilakukan per tahun
+                    </div>
+                    <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.cloud" 
+                       class="buy-btn block text-center mt-4">
+                       <i class="fas fa-shopping-cart mr-2"></i>Buy Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- .online -->
+            <div class="domain-card p-6 text-center">
+                <h3 class="text-3xl font-bold text-gray-800 mb-3">.online</h3>
+                <div class="price-tag inline-block mb-4">Rp 45.000</div>
+                <button onclick="showFeatures('online')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
+                    Lihat Fitur <i class="ml-2 fas fa-arrow-down"></i>
+                </button>
+                <div id="features-online" class="hidden">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt text-blue-600 mr-2"></i>
+                        Memiliki full akses kontrol kepada domain
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cloud text-blue-600 mr-2"></i>
+                        Akun Cloudflare gratis setelah pembelian
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-unlock text-blue-600 mr-2"></i>
+                        Bebas menggunakan domain sesuai kebutuhan
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                        Pembayaran dilakukan per tahun
+                    </div>
+                    <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.online" 
+                       class="buy-btn block text-center mt-4">
+                       <i class="fas fa-shopping-cart mr-2"></i>Buy Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- .xyz -->
+            <div class="domain-card p-6 text-center">
+                <h3 class="text-3xl font-bold text-gray-800 mb-3">.xyz</h3>
+                <div class="price-tag inline-block mb-4">Rp 48.000</div>
+                <button onclick="showFeatures('xyz')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
+                    Lihat Fitur <i class="ml-2 fas fa-arrow-down"></i>
+                </button>
+                <div id="features-xyz" class="hidden">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt text-blue-600 mr-2"></i>
+                        Memiliki full akses kontrol kepada domain
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cloud text-blue-600 mr-2"></i>
+                        Akun Cloudflare gratis setelah pembelian
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-unlock text-blue-600 mr-2"></i>
+                        Bebas menggunakan domain sesuai kebutuhan
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                        Pembayaran dilakukan per tahun
+                    </div>
+                    <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.xyz" 
+                       class="buy-btn block text-center mt-4">
+                       <i class="fas fa-shopping-cart mr-2"></i>Buy Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- .click -->
+            <div class="domain-card p-6 text-center">
+                <h3 class="text-3xl font-bold text-gray-800 mb-3">.click</h3>
+                <div class="price-tag inline-block mb-4">Rp 40.000</div>
+                <button onclick="showFeatures('click')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
+                    Lihat Fitur <i class="ml-2 fas fa-arrow-down"></i>
+                </button>
+                <div id="features-click" class="hidden">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt text-blue-600 mr-2"></i>
+                        Memiliki full akses kontrol kepada domain
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cloud text-blue-600 mr-2"></i>
+                        Akun Cloudflare gratis setelah pembelian
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-unlock text-blue-600 mr-2"></i>
+                        Bebas menggunakan domain sesuai kebutuhan
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                        Pembayaran dilakukan per tahun
+                    </div>
+                    <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.click" 
+                       class="buy-btn block text-center mt-4">
+                       <i class="fas fa-shopping-cart mr-2"></i>Buy Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- .site -->
+            <div class="domain-card p-6 text-center">
+                <h3 class="text-3xl font-bold text-gray-800 mb-3">.site</h3>
+                <div class="price-tag inline-block mb-4">Rp 40.000</div>
+                <button onclick="showFeatures('site')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
+                    Lihat Fitur <i class="ml-2 fas fa-arrow-down"></i>
+                </button>
+                <div id="features-site" class="hidden">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt text-blue-600 mr-2"></i>
+                        Memiliki full akses kontrol kepada domain
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cloud text-blue-600 mr-2"></i>
+                        Akun Cloudflare gratis setelah pembelian
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-unlock text-blue-600 mr-2"></i>
+                        Bebas menggunakan domain sesuai kebutuhan
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                        Pembayaran dilakukan per tahun
+                    </div>
+                    <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.site" 
+                       class="buy-btn block text-center mt-4">
+                       <i class="fas fa-shopping-cart mr-2"></i>Buy Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- .web.id -->
+            <div class="domain-card p-6 text-center">
+                <h3 class="text-3xl font-bold text-gray-800 mb-3">.web.id</h3>
+                <div class="price-tag inline-block mb-4">Rp 58.000</div>
+                <button onclick="showFeatures('webid')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
+                    Lihat Fitur <i class="ml-2 fas fa-arrow-down"></i>
+                </button>
+                <div id="features-webid" class="hidden">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt text-blue-600 mr-2"></i>
+                        Memiliki full akses kontrol kepada domain
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cloud text-blue-600 mr-2"></i>
+                        Akun Cloudflare gratis setelah pembelian
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-unlock text-blue-600 mr-2"></i>
+                        Bebas menggunakan domain sesuai kebutuhan
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                        Pembayaran dilakukan per tahun
+                    </div>
+                    <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.web.id" 
+                       class="buy-btn block text-center mt-4">
+                       <i class="fas fa-shopping-cart mr-2"></i>Buy Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- .fun -->
+            <div class="domain-card p-6 text-center">
+                <h3 class="text-3xl font-bold text-gray-800 mb-3">.fun</h3>
+                <div class="price-tag inline-block mb-4">Rp 55.000</div>
+                <button onclick="showFeatures('fun')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
+                    Lihat Fitur <i class="ml-2 fas fa-arrow-down"></i>
+                </button>
+                <div id="features-fun" class="hidden">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt text-blue-600 mr-2"></i>
+                        Memiliki full akses kontrol kepada domain
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cloud text-blue-600 mr-2"></i>
+                        Akun Cloudflare gratis setelah pembelian
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-unlock text-blue-600 mr-2"></i>
+                        Bebas menggunakan domain sesuai kebutuhan
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                        Pembayaran dilakukan per tahun
+                    </div>
+                    <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.fun" 
+                       class="buy-btn block text-center mt-4">
+                       <i class="fas fa-shopping-cart mr-2"></i>Buy Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- .tech -->
+            <div class="domain-card p-6 text-center">
+                <h3 class="text-3xl font-bold text-gray-800 mb-3">.tech</h3>
+                <div class="price-tag inline-block mb-4">Rp 65.000</div>
+                <button onclick="showFeatures('tech')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
+                    Lihat Fitur <i class="ml-2 fas fa-arrow-down"></i>
+                </button>
+                <div id="features-tech" class="hidden">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt text-blue-600 mr-2"></i>
+                        Memiliki full akses kontrol kepada domain
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cloud text-blue-600 mr-2"></i>
+                        Akun Cloudflare gratis setelah pembelian
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-unlock text-blue-600 mr-2"></i>
+                        Bebas menggunakan domain sesuai kebutuhan
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                        Pembayaran dilakukan per tahun
+                    </div>
+                    <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.tech" 
+                       class="buy-btn block text-center mt-4">
+                       <i class="fas fa-shopping-cart mr-2"></i>Buy Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- .pw -->
+            <div class="domain-card p-6 text-center">
+                <h3 class="text-3xl font-bold text-gray-800 mb-3">.pw</h3>
+                <div class="price-tag inline-block mb-4">Rp 28.000</div>
+                <button onclick="showFeatures('pw')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
+                    Lihat Fitur <i class="ml-2 fas fa-arrow-down"></i>
+                </button>
+                <div id="features-pw" class="hidden">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt text-blue-600 mr-2"></i>
+                        Memiliki full akses kontrol kepada domain
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cloud text-blue-600 mr-2"></i>
+                        Akun Cloudflare gratis setelah pembelian
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-unlock text-blue-600 mr-2"></i>
+                        Bebas menggunakan domain sesuai kebutuhan
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                        Pembayaran dilakukan per tahun
+                    </div>
+                    <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.pw" 
+                       class="buy-btn block text-center mt-4">
+                       <i class="fas fa-shopping-cart mr-2"></i>Buy Now
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center text-white py-8">
+            <div class="floating mb-4">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/62642f7d-6d1b-42f2-b476-bdcb9ea1c8fb.png" alt="Customer support team ready to assist with domain registration and technical questions" class="w-full max-w-md mx-auto rounded-2xl" />
+            </div>
+            <h3 class="text-2xl font-bold mb-4">Siap Memulai?</h3>
+            <p class="mb-6">Hubungi kami melalui WhatsApp untuk konsultasi dan pembelian</p>
+            <a href="https://wa.me/6283142474788" 
+               class="buy-btn inline-block mx-auto">
+               <i class="fas fa-comments mr-2"></i>Chat via WhatsApp
+            </a>
+        </footer>
+    </div>
+
+    <script>
+        function showFeatures(domain) {
+            // Hide all feature sections first
+            const allFeatures = document.querySelectorAll('[id^="features-"]');
+            allFeatures.forEach(feature => {
+                feature.classList.add('hidden');
+            });
+            
+            // Show the selected feature section
+            const selectedFeature = document.getElementById('features-' + domain);
+            selectedFeature.classList.remove('hidden');
+            
+            // Scroll to the feature section
+            selectedFeature.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        // Close features when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.domain-card')) {
+                const allFeatures = document.querySelectorAll('[id^="features-"]');
+                allFeatures.forEach(feature => {
+                    feature.classList.add('hidden');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
