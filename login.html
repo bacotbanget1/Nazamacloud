@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistem Kami</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+            transition: transform 0.3s ease;
+        }
+        
+        .login-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .logo-container {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .form-container {
+            padding: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+        }
+        
+        .form-input {
+            padding-left: 45px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .btn-login {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .error-message {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .success-message {
+            background: #c6f6d5;
+            color: #2d7d32;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="logo-container">
+            <div class="logo floating-animation">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h1 class="text-white text-2xl font-bold">Sistem Kami</h1>
+            <p class="text-white opacity-90">Masuk ke akun Anda</p>
+        </div>
+        
+        <div class="form-container">
+            <div id="errorMessage" class="error-message">
+                <i class="fas fa-exclamation-circle mr-2"></i>
+                <span id="errorText"></span>
+            </div>
+            
+            <div id="successMessage" class="success-message">
+                <i class="fas fa-check-circle mr-2"></i>
+                Login berhasil! Mengarahkan...
+            </div>
+            
+            <form id="loginForm">
+                <div class="input-group relative">
+                    <i class="input-icon fas fa-user"></i>
+                    <input type="text" id="username" class="form-input w-full py-3 px-4" placeholder="Username" required>
+                </div>
+                
+                <div class="input-group relative">
+                    <i class="input-icon fas fa-lock"></i>
+                    <input type="password" id="password" class="form-input w-full py-3 px-4" placeholder="Password" required>
+                </div>
+                
+                <div class="flex items-center justify-between mb-6">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="form-checkbox text-blue-600">
+                        <span class="ml-2 text-sm text-gray-600">Ingat saya</span>
+                    </label>
+                    
+                    <a href="#" class="text-sm text-blue-600 hover:text-blue-800 transition-colors">
+                        Lupa password?
+                    </a>
+                </div>
+                
+                <button type="submit" class="btn-login w-full py-3 text-lg">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Masuk
+                </button>
+            </form>
+            
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-600">
+                    Belum punya akun? 
+                    <a href="daftar.html" class="text-blue-600 hover:text-blue-800 font-medium transition-colors">
+                        Daftar sekarang
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cek jika pengguna sudah login
+        window.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                window.location.href = 'index.html'; // Redirect ke index.html jika sudah login
+            }
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Sembunyikan pesan error sebelumnya
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // Validasi sederhana
+            if (!username || !password) {
+                errorText.textContent = 'Username dan password harus diisi!';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Ambil data user dari localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Cari user yang sesuai dengan username
+            const user = users.find(u => u.username === username);
+            
+            if (user) {
+                // Verifikasi password (dalam aplikasi nyata, password harus di-hash)
+                if (user.password === password) {
+                    successMessage.style.display = 'block';
+                    
+                    // Simpan status login di localStorage
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('currentUser ', JSON.stringify({
+                        username: user.username,
+                        fullName: user.fullName,
+                        email: user.email
+                    }));
+                    
+                    // Redirect ke index.html setelah 2 detik
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                } else {
+                    errorText.textContent = 'Password salah!';
+                    errorMessage.style.display = 'block';
+                }
+            } else {
+                errorText.textContent = 'Username tidak ditemukan!';
+                errorMessage.style.display = 'block';
+            }
+            
+            // Animasi shake untuk form jika ada error
+            if (errorMessage.style.display === 'block') {
+                const loginCard = document.querySelector('.login-card');
+                loginCard.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    loginCard.style.animation = '';
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html>
