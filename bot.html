@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NazamaCloud AI Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .chat-container {
+            max-height: 400px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+        
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            background: #f1f5f9;
+            border-radius: 18px;
+            margin: 8px 0;
+        }
+        
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #64748b;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-4px); }
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            margin: 8px 0;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .user-message {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .bot-message {
+            background: #f8fafc;
+            color: #334155;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .suggestion-chip {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .suggestion-chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/62879b6d-7489-4b60-adff-12a2fd4dbe71.png" alt="NazamaCloud Logo - Modern cloud server company logo with blue and white color scheme" class="w-12 h-12 rounded-lg">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">NazamaCloud</h1>
+                        <p class="text-gray-600 text-sm">Domain • Minecraft Server • Plugins</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-6">
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                        <i class="fas fa-circle mr-1 text-green-500"></i> Online
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Hero Section -->
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">AI Assistant NazamaCloud</h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Selamat datang! Saya adalah asisten AI NazamaCloud yang siap membantu Anda dengan layanan domain, server Minecraft, dan plugin. Silakan tanyakan apapun!
+                </p>
+            </div>
+
+            <!-- Chat Container -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="p-6 border-b">
+                    <div class="flex items-center">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a780b964-5463-4a7d-ba41-01393d3ce55f.png" alt="AI Assistant avatar - Friendly robot character with blue accent colors and friendly expression" class="w-12 h-12 rounded-full mr-3">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Nazama AI</h3>
+                            <p class="text-gray-600 text-sm">Siap membantu 24/7</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Messages -->
+                <div class="chat-container p-6 bg-gray-50" id="chatMessages">
+                    <div class="bot-message">
+                        <p>Halo! 👋 Saya Nazama AI, asisten virtual NazamaCloud. Saya siap membantu Anda dengan:</p>
+                        <ul class="list-disc list-inside mt-2 text-sm ml-2">
+                            <li>Informasi layanan domain</li>
+                            <li>Setup server Minecraft</li>
+                            <li>Rekomendasi plugin Minecraft</li>
+                            <li>Pertanyaan teknis</li>
+                            <li>Dukungan pelanggan</li>
+                        </ul>
+                        <p class="mt-3">Apa yang bisa saya bantu hari ini?</p>
+                    </div>
+                </div>
+
+                <!-- Quick Suggestions -->
+                <div class="p-4 bg-white border-t">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="suggestion-chip bg-blue-50 hover:bg-blue-100 p-3 rounded-lg text-center transition-colors" onclick="handleSuggestion('Apa saja paket server Minecraft yang tersedia?')">
+                            <i class="fas fa-server text-blue-600 mb-1"></i>
+                            <p class="text-blue-800 font-medium text-sm">Paket Server Minecraft</p>
+                        </div>
+                        <div class="suggestion-chip bg-green-50 hover:bg-green-100 p-3 rounded-lg text-center transition-colors" onclick="handleSuggestion('Bagaimana cara membeli domain?')">
+                            <i class="fas fa-globe text-green-600 mb-1"></i>
+                            <p class="text-green-800 font-medium text-sm">Pembelian Domain</p>
+                        </div>
+                        <div class="suggestion-chip bg-purple-50 hover:bg-purple-100 p-3 rounded-lg text-center transition-colors" onclick="handleSuggestion('Plugin Minecraft populer apa yang direkomendasikan?')">
+                            <i class="fas fa-puzzle-piece text-purple-600 mb-1"></i>
+                            <p class="text-purple-800 font-medium text-sm">Rekomendasi Plugin</p>
+                        </div>
+                        <div class="suggestion-chip bg-orange-50 hover:bg-orange-100 p-3 rounded-lg text-center transition-colors" onclick="handleSuggestion('Apa keunggulan NazamaCloud?')">
+                            <i class="fas fa-star text-orange-600 mb-1"></i>
+                            <p class="text-orange-800 font-medium text-sm">Keunggulan Layanan</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="p-4 bg-white border-t">
+                    <div class="flex space-x-3">
+                        <input 
+                            type="text" 
+                            id="userInput" 
+                            placeholder="Tanyakan sesuatu tentang layanan kami..."
+                            class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            onkeypress="handleKeyPress(event)"
+                        >
+                        <button 
+                            onclick="sendMessage()" 
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center"
+                        >
+                            <i class="fas fa-paper-plane mr-2"></i> Kirim
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-server text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Server Minecraft</h3>
+                    <p class="text-gray-600 text-sm">Server berkualitas tinggi dengan uptime 99.9% dan dukungan teknis 24/7</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-globe text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Layanan Domain</h3>
+                    <p class="text-gray-600 text-sm">Registrasi domain mudah dengan harga kompetitif dan manajemen yang sederhana</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-puzzle-piece text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Plugin Minecraft</h3>
+                    <p class="text-gray-600 text-sm">Koleksi plugin premium dan custom untuk enhance pengalaman Minecraft Anda</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/306ce244-3ea7-47a3-8110-4510ceb3c159.png" alt="NazamaCloud footer logo - Modern logo with white text on dark background" class="mb-4">
+                    <p class="text-gray-400">Menyediakan layanan hosting terbaik untuk kebutuhan gaming dan web Anda.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Layanan</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>Minecraft Server</li>
+                        <li>Domain Registration</li>
+                        <li>Minecraft Plugins</li>
+                        <li>Web Hosting</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>Knowledge Base</li>
+                        <li>Status Server</li>
+                        <li>Contact Support</li>
+                        <li>FAQ</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Kontak</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p><i class="fas fa-envelope mr-2"></i> support@nazamacloud.com</p>
+                        <p><i class="fas fa-phone mr-2"></i> +62 21 1234 5678</p>
+                        <p><i class="fas fa-map-marker-alt mr-2"></i> Jakarta, Indonesia</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2024 NazamaCloud. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Knowledge base for NazamaCloud AI
+        const knowledgeBase = {
+            greeting: [
+                "Halo! Selamat datang di NazamaCloud. Ada yang bisa saya bantu?",
+                "Hai! Senang bertemu dengan Anda. Apa yang bisa saya bantu hari ini?",
+                "Hello! Saya Nazama AI, siap membantu Anda dengan layanan kami."
+            ],
+            services: {
+                minecraft: [
+                    "Kami menyediakan berbagai paket server Minecraft:\n\n" +
+                    "📦 Basic - Rp 50.000/bulan\n- 2GB RAM\n- 20 player slots\n- SSD Storage\n\n" +
+                    "📦 Premium - Rp 100.000/bulan\n- 4GB RAM\n- 50 player slots\n- SSD Storage + Backup\n\n" +
+                    "📦 Enterprise - Rp 200.000/bulan\n- 8GB RAM\n- Unlimited slots\n- Premium Support",
+                    "Server Minecraft kami menggunakan hardware terbaik dengan uptime 99.9% dan support 24/7.",
+                    "Semua paket server termasuk DDoS protection dan automatic backups."
+                ],
+                domain: [
+                    "Untuk pembelian domain, kami menyediakan berbagai ekstensi:\n\n" +
+                    "🌐 .com - Rp 150.000/tahun\n🌐 .id - Rp 200.000/tahun\n🌐 .net - Rp 160.000/tahun\n🌐 .xyz - Rp 50.000/tahun\n\n" +
+                    "Semua domain termasuk free WHOIS protection dan DNS management.",
+                    "Proses registrasi domain sangat mudah. Cukup cek availability lalu checkout.",
+                    "Kami juga menyediakan domain transfer dengan harga spesial."
+                ],
+                plugins: [
+                    "Plugin Minecraft populer yang kami rekomendasikan:\n\n" +
+                    "🎮 EssentialsX - Plugin essentials lengkap\n🎮 WorldEdit - Building tools advanced\n🎮 LuckPerms - Permission management\n🎮 Vault - Economy system\n🎮 Citizens - NPC system\n\n" +
+                    "Kami juga menyediakan custom plugin development.",
+                    "Semua plugin sudah teroptimasi dan compatible dengan versi Minecraft terbaru.",
+                    "Kami offer plugin bundle packages dengan harga khusus."
+                ],
+                general: [
+                    "NazamaCloud telah melayani sejak 2018 dengan ribuan pelanggan satisfied.",
+                    "Keunggulan kami: Support 24/7, harga kompetitif, dan kualitas terjamin.",
+                    "Kami menggunakan teknologi terkini untuk memastikan performa optimal."
+                ]
+            },
+            support: [
+                "Untuk support teknis, silakan hubungi:\n📧 support@nazamacloud.com\n📞 +62 21 1234 5678",
+                "Tim support kami tersedia 24/7 untuk membantu masalah teknis.",
+                "Kunjungi knowledge base kami untuk tutorial dan FAQ lengkap."
+            ],
+            unknown: [
+                "Maaf, saya belum paham pertanyaan tersebut. Bisa tolong dijelaskan lebih detail?",
+                "Saya sedang belajar tentang itu. Mungkin bisa tanyakan hal lain tentang layanan kami?",
+                "Untuk pertanyaan itu, saya sarankan menghubungi tim support kami langsung."
+            ]
+        };
+
+        function getAIResponse(userMessage) {
+            const message = userMessage.toLowerCase();
+            
+            // Greetings
+            if (message.includes('halo') || message.includes('hai') || message.includes('hello')) {
+                return getRandomResponse(knowledgeBase.greeting);
+            }
+            
+            // Minecraft server questions
+            if (message.includes('minecraft') || message.includes('server') || message.includes('mc')) {
+                if (message.includes('harga') || message.includes('price') || message.includes('paket')) {
+                    return getRandomResponse(knowledgeBase.services.minecraft);
+                }
+                return "Untuk informasi server Minecraft, kami punya berbagai paket dengan spesifikasi berbeda. Mau tahu detail harganya?";
+            }
+            
+            // Domain questions
+            if (message.includes('domain') || message.includes('beli domain') || message.includes('registrasi')) {
+                return getRandomResponse(knowledgeBase.services.domain);
+            }
+            
+            // Plugin questions
+            if (message.includes('plugin') || message.includes('mod') || message.includes('addon')) {
+                return getRandomResponse(knowledgeBase.services.plugins);
+            }
+            
+            // Support questions
+            if (message.includes('support') || message.includes('bantuan') || message.includes('help')) {
+                return getRandomResponse(knowledgeBase.support);
+            }
+            
+            // General questions
+            if (message.includes('keunggulan') || message.includes('kelebihan') || message.includes('mengapa')) {
+                return getRandomResponse(knowledgeBase.services.general);
+            }
+            
+            // Unknown questions
+            return getRandomResponse(knowledgeBase.unknown);
+        }
+
+        function getRandomResponse(responses) {
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            
+            if (message === '') return;
+            
+            // Add user message to chat
+            addMessage(message, 'user');
+            userInput.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Simulate AI thinking and response
+            setTimeout(() => {
+                removeTypingIndicator();
+                const aiResponse = getAIResponse(message);
+                addMessage(aiResponse, 'bot');
+            }, 1500);
+        }
+
+        function handleSuggestion(suggestion) {
+            document.getElementById('userInput').value = suggestion;
+            sendMessage();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function addMessage(text, sender) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            
+            // Convert line breaks to HTML
+            const formattedText = text.replace(/\n/g, '<br>');
+            messageDiv.innerHTML = formattedText;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const chatMessages = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        // Initialize with welcome message
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+    </script>
+</body>
+</html>
+
