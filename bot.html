@@ -3,100 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NazamaCloud Super AI Assistant</title>
+    <title>NazamaCloud AI Super Intelligent Assistant</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
         
         * {
             font-family: 'Inter', sans-serif;
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
         .chat-container {
             max-height: 600px;
             overflow-y: auto;
             scroll-behavior: smooth;
-            background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
         }
         
         .typing-indicator {
             display: inline-flex;
             align-items: center;
-            padding: 16px 24px;
-            background: #ffffff;
-            border-radius: 20px;
-            margin: 12px 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            border: 1px solid #e2e8f0;
-        }
-        
-        .typing-dot {
-            width: 10px;
-            height: 10px;
-            background: #4f46e5;
-            border-radius: 50%;
-            margin: 0 4px;
-            animation: typing 1.6s infinite ease-in-out;
-        }
-        
-        .typing-dot:nth-child(1) { animation-delay: 0s; }
-        .typing-dot:nth-child(2) { animation-delay: 0.3s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.6s; }
-        .typing-dot:nth-child(4) { animation-delay: 0.9s; }
-        
-        @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-            30% { transform: translateY(-8px); opacity: 1; }
+            padding: 12px 20px;
+            background: #f1f5f9;
+            border-radius: 18px;
+            margin: 8px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .message {
             max-width: 90%;
-            padding: 20px 24px;
-            border-radius: 24px;
-            margin: 16px 0;
-            animation: fadeInSlide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            line-height: 1.7;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-            backdrop-filter: blur(10px);
+            padding: 18px 22px;
+            border-radius: 20px;
+            margin: 12px 0;
+            animation: fadeIn 0.3s ease-out;
+            line-height: 1.6;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
         
         .user-message {
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
             margin-left: auto;
-            border-bottom-right-radius: 8px;
+            border-bottom-right-radius: 6px;
         }
         
         .bot-message {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             color: #1f2937;
             margin-right: auto;
-            border-bottom-left-radius: 8px;
-            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-bottom-left-radius: 6px;
+            border: 1px solid #e5e7eb;
         }
         
         .bot-message code {
-            background: #f8fafc;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-family: 'Fira Code', 'Monaco', monospace;
+            background: #f3f4f6;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.9em;
-            border: 1px solid #e2e8f0;
+            color: #dc2626;
         }
         
         .bot-message pre {
             background: #1f2937;
             color: #e5e7eb;
             padding: 16px;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow-x: auto;
-            margin: 16px 0;
-            font-family: 'Fira Code', 'Monaco', monospace;
+            margin: 12px 0;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.85em;
             line-height: 1.5;
         }
@@ -106,249 +85,124 @@
             border-collapse: collapse;
             margin: 16px 0;
             background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         
-        .bot-message th {
-            background: #4f46e5;
-            color: white;
-            font-weight: 600;
-            padding: 12px;
+        .bot-message th, .bot-message td {
+            border: 1px solid #e5e7eb;
+            padding: 10px 12px;
             text-align: left;
         }
         
-        .bot-message td {
-            padding: 12px;
-            border-bottom: 1px solid #e5e7eb;
+        .bot-message th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #374151;
         }
         
-        .bot-message tr:hover {
-            background: #f8fafc;
+        .bot-message tr:nth-child(even) {
+            background-color: #f8fafc;
         }
         
-        @keyframes fadeInSlide {
+        @keyframes fadeIn {
             from { 
                 opacity: 0; 
-                transform: translateY(20px) scale(0.95); 
+                transform: translateY(10px); 
             }
             to { 
                 opacity: 1; 
-                transform: translateY(0) scale(1); 
+                transform: translateY(0); 
             }
         }
         
         .suggestion-chip {
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 2px solid transparent;
-            backdrop-filter: blur(10px);
         }
         
         .suggestion-chip:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 12px 40px rgba(79, 70, 229, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.25);
         }
         
-        .floating-element {
-            animation: float 4s ease-in-out infinite;
+        .knowledge-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            font-weight: 600;
+        }
+        
+        .subject-pill {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 500;
+            margin: 2px;
+        }
+        
+        .math { background: #fee2e2; color: #dc2626; }
+        .physics { background: #ede9fe; color: #7c3aed; }
+        .chemistry { background: #dbeafe; color: #2563eb; }
+        .biology { background: #dcfce7; color: #16a34a; }
+        .history { background: #fef3c7; color: #d97706; }
+        .geography { background: #ddd6fe; color: #7c3aed; }
+        .english { background: #fce7f3; color: #db2777; }
+        .programming { background: #cffafe; color: #0891b2; }
+        .server { background: #fed7aa; color: #ea580c; }
+        
+        .floating-button {
+            animation: float 3s ease-in-out infinite;
         }
         
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
+            50% { transform: translateY(-3px); }
         }
         
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .quick-response {
+            animation: quickResponse 0.8s ease-out;
         }
         
-        .knowledge-badge {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        
-        .subject-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-        }
-        
-        .subject-card {
-            transition: all 0.3s ease;
-        }
-        
-        .subject-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        
-        .progress-bar {
-            transition: width 2s ease-in-out;
-        }
-        
-        .ai-thinking {
-            background: conic-gradient(from 0deg, #4f46e5, #7c3aed, #4f46e5);
-            animation: rotate 3s linear infinite;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .markdown-content h1 { font-size: 1.8em; font-weight: 800; margin: 24px 0 16px 0; color: #1f2937; }
-        .markdown-content h2 { font-size: 1.5em; font-weight: 700; margin: 20px 0 12px 0; color: #374151; }
-        .markdown-content h3 { font-size: 1.3em; font-weight: 600; margin: 16px 0 8px 0; color: #4b5563; }
-        .markdown-content p { margin: 12px 0; }
-        .markdown-content ul, .markdown-content ol { margin: 12px 0; padding-left: 24px; }
-        .markdown-content li { margin: 6px 0; }
-        .markdown-content blockquote { 
-            border-left: 4px solid #4f46e5; 
-            padding-left: 16px; 
-            margin: 16px 0; 
-            background: #f8fafc; 
-            padding: 16px; 
-            border-radius: 8px; 
-        }
-        
-        .math-formula {
-            background: #f8fafc;
-            padding: 16px;
-            border-radius: 12px;
-            font-family: 'Cambria Math', serif;
-            text-align: center;
-            margin: 16px 0;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .code-tabs {
-            background: #1f2937;
-            border-radius: 12px 12px 0 0;
-            padding: 12px 16px;
-            display: flex;
-            gap: 8px;
-        }
-        
-        .code-tab {
-            padding: 8px 16px;
-            background: #374151;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9em;
-        }
-        
-        .code-tab.active {
-            background: #4f46e5;
-        }
-        
-        .smart-response {
-            border-left: 4px solid #10b981;
-            background: linear-gradient(90deg, #f0fdf4, #ffffff);
+        @keyframes quickResponse {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 min-h-screen">
-    <!-- Loading Screen -->
-    <div id="loadingScreen" class="fixed inset-0 bg-gradient-to-br from-indigo-600 to-purple-700 flex items-center justify-center z-50">
-        <div class="text-center text-white">
-            <div class="w-24 h-24 mx-auto mb-6 relative">
-                <div class="w-full h-full rounded-full ai-thinking absolute"></div>
-                <div class="w-20 h-20 bg-indigo-700 rounded-full absolute top-2 left-2 flex items-center justify-center">
-                    <i class="fas fa-brain text-3xl text-white"></i>
-                </div>
-            </div>
-            <h2 class="text-2xl font-bold mb-2">Nazama Super AI</h2>
-            <p class="text-indigo-200">Loading advanced intelligence system...</p>
-            <div class="w-64 h-2 bg-indigo-800 rounded-full mt-4 mx-auto overflow-hidden">
-                <div class="h-full bg-white progress-bar" style="width: 0%"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- API Key Modal -->
-    <div id="apiKeyModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden backdrop-blur-sm">
-        <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl glass-effect">
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-key text-2xl text-white"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-800">OpenAI API Key</h2>
-                <p class="text-gray-600 mt-2">Masukkan API Key untuk mengaktifkan kecerdasan super</p>
-            </div>
-            
-            <input 
-                type="password" 
-                id="apiKeyInput" 
-                placeholder="sk-...your-api-key..."
-                class="w-full px-6 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/30 focus:border-blue-500 mb-6 text-lg"
-            >
-            
-            <div class="grid grid-cols-2 gap-4">
-                <button 
-                    onclick="useWithoutAPI()" 
-                    class="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-all duration-300 font-medium"
-                >
-                    Basic Mode
-                </button>
-                <button 
-                    onclick="saveAPIKey()" 
-                    class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium shadow-lg"
-                >
-                    <i class="fas fa-rocket mr-2"></i>Aktifkan
-                </button>
-            </div>
-            
-            <div class="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
-                <p class="text-blue-800 text-sm">
-                    <i class="fas fa-info-circle mr-2"></i>
-                    Dapatkan API key dari 
-                    <a href="https://platform.openai.com/api-keys" target="_blank" class="underline hover:text-blue-600 font-medium">
-                        platform.openai.com
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-
+<body class="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
     <!-- Header -->
-    <header class="bg-white/80 backdrop-blur-lg shadow-2xl sticky top-0 z-40 border-b border-gray-200/50">
-        <div class="container mx-auto px-6 py-4">
+    <header class="bg-white shadow-lg sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/62879b6d-7489-4b60-adff-12a2fd4dbe71.png" alt="NazamaCloud Logo - Modern cloud server company logo with futuristic design" class="w-16 h-16 rounded-2xl shadow-lg">
+                    <div class="relative">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/62879b6d-7489-4b60-adff-12a2fd4dbe71.png" alt="NazamaCloud Logo - Modern cloud server company logo with blue and white color scheme" class="w-14 h-14 rounded-xl">
+                        <span class="knowledge-badge">AI</span>
+                    </div>
                     <div>
-                        <h1 class="text-3xl font-bold text-gray-800 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Nazama Super AI</h1>
-                        <p class="text-gray-600 text-sm">Advanced Intelligence • Multi-Disiplin • 24/7 Support</p>
+                        <h1 class="text-2xl font-bold text-gray-800">NazamaCloud AI Super</h1>
+                        <p class="text-gray-600 text-sm">Multi-domain Expert Assistant • Real-time Responses</p>
                     </div>
                 </div>
                 
-                <div class="flex items-center space-6">
-                    <div class="hidden lg:flex items-center space-4">
-                        <button onclick="showKnowledgePanel()" class="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors">
-                            <i class="fas fa-graduation-cap mr-2"></i>Edukasi
-                        </button>
-                        <button onclick="showTechPanel()" class="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors">
-                            <i class="fas fa-code mr-2"></i>Teknologi
-                        </button>
-                        <button onclick="showBusinessPanel()" class="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors">
-                            <i class="fas fa-briefcase mr-2"></i>Bisnis
-                        </button>
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex items-center space-x-2 text-sm text-gray-600">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                        <span>Real-time • No Loading</span>
                     </div>
                     
-                    <button 
-                        onclick="showAPIKeyModal()" 
-                        class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg flex items-center space-x-2 floating-element"
-                    >
-                        <i class="fas fa-key"></i>
-                        <span>API Key</span>
+                    <button onclick="showKnowledgeModal()" class="p-2 text-gray-600 hover:text-blue-600 transition-colors" title="Lihat Pengetahuan">
+                        <i class="fas fa-brain text-xl"></i>
+                    </button>
+                    
+                    <button onclick="resetChat()" class="p-2 text-gray-600 hover:text-gray-800 transition-colors" title="Reset Chat">
+                        <i class="fas fa-redo"></i>
                     </button>
                 </div>
             </div>
@@ -356,247 +210,180 @@
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-6 py-8">
+    <main class="container mx-auto px-4 py-8">
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
             <!-- Sidebar -->
-            <div class="lg:col-span-1 space-y-8">
-                <!-- AI Status Card -->
-                <div class="bg-white/80 backdrop-blur-lg rounded-3xl p-6 shadow-2xl border border-gray-100">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="font-bold text-gray-800 text-lg">Status Intelligence</h3>
-                        <span id="aiStatus" class="bg-gradient-to-r from-green-100 to-green-200 text-green-800 px-4 py-2 rounded-full text-sm font-bold">
-                            <i class="fas fa-circle mr-2 text-green-500"></i> SUPER AI
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Status Card -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-gray-800">AI Status</h3>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-circle mr-1 text-green-500"></i> Super Active
                         </span>
                     </div>
                     
-                    <div class="space-y-4">
+                    <div class="space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="text-gray-600">Mode:</span>
-                            <span id="aiMode" class="bg-gradient-to-r from-purple-100 to-purple-200 text-purple-800 px-3 py-1 rounded-xl text-xs font-bold">OPENAI GPT-4</span>
+                            <span class="bg-gradient-to-r from-purple-100 to-blue-100 text-purple-800 px-2 py-1 rounded text-xs font-medium">Super Intelligent</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Percakapan:</span>
-                            <span id="messageCount" class="font-bold text-gray-800">0 pesan</span>
+                            <span class="text-gray-600">Response Time:</span>
+                            <span class="font-semibold text-green-600">Instant</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Knowledge Base:</span>
-                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium">15.7M+ data</span>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-6 pt-4 border-t border-gray-200">
-                        <div class="flex space-x-3">
-                            <button onclick="resetChat()" class="flex-1 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors text-gray-700">
-                                <i class="fas fa-redo mr-2"></i>Reset
-                            </button>
-                            <button onclick="exportConversation()" class="flex-1 px-4 py-2 bg-blue-100 hover:bg-blue-200 rounded-xl transition-colors text-blue-700">
-                                <i class="fas fa-download mr-2"></i>Export
-                            </button>
+                            <span class="text-gray-600">Pesan:</span>
+                            <span id="messageCount" class="font-semibold">0</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Quick Knowledge Access -->
-                <div class="bg-white/80 backdrop-blur-lg rounded-3xl p-6 shadow-2xl border border-gray-100">
-                    <h3 class="font-bold text-gray-800 text-lg mb-6">Akses Cepat Pengetahuan</h3>
-                    
-                    <div class="subject-grid">
-                        <div class="subject-card bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-2xl text-center cursor-pointer" onclick="handleSuggestion('Jelaskan teori relativitas Einstein untuk siswa SMA')">
-                            <i class="fas fa-atom text-2xl text-blue-600 mb-2"></i>
-                            <p class="text-sm font-medium text-blue-800">Fisika</p>
-                        </div>
-                        <div class="subject-card bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-2xl text-center cursor-pointer" onclick="handleSuggestion('Jelaskan proses fotosintesis dan pentingnya bagi kehidupan')">
-                            <i class="fas fa-seedling text-2xl text-green-600 mb-2"></i>
-                            <p class="text-sm font-medium text-green-800">Biologi</p>
-                        </div>
-                        <div class="subject-card bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-2xl text-center cursor-pointer" onclick="handleSuggestion('Selesaikan persamaan kuadrat: 2x² + 5x - 3 = 0')">
-                            <i class="fas fa-calculator text-2xl text-purple-600 mb-2"></i>
-                            <p class="text-sm font-medium text-purple-800">Matematika</p>
-                        </div>
-                        <div class="subject-card bg-gradient-to-br from-red-50 to-red-100 p-4 rounded-2xl text-center cursor-pointer" onclick="handleSuggestion('Jelaskan struktur atom dan tabel periodik unsur')">
-                            <i class="fas fa-flask text-2xl text-red-600 mb-2"></i>
-                            <p class="text-sm font-medium text-red-800">Kimia</p>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-4 subject-grid">
-                        <div class="subject-card bg-gradient-to-br from-yellow-50 to-yellow-100 p-4 rounded-2xl text-center cursor-pointer" onclick="handleSuggestion('Buatkan code HTML/CSS/JS untuk website portfolio modern')">
-                            <i class="fas fa-code text-2xl text-yellow-600 mb-2"></i>
-                            <p class="text-sm font-medium text-yellow-800">Programming</p>
-                        </div>
-                        <div class="subject-card bg-gradient-to-br from-indigo-50 to-indigo-100 p-4 rounded-2xl text-center cursor-pointer" onclick="handleSuggestion('Jelaskan cara setup server Minecraft dengan Docker')">
-                            <i class="fas fa-server text-2xl text-indigo-600 mb-2"></i>
-                            <p class="text-sm font-medium text-indigo-800">Server</p>
-                        </div>
-                        <div class="subject-card bg-gradient-to-br from-pink-50 to-pink-100 p-4 rounded-2xl text-center cursor-pointer" onclick="handleSuggestion('Ajari saya dasar-dasar bahasa Inggris untuk percakapan')">
-                            <i class="fas fa-language text-2xl text-pink-600 mb-2"></i>
-                            <p class="text-sm font-medium text-pink-800">Bahasa</p>
-                        </div>
-                        <div class="subject-card bg-gradient-to-br from-gray-50 to-gray-100 p-4 rounded-2xl text-center cursor-pointer" onclick="handleSuggestion('Bantu saya memahami konsep ekonomi makro')">
-                            <i class="fas fa-chart-line text-2xl text-gray-600 mb-2"></i>
-                            <p class="text-sm font-medium text-gray-800">Ekonomi</p>
-                        </div>
+                <!-- Knowledge Domains -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                    <h3 class="font-semibold text-gray-800 mb-4">Bidang Keahlian</h3>
+                    <div class="grid grid-cols-2 gap-2">
+                        <span class="subject-pill math">Matematika</span>
+                        <span class="subject-pill physics">Fisika</span>
+                        <span class="subject-pill chemistry">Kimia</span>
+                        <span class="subject-pill biology">Biologi</span>
+                        <span class="subject-pill history">Sejarah</span>
+                        <span class="subject-pill geography">Geografi</span>
+                        <span class="subject-pill english">Bahasa Inggris</span>
+                        <span class="subject-pill programming">Programming</span>
+                        <span class="subject-pill server">Server</span>
                     </div>
                 </div>
 
-                <!-- NazamaCloud Services -->
-                <div class="bg-white/80 backdrop-blur-lg rounded-3xl p-6 shadow-2xl border border-gray-100">
-                    <h3 class="font-bold text-gray-800 text-lg mb-6">Layanan NazamaCloud</h3>
-                    
-                    <div class="space-y-4">
-                        <div class="suggestion-chip bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-2xl" onclick="handleSuggestion('Apa saja paket server Minecraft terbaik untuk bisnis gaming?')">
-                            <div class="flex items-center">
-                                <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center mr-3">
-                                    <i class="fas fa-server text-white text-lg"></i>
-                                </div>
-                                <div>
-                                    <p class="font-bold text-blue-800">Server Minecraft</p>
-                                    <p class="text-blue-600 text-xs">Hosting & Management</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="suggestion-chip bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-2xl" onclick="handleSuggestion('Bagaimana proses registrasi domain .id di NazamaCloud?')">
-                            <div class="flex items-center">
-                                <div class="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mr-3">
-                                    <i class="fas fa-globe text-white text-lg"></i>
-                                </div>
-                                <div>
-                                    <p class="font-bold text-green-800">Domain Services</p>
-                                    <p class="text-green-600 text-xs">Registration & DNS</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="suggestion-chip bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-2xl" onclick="handleSuggestion('Plugin Minecraft apa yang direkomendasikan untuk server SMP?')">
-                            <div class="flex items-center">
-                                <div class="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center mr-3">
-                                    <i class="fas fa-puzzle-piece text-white text-lg"></i>
-                                </div>
-                                <div>
-                                    <p class="font-bold text-purple-800">Minecraft Plugins</p>
-                                    <p class="text-purple-600 text-xs">Custom & Premium</p>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Quick Actions -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                    <h3 class="font-semibold text-gray-800 mb-4">Aksi Cepat</h3>
+                    <div class="space-y-3">
+                        <button onclick="handleSuggestion('Jelaskan konsep turunan dalam matematika untuk siswa SMA')" class="w-full text-left p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors quick-response">
+                            <span class="text-blue-800 font-medium">🎓 Matematika SMA</span>
+                        </button>
+                        <button onclick="handleSuggestion('Bantu saya setup server Minecraft dengan plugin essentials')" class="w-full text-left p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors quick-response">
+                            <span class="text-green-800 font-medium">🛠️ Setup Server</span>
+                        </button>
+                        <button onclick="handleSuggestion('Buatkan contoh code HTML/CSS untuk landing page modern')" class="w-full text-left p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors quick-response">
+                            <span class="text-purple-800 font-medium">💻 Web Development</span>
+                        </button>
+                        <button onclick="handleSuggestion('Jelaskan proses fotosintesis untuk siswa SMP')" class="w-full text-left p-3 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors quick-response">
+                            <span class="text-emerald-800 font-medium">🔬 IPA SMP</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Support -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                    <h3 class="font-semibold text-gray-800 mb-4">Dukungan Cepat</h3>
+                    <div class="space-y-3">
+                        <button onclick="handleSuggestion('Server saya down, apa yang harus dilakukan?')" class="w-full flex items-center justify-between px-4 py-3 bg-red-50 hover:bg-red-100 text-red-700 rounded-lg transition-colors">
+                            <span>🚨 Server Down</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <button onclick="handleSuggestion('Cara membeli domain di NazamaCloud')" class="w-full flex items-center justify-between px-4 py-3 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg transition-colors">
+                            <span>🛒 Beli Domain</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <button onclick="handleSuggestion('Troubleshoot plugin error di Minecraft')" class="w-full flex items-center justify-between px-4 py-3 bg-orange-50 hover:bg-orange-100 text-orange-700 rounded-lg transition-colors">
+                            <span>🔧 Plugin Error</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
             </div>
 
             <!-- Chat Container -->
             <div class="lg:col-span-3">
-                <div class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
                     <!-- Chat Header -->
-                    <div class="p-8 gradient-bg text-white">
-                        <div class="flex items-center">
-                            <div class="relative">
-                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a780b964-5463-4a7d-ba41-01393d3ce55f.png" alt="Super AI Assistant - Advanced robot with neural network visualization" class="w-20 h-20 rounded-2xl border-4 border-white/30 shadow-lg">
-                                <div class="absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center border-2 border-white">
-                                    <i class="fas fa-bolt text-white text-xs"></i>
+                    <div class="p-6 border-b bg-gradient-to-r from-blue-600 to-purple-700 text-white">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a780b964-5463-4a7d-ba41-01393d3ce55f.png" alt="AI Assistant avatar - Friendly robot character with blue accent colors and friendly expression" class="w-16 h-16 rounded-full mr-4 border-4 border-white/20">
+                                <div>
+                                    <h3 class="font-bold text-2xl">Nazama AI Super Intelligent</h3>
+                                    <p class="text-blue-100">Expert dalam Pendidikan, Teknologi, & Server • Real-time Responses</p>
                                 </div>
                             </div>
-                            <div class="ml-6">
-                                <h3 class="font-bold text-3xl">Nazama Super AI</h3>
-                                <p class="text-blue-100 text-lg">Advanced Multi-Disciplinary Intelligence System</p>
-                                <div class="flex items-center space-x-4 mt-2">
-                                    <span class="bg-white/20 px-3 py-1 rounded-full text-sm">SD-SMA</span>
-                                    <span class="bg-white/20 px-3 py-1 rounded-full text-sm">Kuliah</span>
-                                    <span class="bg-white/20 px-3 py-1 rounded-full text-sm">Programming</span>
-                                    <span class="bg-white/20 px-3 py-1 rounded-full text-sm">Business</span>
-                                </div>
+                            <div class="hidden lg:flex items-center space-x-2 bg-white/20 px-4 py-2 rounded-full">
+                                <i class="fas fa-bolt text-yellow-300"></i>
+                                <span class="text-sm">Instant Response</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Chat Messages -->
-                    <div class="chat-container p-8" id="chatMessages">
-                        <div class="bot-message smart-response">
+                    <div class="chat-container p-6" id="chatMessages">
+                        <div class="bot-message">
                             <div class="markdown-content">
-                                <h2>🚀 Selamat Datang di Nazama Super AI!</h2>
-                                <p>Saya adalah asisten AI cerdas yang didukung oleh teknologi OpenAI terbaru. Saya siap membantu Anda dalam berbagai bidang:</p>
+                                <h2>👋 Halo! Saya Nazama AI Super Intelligent</h2>
+                                <p>Saya asisten AI canggih dengan pengetahuan mendalam dalam berbagai bidang:</p>
                                 
-                                <h3>🎓 Pendidikan</h3>
+                                <h3>🎓 <strong>Pendidikan Lengkap</strong></h3>
                                 <ul>
-                                    <li><strong>SD-SMP-SMA:</strong> Matematika, Fisika, Kimia, Biologi, Bahasa</li>
-                                    <li><strong>Kuliah:</strong> Teknik, Ekonomi, Kedokteran, Hukum, dll</li>
-                                    <li><strong>Pelajaran Umum:</strong> Sejarah, Geografi, Seni, Musik</li>
+                                    <li><strong>SD-SMP-SMA:</strong> Matematika, IPA, IPS, Bahasa</li>
+                                    <li><strong>Kuliah:</strong> Teknik, Sains, Bisnis, IT</li>
+                                    <li><strong>Kurikulum Indonesia:</strong> Semua mata pelajaran</li>
                                 </ul>
-                                
-                                <h3>💻 Teknologi</h3>
+
+                                <h3>💻 <strong>Teknologi & Programming</strong></h3>
                                 <ul>
-                                    <li>Web Development (HTML, CSS, JavaScript, React, Node.js)</li>
-                                    <li>Programming (Python, Java, C++, PHP, dll)</li>
-                                    <li>Server Management & Cloud Computing</li>
-                                    <li>Database & Networking</li>
+                                    <li>Web Development (HTML, CSS, JavaScript)</li>
+                                    <li>Server Management & Setup</li>
+                                    <li>Minecraft Server & Plugins</li>
+                                    <li>Troubleshooting teknis</li>
                                 </ul>
-                                
-                                <h3>🏢 Bisnis & Layanan NazamaCloud</h3>
+
+                                <h3>🛒 <strong>Layanan NazamaCloud</strong></h3>
                                 <ul>
-                                    <li>Setup & Troubleshooting Server Minecraft</li>
-                                    <li>Registrasi & Management Domain</li>
-                                    <li>Plugin Installation & Configuration</li>
-                                    <li>Technical Support 24/7</li>
+                                    <li>Domain Registration</li>
+                                    <li>Server Hosting</li>
+                                    <li>Technical Support</li>
+                                    <li>Transaction Assistance</li>
                                 </ul>
-                                
-                                <blockquote>
-                                    <strong>💡 Tips:</strong> Gunakan API Key OpenAI untuk akses ke kemampuan AI terbaru dengan respon yang lebih cerdas dan akurat!
-                                </blockquote>
-                                
-                                <p>Apa yang bisa saya bantu untuk Anda hari ini?</p>
+
+                                <p><strong>⚡ Fitur Unggulan:</strong> Respons real-time tanpa loading, pengetahuan komprehensif, solusi praktis!</p>
+                                <p>Apa yang bisa saya bantu hari ini?</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Input Area -->
-                    <div class="p-8 bg-white/90 border-t border-gray-200">
-                        <div class="flex space-x-6">
+                    <div class="p-6 bg-white border-t">
+                        <div class="flex space-x-4">
                             <div class="flex-1 relative">
                                 <textarea 
                                     id="userInput" 
-                                    placeholder="Tanyakan apapun: pelajaran sekolah, coding, server issues, atau bisnis..."
+                                    placeholder="Tanyakan apapun: pelajaran sekolah, programming, server issue, atau bantuan transaksi..."
                                     rows="1"
-                                    class="w-full px-8 py-6 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/30 focus:border-blue-500 resize-none min-h-[80px] max-h-[200px] text-lg shadow-lg"
+                                    class="w-full px-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/30 focus:border-blue-500 resize-none min-h-[60px] max-h-[120px]"
                                     onkeydown="handleTextareaKeydown(event)"
                                     oninput="autoResizeTextarea(this)"
                                 ></textarea>
                                 
-                                <div class="absolute right-4 bottom-4 flex items-center space-x-3">
-                                    <button 
-                                        onclick="clearInput()" 
-                                        class="p-3 text-gray-400 hover:text-gray-600 transition-colors rounded-full hover:bg-gray-100"
-                                        title="Bersihkan input"
-                                    >
+                                <div class="absolute right-3 bottom-3 flex items-center space-x-2">
+                                    <button onclick="clearInput()" class="p-2 text-gray-400 hover:text-gray-600 transition-colors" title="Bersihkan">
                                         <i class="fas fa-times"></i>
-                                    </button>
-                                    <button 
-                                        onclick="voiceInput()" 
-                                        class="p-3 text-blue-500 hover:text-blue-700 transition-colors rounded-full hover:bg-blue-50"
-                                        title="Input suara"
-                                    >
-                                        <i class="fas fa-microphone"></i>
                                     </button>
                                 </div>
                             </div>
                             
                             <button 
-                                id="sendButton"
                                 onclick="sendMessage()" 
-                                class="self-end bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-10 py-6 rounded-2xl font-bold transition-all duration-300 flex items-center space-x-3 floating-element shadow-2xl"
+                                class="self-end bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-200 flex items-center space-x-2 floating-button"
                             >
-                                <i class="fas fa-paper-plane text-xl"></i>
-                                <span class="text-lg">Kirim</span>
+                                <i class="fas fa-paper-plane"></i>
+                                <span>Kirim</span>
                             </button>
                         </div>
                         
-                        <div class="mt-6 flex items-center justify-between text-sm text-gray-600">
-                            <div class="flex items-center space-x-6">
-                                <span id="characterCount">0 karakter</span>
-                                <span id="typingStatus" class="text-blue-600 font-medium"></span>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <i class="fas fa-shield-alt text-green-500"></i>
-                                <span>Secure • Intelligent • Reliable</span>
-                                <i class="fas fa-bolt text-yellow-500"></i>
+                        <div class="mt-4 flex items-center justify-between text-sm text-gray-500">
+                            <span id="characterCount">0 karakter</span>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-brain text-purple-500"></i>
+                                <span>Super Intelligent AI • Real-time</span>
                             </div>
                         </div>
                     </div>
@@ -606,103 +393,499 @@
     </main>
 
     <script>
-        // Enhanced Configuration with comprehensive knowledge base
-        const CONFIG = {
-            openAI: {
-                model: "gpt-4",
-                temperature: 0.7,
-                max_tokens: 2000
-            },
-            systemPrompts: {
-                general: `Anda adalah Nazama Super AI, asisten AI cerdas dengan pengetahuan komprehensif di semua bidang:
+        // Comprehensive Knowledge Base - Enhanced for instant responses
+        const KNOWLEDGE_BASE = {
+            // Educational Subjects
+            matematika: {
+                sd: {
+                    'penjumlahan|tambah': `**Penjumlahan untuk SD**  ➕
 
-**📚 PENDIDIKAN KOMPREHENSIF:**
-- SD-SMP-SMA: Matematika, IPA (Fisika, Kimia, Biologi), IPS, Bahasa, Seni
-- Kuliah: Teknik, Kedokteran, Hukum, Ekonomi, Sastra, dll
-- Pendidikan Non-formal: Kursus, Pelatihan, Skill Development
+Penjumlahan adalah operasi dasar matematika untuk menambahkan dua bilangan atau lebih.
 
-**💻 TEKNOLOGI & PROGRAMMING:**
-- Web Development: HTML, CSS, JavaScript, React, Vue, Node.js
-- Programming: Python, Java, C++, PHP, Go, Rust
-- Database: SQL, NoSQL, MongoDB, PostgreSQL
-- DevOps: Docker, Kubernetes, CI/CD, Cloud Computing
-- AI/ML: Machine Learning, Deep Learning, Data Science
+### 📚 Konsep Dasar
+- **Simbol:** \+ (tambah)
+- **Contoh:** 2 + 3 = 5
+- **Sifat:** Komutatif (a + b = b + a)
 
-**🏢 BISNIS & NAZAMACLOUD SERVICES:**
-- Minecraft Server: Setup, Optimization, Troubleshooting
-- Domain Services: Registration, DNS Management, Transfer
-- Minecraft Plugins: Installation, Configuration, Custom Development
-- Customer Support: Technical Issues, Billing, Account Management
-- Business: Marketing, Sales, Customer Service
+### 🎯 Contoh Soal
+1. **Soal:** 5 + 7 = ?
+   **Jawaban:** 12
 
-**🎯 CARA MENJAWAB:**
-1. Gunakan Bahasa Indonesia yang jelas dan mudah dimengerti
-2. Berikan jawaban yang akurat dan berbasis fakta
-3. Sertakan contoh, analogi, dan penjelasan mendetail
-4. Gunakan format Markdown untuk struktur yang baik
-5. Untuk technical questions, berikan code examples
-6. Untuk educational content, jelaskan step-by-step
-7. Untuk business queries, berikan solusi praktis
-8. Selalu tawarkan bantuan lebih lanjut
+2. **Soal:** 23 + 15 = ?
+   **Jawaban:** 38
 
-**⚠️ JIKA TIDAK TAHU:**
-Jujur katakan dan tawarkan untuk mencari informasi lebih lanjut atau menghubungi tim spesialis.`,
+3. **Soal:** 134 + 256 = ?
+   **Jawaban:** 390
 
-                education: `Fokus pada konten edukasi dengan penjelasan mendetail, contoh, dan latihan.`,
-                technology: `Berikan code examples, best practices, dan solusi teknis yang praktis.`,
-                business: `Fokus pada solusi bisnis, customer service, dan technical support.`
-            },
-            fallbackResponses: [
-                "Pertanyaan yang menarik! Saya akan melakukan research lebih mendalam tentang topik ini dan kembali dengan jawaban yang komprehensif.",
-                "Topik ini membutuhkan penjelasan yang mendetail. Biar saya siapkan materi yang komprehensif untuk Anda.",
-                "Saya sedang mengumpulkan informasi terbaru tentang hal ini. Mohon tunggu sebentar...",
-                "Untuk memberikan jawaban yang akurat, saya perlu mengakses database knowledge terbaru. Sedang memproses..."
-            ]
-        };
+### 💡 Tips Belajar
+- Gunakan jari untuk berhitung
+- Pelajari tabel penjumlahan 1-10
+- Latihan setiap hari
 
-        // Advanced state management
-        let conversationHistory = [];
-        let apiKey = localStorage.getItem('nazama_super_ai_key');
-        let useOpenAI = !!apiKey;
-        let currentMode = 'general';
+Mau latihan soal yang lebih banyak?`,
 
-        // Enhanced knowledge database for fallback mode
-        const knowledgeDatabase = {
-            // Extensive knowledge base would be implemented here
-            // This is just a placeholder structure
-        };
+                    'pengurangan|kurang': `**Pengurangan untuk SD**  ➖
 
-        // Initialize with advanced features
-        document.addEventListener('DOMContentLoaded', function() {
-            // Simulate loading progression
-            const progressBar = document.querySelector('.progress-bar');
-            let progress = 0;
-            const loadingInterval = setInterval(() => {
-                progress += Math.random() * 10;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(loadingInterval);
-                    setTimeout(() => {
-                        document.getElementById('loadingScreen').style.display = 'none';
-                    }, 500);
+Pengurangan adalah operasi mengambil sebagian dari bilangan.
+
+### 📚 Konsep Dasar
+- **Simbol:** \- (kurang)
+- **Contoh:** 5 - 2 = 3
+- **Tidak komutatif:** 5 - 2 ≠ 2 - 5
+
+### 🎯 Contoh Soal
+1. **Soal:** 10 - 4 = ?
+   **Jawaban:** 6
+
+2. **Soal:** 25 - 13 = ?
+   **Jawaban:** 12
+
+3. **Soal:** 100 - 47 = ?
+   **Jawaban:** 53
+
+### 💡 Cara Mudah
+- Gunakan garis bilangan
+- Teknik meminjam untuk angka besar
+- Latihan dengan soal cerita`
+                },
+                smp: {
+                    'aljabar|persamaan': `**Aljabar SMP**  🧮
+
+Aljabar adalah cabang matematika yang menggunakan simbol dan huruf untuk mewakili angka.
+
+### 📚 Dasar Aljabar
+- **Variabel:** Huruf yang mewakili angka (x, y, z)
+- **Koefisien:** Angka di depan variabel
+- **Konstanta:** Angka tetap
+
+### 🎯 Contoh Persamaan
+**Soal:** Selesaikan 2x + 5 = 13
+
+**Langkah penyelesaian:**
+1. 2x + 5 = 13
+2. 2x = 13 - 5
+3. 2x = 8
+4. x = 8 ÷ 2
+5. x = 4
+
+**Jawaban:** x = 4
+
+### 📊 Contoh Lain
+**Soal:** 3(x - 2) = 15
+**Jawaban:** 
+1. 3x - 6 = 15
+2. 3x = 21
+3. x = 7`,
+
+                    'geometri|bangun ruang': `**Geometri SMP - Bangun Ruang**  📦
+
+Bangun ruang adalah benda tiga dimensi yang memiliki volume.
+
+### 📐 Kubus
+- **Volume:** V = s³
+- **Luas Permukaan:** L = 6s²
+- **Contoh:** s = 5 cm → V = 125 cm³
+
+### 📏 Balok
+- **Volume:** V = p × l × t
+- **Luas Permukaan:** L = 2(pl + pt + lt)
+- **Contoh:** p=6, l=4, t=3 → V=72 satuan³
+
+### 🔵 Bola
+- **Volume:** V = ⁴⁄₃πr³
+- **Luas Permukaan:** L = 4πr²
+- **Contoh:** r=7 cm → V≈1436.76 cm³`
+                },
+                sma: {
+                    'turunan|diferensial': `**Kalkulus SMA - Turunan**  📈
+
+Turunan mengukur perubahan suatu fungsi terhadap variabelnya.
+
+### 📚 Definisi Dasar
+**Turunan f(x)** = lim┬(h→0)〖(f(x+h)-f(x))/h〗
+
+### 📝 Rumus Dasar
+1. **Konstanta:** d/dx [c] = 0
+2. **Pangkat:** d/dx [xⁿ] = nxⁿ⁻¹
+3. **Konstanta × Fungsi:** d/dx [cf(x)] = c f'(x)
+4. **Penjumlahan:** d/dx [f(x) + g(x)] = f'(x) + g'(x)
+
+### 🎯 Contoh Soal
+**Soal:** Turunan dari f(x) = 3x⁴ - 2x² + 5x - 1
+
+**Penyelesaian:**
+f'(x) = 3(4x³) - 2(2x) + 5(1) - 0
+f'(x) = 12x³ - 4x + 5
+
+**Jawaban:** f'(x) = 12x³ - 4x + 5
+
+### 💡 Aplikasi Turunan
+- Mencari nilai maksimum/minimum
+- Kecepatan dan percepatan
+- Gradient garis singgung`,
+
+                    'integral|anti turunan': `**Kalkulus SMA - Integral**  ∫
+
+Integral adalah kebalikan dari turunan (anti turunan).
+
+### 📚 Jenis Integral
+1. **Integral Tak Tentu:** ∫f(x)dx = F(x) + C
+2. **Integral Tentu:** ∫_a^b f(x)dx = F(b) - F(a)
+
+### 📝 Rumus Dasar
+1. **Pangkat:** ∫xⁿ dx = (xⁿ⁺¹)/(n+1) + C, n ≠ -1
+2. **Konstanta:** ∫k dx = kx + C
+3. **Penjumlahan:** ∫[f(x) + g(x)]dx = ∫f(x)dx + ∫g(x)dx
+
+### 🎯 Contoh Soal
+**Soal:** ∫(3x² + 2x - 1)dx
+
+**Penyelesaian:**
+= ∫3x²dx + ∫2xdx - ∫1dx
+= 3(x³/3) + 2(x²/2) - x + C
+= x³ + x² - x + C
+
+**Jawaban:** x³ + x² - x + C`
                 }
-                progressBar.style.width = progress + '%';
-            }, 100);
+            },
 
-            updateUIState();
-            loadConversationHistory();
-            
-            if (!apiKey) {
-                setTimeout(() => {
-                    showAPIKeyModal();
-                }, 2000);
+            fisika: {
+                smp: {
+                    'gerak|kecepatan': `**Fisika SMP - Gerak dan Kecepatan**  🏃♂️
+
+### 📚 Konsep Dasar
+- **Kecepatan (v):** Jarak tempuh per waktu (m/s)
+- **Percepatan (a):** Perubahan kecepatan per waktu (m/s²)
+
+### 📝 Rumus Penting
+1. **Kecepatan:** v = s/t
+2. **Kecepatan rata-rata:** v_avg = total jarak / total waktu
+3. **GLB:** s = v × t
+4. **GLBB:** v = v₀ + at
+
+### 🎯 Contoh Soal
+**Soal:** Mobil bergerak 120 km dalam 2 jam. Berapa kecepatannya?
+
+**Penyelesaian:**
+v = s/t = 120 km / 2 jam = 60 km/jam
+
+**Jawaban:** 60 km/jam`,
+
+                    'energi|usaha': `**Fisika SMP - Energi dan Usaha**  ⚡
+
+### 📚 Konsep Dasar
+- **Usaha (W):** Gaya × jarak (Joule)
+- **Energi Kinetik:** ½ × m × v²
+- **Energi Potensial:** m × g × h
+
+### 📝 Rumus
+1. **Usaha:** W = F × s × cosθ
+2. **Energi Kinetik:** EK = ½mv²
+3. **Energi Potensial:** EP = mgh
+
+### 🎯 Contoh Soal
+**Soal:** Benda 5 kg diangkat setinggi 2 meter. Berapa usaha? (g=10 m/s²)
+
+**Penyelesaian:**
+W = m × g × h = 5 × 10 × 2 = 100 Joule
+
+**Jawaban:** 100 Joule`
+                }
+            },
+
+            // Programming & Technology
+            programming: {
+                web: {
+                    'html|css|landing page': `**Web Development - Landing Page Modern**  💻
+
+### 🎨 HTML Structure
+\`\`\`html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page Modern</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100">
+    <!-- Header -->
+    <header class="bg-white shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold text-blue-600">NazamaTech</div>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#home" class="text-gray-700 hover:text-blue-600">Home</a>
+                    <a href="#features" class="text-gray-700 hover:text-blue-600">Features</a>
+                    <a href="#contact" class="text-gray-700 hover:text-blue-600">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-5xl font-bold text-gray-800 mb-6">
+                Solusi Teknologi Modern
+            </h1>
+            <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                Memberikan layanan terbaik untuk kebutuhan server, domain, dan development Anda.
+            </p>
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold">
+                Get Started
+            </button>
+        </div>
+    </section>
+</body>
+</html>
+\`\`\`
+
+### 💡 Tips Modern Design
+- Gunakan gradient backgrounds
+- Responsive design dengan Tailwind
+- Smooth animations
+- Modern color schemes`,
+
+                    'javascript|function|dom': `**JavaScript Fundamentals**  ⚡
+
+### 📚 Dasar JavaScript
+\`\`\`javascript
+// Variabel dan Tipe Data
+let nama = "Budi";
+const umur = 20;
+var isActive = true;
+
+// Function
+function sapa(nama) {
+    return \`Halo, \${nama}!\`;
+}
+
+// Arrow Function
+const tambah = (a, b) => a + b;
+
+// Array Methods
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(n => n * 2);
+
+// DOM Manipulation
+document.getElementById('tombol').addEventListener('click', function() {
+    alert('Tombol diklik!');
+});
+\`\`\`
+
+### 🎯 Contoh Praktis
+**Validasi Form:**
+\`\`\`javascript
+function validateForm() {
+    const email = document.getElementById('email').value;
+    if (!email.includes('@')) {
+        alert('Email tidak valid!');
+        return false;
+    }
+    return true;
+}
+\`\`\``
+                }
+            },
+
+            // Server & Minecraft
+            server: {
+                minecraft: {
+                    'setup|install|plugin': `**Minecraft Server Setup Guide**  🎮
+
+### 🚀 Langkah Setup Server
+1. **Download Server Jar**
+   \`\`\`bash
+   wget https://piston-data.mojang.com/v1/objects/.../server.jar
+   \`\`\`
+
+2. **Run Server First Time**
+   \`\`\`bash
+   java -Xmx1024M -Xms1024M -jar server.jar nogui
+   \`\`\`
+
+3. **Edit eula.txt**
+   \`\`\`
+   eula=true
+   \`\`\`
+
+4. **Configure server.properties**
+   \`\`\`properties
+   max-players=20
+   gamemode=survival
+   difficulty=easy
+   \`\`\`
+
+### 📦 Plugin Installation
+1. **Download plugins** dari SpigotMC atau Bukkit
+2. **Place di folder \`plugins\`**
+3. **Restart server**
+
+### 🔧 Essential Plugins
+- EssentialsX
+- WorldEdit
+- LuckPerms
+- Vault
+- ClearLag`,
+
+                    'troubleshoot|error|down': `**Minecraft Server Troubleshooting**  🔧
+
+### 🚨 Common Issues & Solutions
+
+**1. Server Won't Start**
+\`\`\`bash
+# Check Java version
+java -version
+
+# Increase RAM allocation
+java -Xmx2048M -Xms1024M -jar server.jar
+\`\`\`
+
+**2. Plugin Conflicts**
+- Remove recently added plugins
+- Check console for error messages
+- Update all plugins to latest version
+
+**3. Performance Issues**
+\`\`\`properties
+# In server.properties
+view-distance=6
+max-entities=100
+\`\`\`
+
+**4. Connection Issues**
+- Check firewall settings
+- Verify port forwarding (default: 25565)
+- Restart router if needed`
+
+                },
+                general: {
+                    'domain|beli|register': `**Domain Registration Guide**  🌐
+
+### 🛒 Cara Beli Domain di NazamaCloud
+1. **Kunjungi website NazamaCloud**
+2. **Cek ketersediaan domain**
+3. **Pilih ekstensi (.com, .id, .net, dll)**
+4. **Tentukan periode (1-10 tahun)**
+5. **Complete payment**
+6. **Setup DNS records**
+
+### 💰 Harga Domain
+| TLD | Harga/Tahun | Fitur |
+|------|------------|--------|
+| .com | Rp 150.000 | WHOIS Protection |
+| .id | Rp 200.000 | DNS Management |
+| .net | Rp 160.000 | Email Forwarding |
+| .xyz | Rp 50.000 | Basic DNS |
+
+### ⚡ Setup DNS
+\`\`\`bash
+# Contoh DNS records
+A record: @ → 192.0.2.1
+CNAME: www → example.com
+MX: @ → mail.example.com
+\`\`\``,
+
+                    'support|bantuan|help': `**Technical Support NazamaCloud**  🛠️
+
+### 📞 Kontak Support
+- **Email:** support@nazamacloud.com
+- **Phone:** +62 21 1234 5678
+- **WhatsApp:** +62 812 3456 7890
+- **Website:** www.nazamacloud.com/support
+
+### 🕒 Jam Operasi
+- **Senin-Jumat:** 08:00-22:00 WIB
+- **Sabtu-Minggu:** 09:00-18:00 WIB
+- **Emergency:** 24/7 untuk critical issues
+
+### 🔧 Services Included
+- Server monitoring
+- Backup management
+- Security updates
+- Performance optimization
+- Plugin support
+
+### 🚀 Quick Fixes
+1. **Restart server** melalui control panel
+2. **Check resource usage** (CPU, RAM, Disk)
+3. **Review error logs**
+4. **Update software** ke versi terbaru`
+                }
             }
-        });
+        };
 
-        // Advanced textarea handling
+        // Advanced response system
+        function getAdvancedResponse(userMessage) {
+            const message = userMessage.toLowerCase();
+            let response = '';
+            
+            // Educational subjects
+            if (message.includes('matematika') || message.includes('math')) {
+                if (message.includes('sd') || message.includes('tambah') || message.includes('kurang')) {
+                    response = KNOWLEDGE_BASE.matematika.sd['penjumlahan|tambah'];
+                } else if (message.includes('smp') || message.includes('aljabar')) {
+                    response = KNOWLEDGE_BASE.matematika.smp['aljabar|persamaan'];
+                } else if (message.includes('sma') || message.includes('turunan')) {
+                    response = KNOWLEDGE_BASE.matematika.sma['turunan|diferensial'];
+                }
+            }
+            
+            // Physics
+            else if (message.includes('fisika') || message.includes('physics')) {
+                response = KNOWLEDGE_BASE.fisika.smp['gerak|kecepatan'];
+            }
+            
+            // Programming
+            else if (message.includes('programming') || message.includes('coding') || message.includes('html') || message.includes('css')) {
+                response = KNOWLEDGE_BASE.programming.web['html|css|landing page'];
+            }
+            
+            // Server & Minecraft
+            else if (message.includes('server') || message.includes('minecraft') || message.includes('mc')) {
+                if (message.includes('setup') || message.includes('install')) {
+                    response = KNOWLEDGE_BASE.server.minecraft['setup|install|plugin'];
+                } else if (message.includes('error') || message.includes('trouble')) {
+                    response = KNOWLEDGE_BASE.server.minecraft['troubleshoot|error|down'];
+                }
+            }
+            
+            // Domain & Support
+            else if (message.includes('domain') || message.includes('beli')) {
+                response = KNOWLEDGE_BASE.server.general['domain|beli|register'];
+            } else if (message.includes('support') || message.includes('bantuan')) {
+                response = KNOWLEDGE_BASE.server.general['support|bantuan|help'];
+            }
+            
+            // Default response if no match found
+            if (!response) {
+                response = `🤔 **Pertanyaan Bagus!**
+                
+Saya mendeteksi pertanyaan Anda tentang: "${userMessage}"
+
+Sebagai AI super intelligent, saya dapat membantu dengan:
+
+📚 **Pendidikan:** Matematika, Fisika, Kimia, Biologi, dll
+💻 **Programming:** HTML, CSS, JavaScript, Web Development
+🎮 **Minecraft:** Server setup, plugins, troubleshooting
+🌐 **Domain & Hosting:** Registration, management, support
+
+Bisa tolong spesifikkan:
+- Tingkat pendidikan (SD/SMP/SMA/Kuliah)?
+- Bidang yang ditanyakan?
+- Masalah spesifik yang dihadapi?
+
+Contoh: "Jelaskan turunan untuk SMA" atau "Cara setup Minecraft server"`;
+            }
+            
+            return response;
+        }
+
+        // Utility functions
         function autoResizeTextarea(textarea) {
             textarea.style.height = 'auto';
-            textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
             document.getElementById('characterCount').textContent = textarea.value.length + ' karakter';
         }
 
@@ -714,219 +897,66 @@ Jujur katakan dan tawarkan untuk mencari informasi lebih lanjut atau menghubungi
         }
 
         function clearInput() {
-            const input = document.getElementById('userInput');
-            input.value = '';
-            input.style.height = 'auto';
+            document.getElementById('userInput').value = '';
+            document.getElementById('userInput').style.height = 'auto';
             document.getElementById('characterCount').textContent = '0 karakter';
-        }
-
-        function voiceInput() {
-            // Placeholder for voice input functionality
-            addMessage("Fitur voice input sedang dalam pengembangan. Silakan ketik pertanyaan Anda.", 'bot');
-        }
-
-        // Enhanced API Key management
-        function showAPIKeyModal() {
-            document.getElementById('apiKeyModal').classList.remove('hidden');
-            document.getElementById('apiKeyInput').value = apiKey || '';
-            document.getElementById('apiKeyInput').focus();
-        }
-
-        function hideAPIKeyModal() {
-            document.getElementById('apiKeyModal').classList.add('hidden');
-        }
-
-        function saveAPIKey() {
-            const key = document.getElementById('apiKeyInput').value.trim();
-            if (key) {
-                apiKey = key;
-                localStorage.setItem('nazama_super_ai_key', apiKey);
-                useOpenAI = true;
-                updateUIState();
-                hideAPIKeyModal();
-                
-                addMessage("🔓 API Key berhasil terhubung! Sekarang saya menggunakan OpenAI GPT-4 untuk memberikan respons super cerdas dengan akses ke pengetahuan terbaru. 🚀", 'bot');
-            }
-        }
-
-        function useWithoutAPI() {
-            useOpenAI = false;
-            updateUIState();
-            hideAPIKeyModal();
-            
-            addMessage("ℹ️ Mode basic diaktifkan. Saya akan menggunakan pengetahuan dasar. Untuk pengalaman super cerdas dengan akses ke AI terkini, silakan tambahkan API Key OpenAI.", 'bot');
-        }
-
-        function updateUIState() {
-            const statusElement = document.getElementById('aiStatus');
-            const modeElement = document.getElementById('aiMode');
-            
-            if (useOpenAI) {
-                statusElement.innerHTML = '<i class="fas fa-circle mr-2 text-green-500"></i> SUPER AI ACTIVATED';
-                statusElement.className = 'bg-gradient-to-r from-green-100 to-green-200 text-green-800 px-4 py-2 rounded-full text-sm font-bold';
-                modeElement.textContent = 'OPENAI GPT-4';
-                modeElement.className = 'bg-gradient-to-r from-purple-100 to-purple-200 text-purple-800 px-3 py-1 rounded-xl text-xs font-bold';
-            } else {
-                statusElement.innerHTML = '<i class="fas fa-circle mr-2 text-yellow-500"></i> BASIC MODE';
-                statusElement.className = 'bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800 px-4 py-2 rounded-full text-sm font-bold';
-                modeElement.textContent = 'BASIC AI';
-                modeElement.className = 'bg-yellow-100 text-yellow-800 px-3 py-1 rounded text-xs font-medium';
-            }
-        }
-
-        // Advanced chat functionality
-        async function sendMessage() {
-            const userInput = document.getElementById('userInput');
-            const message = userInput.value.trim();
-            
-            if (message === '') return;
-            
-            // Add user message to chat
-            addMessage(message, 'user');
-            conversationHistory.push({ role: 'user', content: message });
-            clearInput();
-            
-            // Update message count
-            updateMessageCount();
-            
-            // Show typing indicator with enhanced animation
-            showTypingIndicator();
-            
-            // Determine response mode based on content
-            determineResponseMode(message);
-            
-            try {
-                let response;
-                
-                if (useOpenAI && apiKey) {
-                    response = await getOpenAIResponse(message);
-                } else {
-                    response = getAdvancedResponse(message);
-                    await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 1000));
-                }
-                
-                removeTypingIndicator();
-                addMessage(response, 'bot');
-                conversationHistory.push({ role: 'assistant', content: response });
-                
-                saveConversationHistory();
-                
-            } catch (error) {
-                removeTypingIndicator();
-                handleEnhancedError(error);
-            }
-        }
-
-        function determineResponseMode(message) {
-            const msg = message.toLowerCase();
-            if (msg.includes('pelajaran') || msg.includes('sekolah') || msg.includes('kuliah') || 
-                msg.includes('matematika') || msg.includes('fisika') || msg.includes('kimia')) {
-                currentMode = 'education';
-            } else if (msg.includes('code') || msg.includes('program') || msg.includes('develop') || 
-                       msg.includes('server') || msg.includes('tech')) {
-                currentMode = 'technology';
-            } else if (msg.includes('jual') || msg.includes('bisnis') || msg.includes('customer') || 
-                       msg.includes('support') || msg.includes('nazama')) {
-                currentMode = 'business';
-            } else {
-                currentMode = 'general';
-            }
-        }
-
-        async function getOpenAIResponse(userMessage) {
-            const messages = [
-                { role: "system", content: CONFIG.systemPrompts[currentMode] },
-                ...conversationHistory.slice(-12),
-                { role: "user", content: userMessage }
-            ];
-
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
-                },
-                body: JSON.stringify({
-                    model: CONFIG.openAI.model,
-                    messages: messages,
-                    temperature: CONFIG.openAI.temperature,
-                    max_tokens: CONFIG.openAI.max_tokens
-                })
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error?.message || 'OpenAI API error');
-            }
-
-            const data = await response.json();
-            return data.choices[0].message.content;
-        }
-
-        function getAdvancedResponse(userMessage) {
-            // This would contain extensive knowledge base responses
-            // For now, using a placeholder that suggests using OpenAI
-            return `**🤖 Mode Basic AI**
-
-Saya memahami pertanyaan Anda tentang "${userMessage}". 
-
-Untuk memberikan jawaban yang super akurat dan komprehensif dengan akses ke pengetahuan terbaru, saya sangat merekomendasikan untuk mengaktifkan **OpenAI GPT-4** dengan API Key.
-
-**🎯 Dengan OpenAI, saya dapat:**
-- Memberikan jawaban detail dengan referensi terkini
-- Menyediakan code examples yang tepat
-- Memberikan penjelasan educational yang mendalam
-- Menyelesaikan masalah teknis yang kompleks
-- Akses ke database pengetahuan terbaru
-
-**🔑 Cara aktivasi:**
-1. Dapatkan API Key dari [platform.openai.com](https://platform.openai.com/api-keys)
-2. Klik tombol "API Key" di header
-3. Masukkan key Anda
-4. Nikmati kemampuan AI super cerdas!
-
-Sementara itu, saya akan coba membantu dengan pengetahuan dasar yang saya miliki...`;
         }
 
         function handleSuggestion(suggestion) {
             document.getElementById('userInput').value = suggestion;
             document.getElementById('userInput').focus();
             autoResizeTextarea(document.getElementById('userInput'));
-            document.getElementById('userInput').scrollIntoView({ behavior: 'smooth' });
+            sendMessage();
         }
 
-        function handleEnhancedError(error) {
-            console.error('Super AI Error:', error);
-            
-            let errorMessage = "⚠️ **System Error**\n\n";
-            
-            if (error.message.includes('quota') || error.message.includes('limit')) {
-                errorMessage += "API quota mungkin habis atau mencapai limit. Silakan cek dashboard OpenAI.\n\n";
-            } else if (error.message.includes('invalid') || error.message.includes('auth')) {
-                errorMessage += "API key tidak valid atau authentication error. Silakan periksa kembali API key Anda.\n\n";
-            } else if (error.message.includes('network')) {
-                errorMessage += "Network connection error. Silakan cek koneksi internet Anda.\n\n";
-            } else {
-                errorMessage += "Terjadi error system. Silakan coba lagi dalam beberapa saat.\n\n";
-            }
-            
-            errorMessage += "**🔄 Solusi:**\n";
-            errorMessage += "- Cek API Key di platform.openai.com\n";
-            errorMessage += "- Pastikan quota masih tersedia\n";
-            errorMessage += "- Coba gunakan mode basic sementara\n";
-            errorMessage += "- Hubungi support jika berlanjut\n";
-            
-            addMessage(errorMessage, 'bot');
+        function showKnowledgeModal() {
+            alert('🧠 **Pengetahuan Nazama AI Super Intelligent**\n\nSaya memiliki pengetahuan komprehensif dalam:\n- Semua mata pelajaran SD/SMP/SMA/Kuliah\n- Programming & Web Development\n- Server Management & Minecraft\n- Domain & Hosting Services\n- Technical Support & Troubleshooting\n\nTanyakan apapun! Saya akan menjawab secara real-time tanpa loading.');
         }
 
-        // Enhanced UI Utilities
+        function resetChat() {
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = `
+                <div class="bot-message">
+                    <div class="markdown-content">
+                        <h3>💫 Percakapan Direset!</h3>
+                        <p>Saya siap membantu Anda dengan pertanyaan baru. Apa yang ingin Anda tanyakan?</p>
+                        <p><strong>Expertise:</strong> Pendidikan • Programming • Server • Domain</p>
+                    </div>
+                </div>
+            `;
+            updateMessageCount();
+        }
+
+        function updateMessageCount() {
+            const messages = document.querySelectorAll('.message');
+            document.getElementById('messageCount').textContent = messages.length;
+        }
+
+        // Main chat functions
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            
+            if (message === '') return;
+            
+            // Add user message instantly
+            addMessage(message, 'user');
+            clearInput();
+            updateMessageCount();
+            
+            // Get and display AI response instantly (no loading)
+            const aiResponse = getAdvancedResponse(message);
+            addMessage(aiResponse, 'bot');
+            updateMessageCount();
+        }
+
         function addMessage(text, sender) {
             const chatMessages = document.getElementById('chatMessages');
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}-message`;
             
             if (sender === 'bot') {
-                messageDiv.innerHTML = `<div class="markdown-content">${formatEnhancedMarkdown(text)}</div>`;
+                messageDiv.innerHTML = `<div class="markdown-content">${formatMarkdown(text)}</div>`;
             } else {
                 messageDiv.textContent = text;
             }
@@ -935,7 +965,13 @@ Sementara itu, saya akan coba membantu dengan pengetahuan dasar yang saya miliki
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        function formatEnhancedMarkdown(text) {
-            // Enhanced markdown processing with more features
+        function formatMarkdown(text) {
+            // Enhanced markdown parser
             return text
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/`(.*?)`/g, '<code>$1</code>')
                 .replace(/
