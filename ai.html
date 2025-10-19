@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nazama ai versi 2.5 flash</title>
+    <style>
+        /* CSS Styling */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            max-width: 650px; 
+            margin: 40px auto; 
+            padding: 20px; 
+            border: 1px solid #e0e0e0; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
+            background-color: #ffffff;
+        }
+        h2 { 
+            text-align: center; 
+            color: #1a73e8; 
+            margin-bottom: 25px;
+        }
+        #api-container, #prompt-container { 
+            margin-bottom: 20px; 
+            padding: 10px;
+            border: 1px dashed #c5d8f0;
+            border-radius: 6px;
+        }
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+            color: #3c4043;
+        }
+        #api-key-input, #prompt-input { 
+            width: calc(100% - 22px); 
+            padding: 10px; 
+            box-sizing: content-box; 
+            border: 1px solid #c5d8f0; 
+            border-radius: 4px; 
+            transition: border-color 0.3s;
+        }
+        small { 
+            color: #ea4335; 
+            font-size: 0.85em;
+            display: block;
+            margin-top: 5px;
+        }
+        #chat-log { 
+            height: 350px; 
+            overflow-y: auto; 
+            border: 1px solid #e9ecef; 
+            padding: 15px; 
+            background: #f1f3f4; 
+            margin-bottom: 20px; 
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+        .message { 
+            margin-bottom: 12px; 
+            padding: 10px 15px; 
+            border-radius: 18px; 
+            max-width: 85%; 
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+        .user { 
+            align-self: flex-end;
+            background-color: #e6f4ea; 
+            color: #1e8e3e;
+            border-bottom-right-radius: 2px;
+        }
+        .ai { 
+            align-self: flex-start;
+            background-color: #f7f7f7; 
+            color: #202124;
+            border: 1px solid #dadce0;
+            border-bottom-left-radius: 2px;
+        }
+        #send-button { 
+            padding: 10px 20px; 
+            background-color: #1a73e8; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            margin-top: 10px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>🤖 nazama ai versi 2.5 flash (buatan rehan)</h2>
+
+    <div id="api-container">
+        <label for="api-key-input">🔑 copy code ini dan masukan ke kolom di bawah untuk memulia chat: AIzaSyCu0jsL6Z7yhKxqFSLT9-W3k-qEAKvUg1Q:</label>
+        <input type="text" id="api-key-input" placeholder="tolong masukan codedi atas">
+        <small>INI ADALAH NAZAMA AI YA ITU CHATBOT BUATAN RAYHAN DARI KELAS 8.2 SMP NEGERI 12</small>
+    </div>
+
+    <div id="chat-log">
+        <div class="message ai">hai saya ai buatan Rayhan yang di support oleh google ai, open ai</div>
+    </div>
+
+    <div id="prompt-container">
+        <label for="prompt-input">💬 Masukkan Prompt:</label>
+        <input type="text" id="prompt-input" placeholder="Contoh: hallo Apakabar" onkeypress="if(event.key === 'Enter') kirimPrompt()">
+        <button id="send-button" onclick="kirimPrompt()">Kirim Prompt</button>
+    </div>
+
+    <script>
+        const MODEL_NAME = "gemini-2.5-flash"; 
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent`;
+
+        async function kirimPrompt() {
+            const apiKey = document.getElementById('api-key-input').value.trim();
+            const promptInput = document.getElementById('prompt-input');
+            const prompt = promptInput.value.trim();
+            const chatLog = document.getElementById('chat-log');
+            
+            if (!apiKey) {
+                alert("❌ mohon masukan kode yang sudah di berikan");
+                return;
+            }
+            if (!prompt) return;
+
+            // 1. Tampilkan prompt pengguna
+            chatLog.innerHTML += `<div class="message user">${prompt}</div>`;
+            promptInput.value = ''; 
+            chatLog.scrollTop = chatLog.scrollHeight;
+            
+            // 2. Tampilkan pesan loading
+            const loadingElement = document.createElement('div');
+            loadingElement.id = 'loading-dots';
+            loadingElement.className = 'message ai';
+            loadingElement.innerHTML = 'loading...';
+            chatLog.appendChild(loadingElement);
+            chatLog.scrollTop = chatLog.scrollHeight;
+
+            try {
+                // Konfigurasi Payload yang Minimal dan PASTI didukung REST API
+                const payload = {
+                    contents: [{
+                        parts: [{ text: prompt }]
+                    }]
+                    // PENTING: generationConfig DIBUANG karena menyebabkan error 400
+                };
+
+                // Panggilan API ke Google
+                const response = await fetch(`${API_URL}?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`API Error: ${response.status} - ${errorData.error.message || 'Unknown error'}`);
+                }
+
+                const data = await response.json();
+                
+                // Ambil teks respons dari struktur JSON Gemini
+                const geminiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, saya tidak dapat menghasilkan respons. Coba periksa kembali API Key Anda.";
+
+                // 3. Hapus loading dan tampilkan jawaban Gemini AI
+                loadingElement.remove();
+                chatLog.innerHTML += `<div class="message ai">${geminiText}</div>`;
+                chatLog.scrollTop = chatLog.scrollHeight;
+
+            } catch (error) {
+                console.error('Panggilan Gemini API Gagal:', error);
+                loadingElement.remove();
+                
+                chatLog.innerHTML += `<div class="message ai">❌ Gagal terhubung ke Gemini: ${error.message}. Pastikan Kunci API Anda valid.</div>`;
+                chatLog.scrollTop = chatLog.scrollHeight;
+            }
+        }
+    </script>
+
+</body>
+</html>
