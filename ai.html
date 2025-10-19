@@ -5,90 +5,195 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>nazama ai versi 2.5 flash</title>
     <style>
-        /* CSS Styling */
+        /* CSS Variables */
+        :root {
+            --primary-color: #1a73e8; /* Biru Google */
+            --secondary-color: #3c4043; /* Abu-abu Teks */
+            --background-color: #ffffff;
+            --border-color: #dadce0;
+            --ai-bg-color: #f1f3f4;
+            --user-bg-color: #e6f4ea;
+            --user-text-color: #1e8e3e;
+        }
+
+        /* Base Styling */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            max-width: 650px; 
-            margin: 40px auto; 
-            padding: 20px; 
-            border: 1px solid #e0e0e0; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
-            background-color: #ffffff;
+            max-width: 700px; /* Lebar Ditingkatkan sedikit */
+            margin: 20px auto; 
+            padding: 15px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 16px; /* Sudut lebih melengkung */
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); 
+            background-color: var(--background-color);
+            transition: all 0.3s ease-in-out;
         }
         h2 { 
             text-align: center; 
-            color: #1a73e8; 
+            color: var(--primary-color); 
             margin-bottom: 25px;
+            font-size: 1.8em;
         }
         #api-container, #prompt-container { 
             margin-bottom: 20px; 
-            padding: 10px;
+            padding: 15px;
             border: 1px dashed #c5d8f0;
-            border-radius: 6px;
+            border-radius: 10px;
         }
         label { 
             display: block; 
-            margin-bottom: 5px; 
-            font-weight: bold; 
-            color: #3c4043;
+            margin-bottom: 8px; 
+            font-weight: 600; /* Lebih tebal */
+            color: var(--secondary-color);
         }
-        #api-key-input, #prompt-input { 
-            width: calc(100% - 22px); 
-            padding: 10px; 
-            box-sizing: content-box; 
-            border: 1px solid #c5d8f0; 
-            border-radius: 4px; 
-            transition: border-color 0.3s;
+        input[type="text"] { /* Selektor yang lebih umum */
+            width: 100%; 
+            padding: 12px; 
+            box-sizing: border-box; 
+            border: 1px solid var(--border-color); 
+            border-radius: 6px; 
+            transition: border-color 0.3s, box-shadow 0.3s;
+            outline: none;
+        }
+        input[type="text"]:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
         }
         small { 
             color: #ea4335; 
             font-size: 0.85em;
             display: block;
-            margin-top: 5px;
+            margin-top: 8px;
         }
         #chat-log { 
-            height: 350px; 
+            height: 400px; /* Ditingkatkan sedikit */
             overflow-y: auto; 
-            border: 1px solid #e9ecef; 
+            border: 1px solid var(--border-color); 
             padding: 15px; 
-            background: #f1f3f4; 
+            background: var(--ai-bg-color); 
             margin-bottom: 20px; 
-            border-radius: 8px;
+            border-radius: 10px;
             display: flex;
             flex-direction: column;
+            scroll-behavior: smooth;
         }
+
+        /* Chat Bubbles */
         .message { 
             margin-bottom: 12px; 
             padding: 10px 15px; 
             border-radius: 18px; 
             max-width: 85%; 
-            line-height: 1.5;
+            line-height: 1.6;
             word-wrap: break-word;
+            animation: fadeIn 0.3s ease-in-out;
         }
         .user { 
             align-self: flex-end;
-            background-color: #e6f4ea; 
-            color: #1e8e3e;
-            border-bottom-right-radius: 2px;
+            background-color: var(--user-bg-color); 
+            color: var(--user-text-color);
+            border-bottom-right-radius: 4px; /* Sudut lebih kecil di pojok */
         }
         .ai { 
             align-self: flex-start;
-            background-color: #f7f7f7; 
-            color: #202124;
+            background-color: var(--background-color); 
+            color: var(--secondary-color);
             border: 1px solid #dadce0;
-            border-bottom-left-radius: 2px;
+            border-bottom-left-radius: 4px; /* Sudut lebih kecil di pojok */
         }
+
+        /* Send Button */
         #send-button { 
-            padding: 10px 20px; 
-            background-color: #1a73e8; 
+            padding: 12px 20px; 
+            background-color: var(--primary-color); 
             color: white; 
             border: none; 
-            border-radius: 4px; 
+            border-radius: 6px; 
             cursor: pointer; 
-            margin-top: 10px;
+            margin-top: 15px;
             width: 100%;
+            font-size: 1.0em;
+            transition: background-color 0.3s, transform 0.1s;
         }
+        #send-button:hover {
+            background-color: #1565c0; /* Sedikit lebih gelap */
+        }
+        #send-button:active {
+            transform: scale(0.99);
+        }
+
+        /* --- Animasi Loading (Typing Indicator) --- */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: var(--background-color);
+            border: 1px solid #dadce0;
+            border-radius: 18px;
+            max-width: fit-content;
+            align-self: flex-start;
+            margin-bottom: 12px;
+            border-bottom-left-radius: 4px;
+        }
+
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            margin: 0 2px;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: typing-pulse 1.2s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing-pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.4;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Media Queries (Responsif) --- */
+        @media (max-width: 768px) {
+            body {
+                margin: 10px;
+                padding: 10px;
+                box-shadow: none;
+                border: none;
+            }
+            #chat-log {
+                height: 350px;
+            }
+        }
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.5em;
+            }
+            .message {
+                max-width: 95%; /* Lebih lebar di HP */
+            }
+            #api-container, #prompt-container {
+                padding: 10px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -132,11 +237,12 @@
             promptInput.value = ''; 
             chatLog.scrollTop = chatLog.scrollHeight;
             
-            // 2. Tampilkan pesan loading
+            // 2. Tampilkan pesan loading beranimasi (Typing Indicator)
             const loadingElement = document.createElement('div');
-            loadingElement.id = 'loading-dots';
-            loadingElement.className = 'message ai';
-            loadingElement.innerHTML = 'loading...';
+            loadingElement.id = 'loading-indicator';
+            loadingElement.className = 'typing-indicator';
+            // Isi dengan 3 titik (span) untuk animasi
+            loadingElement.innerHTML = '<span></span><span></span><span></span>';
             chatLog.appendChild(loadingElement);
             chatLog.scrollTop = chatLog.scrollHeight;
 
@@ -146,7 +252,6 @@
                     contents: [{
                         parts: [{ text: prompt }]
                     }]
-                    // PENTING: generationConfig DIBUANG karena menyebabkan error 400
                 };
 
                 // Panggilan API ke Google
@@ -170,13 +275,23 @@
 
                 // 3. Hapus loading dan tampilkan jawaban Gemini AI
                 loadingElement.remove();
-                chatLog.innerHTML += `<div class="message ai">${geminiText}</div>`;
+                
+                // Pastikan teks yang mengandung karakter khusus HTML (seperti < atau >) ditampilkan dengan aman
+                const safeGeminiText = geminiText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                
+                chatLog.innerHTML += `<div class="message ai">${safeGeminiText}</div>`;
                 chatLog.scrollTop = chatLog.scrollHeight;
 
             } catch (error) {
                 console.error('Panggilan Gemini API Gagal:', error);
-                loadingElement.remove();
                 
+                // Hapus loading
+                const currentLoading = document.getElementById('loading-indicator');
+                if (currentLoading) {
+                    currentLoading.remove();
+                }
+                
+                // Tampilkan pesan error
                 chatLog.innerHTML += `<div class="message ai">❌ Gagal terhubung ke Gemini: ${error.message}. Pastikan Kunci API Anda valid.</div>`;
                 chatLog.scrollTop = chatLog.scrollHeight;
             }
