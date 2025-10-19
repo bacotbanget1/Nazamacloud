@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>nazama ai versi 2.5 flash</title>
+    <title>nazama ai versi 2.5 flash - Multimodal Chat</title>
     <style>
         /* CSS Variables */
         :root {
@@ -14,16 +14,18 @@
             --ai-bg-color: #f1f3f4;
             --user-bg-color: #e6f4ea;
             --user-text-color: #1e8e3e;
+            --danger-color: #ea4335;
+            --success-color: #34a853;
         }
 
         /* Base Styling */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            max-width: 700px; /* Lebar Ditingkatkan sedikit */
+            max-width: 700px;
             margin: 20px auto; 
             padding: 15px; 
             border: 1px solid var(--border-color); 
-            border-radius: 16px; /* Sudut lebih melengkung */
+            border-radius: 16px;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); 
             background-color: var(--background-color);
             transition: all 0.3s ease-in-out;
@@ -43,10 +45,10 @@
         label { 
             display: block; 
             margin-bottom: 8px; 
-            font-weight: 600; /* Lebih tebal */
+            font-weight: 600;
             color: var(--secondary-color);
         }
-        input[type="text"] { /* Selektor yang lebih umum */
+        input[type="text"], textarea { 
             width: 100%; 
             padding: 12px; 
             box-sizing: border-box; 
@@ -54,19 +56,22 @@
             border-radius: 6px; 
             transition: border-color 0.3s, box-shadow 0.3s;
             outline: none;
+            resize: vertical;
+            min-height: 50px;
+            max-height: 200px;
         }
-        input[type="text"]:focus {
+        input[type="text"]:focus, textarea:focus {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
         }
         small { 
-            color: #ea4335; 
+            color: var(--danger-color); 
             font-size: 0.85em;
             display: block;
             margin-top: 8px;
         }
         #chat-log { 
-            height: 400px; /* Ditingkatkan sedikit */
+            height: 400px;
             overflow-y: auto; 
             border: 1px solid var(--border-color); 
             padding: 15px; 
@@ -92,17 +97,42 @@
             align-self: flex-end;
             background-color: var(--user-bg-color); 
             color: var(--user-text-color);
-            border-bottom-right-radius: 4px; /* Sudut lebih kecil di pojok */
+            border-bottom-right-radius: 4px;
         }
         .ai { 
             align-self: flex-start;
             background-color: var(--background-color); 
             color: var(--secondary-color);
-            border: 1px solid #dadce0;
-            border-bottom-left-radius: 4px; /* Sudut lebih kecil di pojok */
+            border: 1px solid var(--border-color);
+            border-bottom-left-radius: 4px;
+        }
+        .ai img, .user img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 5px;
         }
 
-        /* Send Button */
+        /* Input Control Group */
+        #input-control-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+        #image-upload {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            flex-grow: 0;
+            width: 100px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        #image-upload:hover {
+            background-color: #f0f0f0;
+        }
         #send-button { 
             padding: 12px 20px; 
             background-color: var(--primary-color); 
@@ -110,17 +140,20 @@
             border: none; 
             border-radius: 6px; 
             cursor: pointer; 
-            margin-top: 15px;
-            width: 100%;
+            flex-grow: 1;
             font-size: 1.0em;
             transition: background-color 0.3s, transform 0.1s;
         }
         #send-button:hover {
-            background-color: #1565c0; /* Sedikit lebih gelap */
+            background-color: #1565c0;
         }
         #send-button:active {
             transform: scale(0.99);
         }
+        
+        /* Hidden input file for cleaner UI */
+        #file-input { display: none; }
+
 
         /* --- Animasi Loading (Typing Indicator) --- */
         .typing-indicator {
@@ -128,7 +161,7 @@
             align-items: center;
             padding: 10px 15px;
             background-color: var(--background-color);
-            border: 1px solid #dadce0;
+            border: 1px solid var(--border-color);
             border-radius: 18px;
             max-width: fit-content;
             align-self: flex-start;
@@ -145,15 +178,7 @@
             opacity: 0.4;
             animation: typing-pulse 1.2s infinite ease-in-out;
         }
-
-        .typing-indicator span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-indicator span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
+        /* ... (keyframes tetap sama) ... */
         @keyframes typing-pulse {
             0%, 100% {
                 transform: scale(1);
@@ -172,26 +197,10 @@
 
         /* --- Media Queries (Responsif) --- */
         @media (max-width: 768px) {
-            body {
-                margin: 10px;
-                padding: 10px;
-                box-shadow: none;
-                border: none;
-            }
-            #chat-log {
-                height: 350px;
-            }
-        }
-        @media (max-width: 480px) {
-            h2 {
-                font-size: 1.5em;
-            }
-            .message {
-                max-width: 95%; /* Lebih lebar di HP */
-            }
-            #api-container, #prompt-container {
-                padding: 10px;
-            }
+            body { margin: 10px; padding: 10px; box-shadow: none; border: none; }
+            #chat-log { height: 350px; }
+            #input-control-group { flex-direction: column; }
+            #image-upload, #send-button { width: 100%; }
         }
 
     </style>
@@ -201,82 +210,123 @@
     <h2>🤖 nazama ai versi 2.5 flash (buatan rehan)</h2>
 
     <div id="api-container">
-        <label for="api-key-input">🔑 copy code ini dan masukan ke kolom di bawah untuk memulia chat: AIzaSyCu0jsL6Z7yhKxqFSLT9-W3k-qEAKvUg1Q:</label>
-        <input type="text" id="api-key-input" placeholder="tolong masukan codedi atas">
-        <small>INI ADALAH NAZAMA AI YA ITU CHATBOT BUATAN RAYHAN DARI KELAS 8.2 SMP NEGERI 12</small>
+        <label for="api-key-input">🔑 Masukkan kode ini untuk memulai chat (wajib): AIzaSyCu0jsL6Z7yhKxqFSLT9-W3k-qEAKvUg1Q</label>
+        <input type="text" id="api-key-input" placeholder="contoh: abcd... (Wajib untuk memulai Chat!)">
+        <small>nazama ai ini di buat oleh seorang anak kelas 8 SMP tepat nya di SMP negeri 12 anak ini bernama Rayhan Yap itu aku anjayy</small>
     </div>
 
     <div id="chat-log">
-        <div class="message ai">hai saya ai buatan Rayhan yang di support oleh google ai, open ai</div>
+        <div class="message ai">hai saya ai buatan Rayhan.</div>
     </div>
 
     <div id="prompt-container">
         <label for="prompt-input">💬 Masukkan Prompt:</label>
-        <input type="text" id="prompt-input" placeholder="Contoh: hallo Apakabar" onkeypress="if(event.key === 'Enter') kirimPrompt()">
-        <button id="send-button" onclick="kirimPrompt()">Kirim Prompt</button>
+        <textarea id="prompt-input" placeholder="Contoh: Jelaskan gambar ini..." onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); kirimPrompt(); }"></textarea>
+
+        <div id="input-control-group">
+            <input type="file" id="file-input" accept="image/*">
+            <button id="image-upload" onclick="document.getElementById('file-input').click()">🖼️ Kirim kan gambar</button>
+            <button id="send-button" onclick="kirimPrompt()">Kirim Prompt</button>
+        </div>
+        <small id="image-status" style="color: var(--success-color); margin-top: 5px;"></small>
     </div>
 
     <script>
-        const MODEL_NAME = "gemini-2.5-flash"; 
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent`;
+        const CHAT_MODEL = "gemini-2.5-flash"; 
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${CHAT_MODEL}:generateContent`;
 
+        // Event listener untuk menunjukkan status file
+        document.getElementById('file-input').addEventListener('change', function() {
+            const statusElement = document.getElementById('image-status');
+            if (this.files.length > 0) {
+                statusElement.innerText = `✅ Gambar ${this.files[0].name} siap diunggah.`;
+            } else {
+                statusElement.innerText = '';
+            }
+        });
+
+        // Fungsi utama untuk mengirim prompt/gambar
         async function kirimPrompt() {
             const apiKey = document.getElementById('api-key-input').value.trim();
             const promptInput = document.getElementById('prompt-input');
-            const prompt = promptInput.value.trim();
+            let prompt = promptInput.value.trim();
             const chatLog = document.getElementById('chat-log');
+            const fileInput = document.getElementById('file-input');
+            const file = fileInput.files[0];
             
+            // Cek kondisi wajib
             if (!apiKey) {
-                alert("❌ mohon masukan kode yang sudah di berikan");
+                alert("❌ Mohon masukkan kode yang sudah di berikan tadi");
                 return;
             }
-            if (!prompt) return;
+            if (!prompt && !file) {
+                alert("❌ Mohon masukkan prompt atau pilih gambar untuk dianalisis.");
+                return;
+            }
 
-            // 1. Tampilkan prompt pengguna
-            chatLog.innerHTML += `<div class="message user">${prompt}</div>`;
+            // 1. Tampilkan prompt pengguna di chat log
+            let userMessageHTML = `<div class="message user">${prompt}`;
+            
+            if (file) {
+                // Tampilkan preview gambar di chat log
+                userMessageHTML += `<img src="${URL.createObjectURL(file)}" alt="Gambar yang diunggah">`;
+            }
+            userMessageHTML += `</div>`;
+            chatLog.innerHTML += userMessageHTML;
+
+            // Reset input
             promptInput.value = ''; 
+            fileInput.value = '';
+            document.getElementById('image-status').innerText = ''; 
             chatLog.scrollTop = chatLog.scrollHeight;
             
             // 2. Tampilkan pesan loading beranimasi (Typing Indicator)
             const loadingElement = document.createElement('div');
             loadingElement.id = 'loading-indicator';
             loadingElement.className = 'typing-indicator';
-            // Isi dengan 3 titik (span) untuk animasi
             loadingElement.innerHTML = '<span></span><span></span><span></span>';
             chatLog.appendChild(loadingElement);
             chatLog.scrollTop = chatLog.scrollHeight;
-
+            
             try {
-                // Konfigurasi Payload yang Minimal dan PASTI didukung REST API
-                const payload = {
-                    contents: [{
-                        parts: [{ text: prompt }]
-                    }]
-                };
+                const parts = [{ text: prompt }];
 
+                if (file) {
+                    // Konversi file menjadi Base64 untuk API
+                    const base64Data = await fileToBase64(file);
+                    const mimeType = file.type || 'image/jpeg';
+                    
+                    // Tambahkan data gambar ke bagian awal parts
+                    parts.unshift({
+                        inlineData: {
+                            data: base64Data.split(',')[1],
+                            mimeType: mimeType
+                        }
+                    });
+                }
+                
+                const payload = { contents: [{ parts: parts }] };
+                
                 // Panggilan API ke Google
                 const response = await fetch(`${API_URL}?key=${apiKey}`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(`API Error: ${response.status} - ${errorData.error.message || 'Unknown error'}`);
+                    throw new Error(`API Error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
                 }
 
                 const data = await response.json();
                 
-                // Ambil teks respons dari struktur JSON Gemini
-                const geminiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, saya tidak dapat menghasilkan respons. Coba periksa kembali API Key Anda.";
-
                 // 3. Hapus loading dan tampilkan jawaban Gemini AI
                 loadingElement.remove();
                 
-                // Pastikan teks yang mengandung karakter khusus HTML (seperti < atau >) ditampilkan dengan aman
+                const geminiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, saya tidak dapat menghasilkan respons. Coba periksa kembali API Key Anda.";
+                
+                // Pastikan teks ditampilkan dengan aman
                 const safeGeminiText = geminiText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
                 
                 chatLog.innerHTML += `<div class="message ai">${safeGeminiText}</div>`;
@@ -287,14 +337,22 @@
                 
                 // Hapus loading
                 const currentLoading = document.getElementById('loading-indicator');
-                if (currentLoading) {
-                    currentLoading.remove();
-                }
+                if (currentLoading) { currentLoading.remove(); }
                 
                 // Tampilkan pesan error
                 chatLog.innerHTML += `<div class="message ai">❌ Gagal terhubung ke Gemini: ${error.message}. Pastikan Kunci API Anda valid.</div>`;
                 chatLog.scrollTop = chatLog.scrollHeight;
             }
+        }
+
+        // Helper function: Mengubah File menjadi Base64
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
         }
     </script>
 
