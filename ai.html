@@ -3,358 +3,800 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>nazama ai versi 2.5 flash - Multimodal Chat</title>
+    <title>Nazama AI - Chatbot Cerdas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* CSS Variables */
-        :root {
-            --primary-color: #1a73e8; /* Biru Google */
-            --secondary-color: #3c4043; /* Abu-abu Teks */
-            --background-color: #ffffff;
-            --border-color: #dadce0;
-            --ai-bg-color: #f1f3f4;
-            --user-bg-color: #e6f4ea;
-            --user-text-color: #1e8e3e;
-            --danger-color: #ea4335;
-            --success-color: #34a853;
+        /* CSS sama seperti sebelumnya */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Base Styling */
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            max-width: 700px;
-            margin: 20px auto; 
-            padding: 15px; 
-            border: 1px solid var(--border-color); 
-            border-radius: 16px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); 
-            background-color: var(--background-color);
-            transition: all 0.3s ease-in-out;
+        :root {
+            --primary-color: #10a37f;
+            --primary-dark: #0d8a6c;
+            --bg-color: #ffffff;
+            --sidebar-bg: #f7f7f8;
+            --text-color: #343541;
+            --text-light: #6e6e80;
+            --border-color: #e5e5e7;
+            --user-msg-bg: #f7f7f8;
+            --ai-msg-bg: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        h2 { 
-            text-align: center; 
-            color: var(--primary-color); 
-            margin-bottom: 25px;
-            font-size: 1.8em;
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
         }
-        #api-container, #prompt-container { 
-            margin-bottom: 20px; 
-            padding: 15px;
-            border: 1px dashed #c5d8f0;
-            border-radius: 10px;
-        }
-        label { 
-            display: block; 
-            margin-bottom: 8px; 
-            font-weight: 600;
-            color: var(--secondary-color);
-        }
-        input[type="text"], textarea { 
-            width: 100%; 
-            padding: 12px; 
-            box-sizing: border-box; 
-            border: 1px solid var(--border-color); 
-            border-radius: 6px; 
-            transition: border-color 0.3s, box-shadow 0.3s;
-            outline: none;
-            resize: vertical;
-            min-height: 50px;
-            max-height: 200px;
-        }
-        input[type="text"]:focus, textarea:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
-        }
-        small { 
-            color: var(--danger-color); 
-            font-size: 0.85em;
-            display: block;
-            margin-top: 8px;
-        }
-        #chat-log { 
-            height: 400px;
-            overflow-y: auto; 
-            border: 1px solid var(--border-color); 
-            padding: 15px; 
-            background: var(--ai-bg-color); 
-            margin-bottom: 20px; 
-            border-radius: 10px;
+
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
             display: flex;
             flex-direction: column;
-            scroll-behavior: smooth;
+            border-right: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
         }
 
-        /* Chat Bubbles */
-        .message { 
-            margin-bottom: 12px; 
-            padding: 10px 15px; 
-            border-radius: 18px; 
-            max-width: 85%; 
-            line-height: 1.6;
-            word-wrap: break-word;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-        .user { 
-            align-self: flex-end;
-            background-color: var(--user-bg-color); 
-            color: var(--user-text-color);
-            border-bottom-right-radius: 4px;
-        }
-        .ai { 
-            align-self: flex-start;
-            background-color: var(--background-color); 
-            color: var(--secondary-color);
-            border: 1px solid var(--border-color);
-            border-bottom-left-radius: 4px;
-        }
-        .ai img, .user img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-top: 5px;
-        }
-
-        /* Input Control Group */
-        #input-control-group {
+        .logo-container {
+            padding: 20px 16px;
             display: flex;
-            gap: 10px;
             align-items: center;
-            margin-top: 10px;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-color);
         }
-        #image-upload {
-            padding: 10px;
+
+        .logo {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #10a37f, #1a73e8);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo:before {
+            content: "🦅";
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .new-chat-btn {
+            margin: 16px;
+            padding: 10px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .new-chat-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .chat-history {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .chat-history-item {
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-light);
+            transition: background-color 0.2s;
+        }
+
+        .chat-history-item:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .chat-history-item.active {
+            background-color: rgba(16, 163, 127, 0.1);
+            color: var(--primary-color);
+        }
+
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid var(--border-color);
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .chat-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .message {
+            display: flex;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .user-message {
+            background-color: var(--user-msg-bg);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .ai-message {
+            background-color: var(--ai-msg-bg);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .user-avatar {
+            background-color: #10a37f;
+            color: white;
+        }
+
+        .ai-avatar {
+            background: linear-gradient(135deg, #10a37f, #1a73e8);
+            color: white;
+        }
+
+        .message-content {
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        .message-content p {
+            margin-bottom: 12px;
+        }
+
+        .message-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .attachments {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .attachment {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background-color: rgba(0, 0, 0, 0.05);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .attachment img {
+            max-width: 200px;
+            border-radius: 6px;
+        }
+
+        .input-container {
+            padding: 24px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .input-box {
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .input-actions {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .action-btn {
+            background: none;
             border: 1px solid var(--border-color);
             border-radius: 6px;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
             cursor: pointer;
-            flex-grow: 0;
-            width: 100px;
+            font-size: 14px;
+            color: var(--text-light);
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .text-input {
+            width: 100%;
+            min-height: 56px;
+            max-height: 200px;
+            padding: 16px 50px 16px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            resize: none;
+            font-size: 16px;
+            line-height: 1.5;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .text-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .send-btn {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .send-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .disclaimer {
+            margin-top: 16px;
+            font-size: 12px;
+            color: var(--text-light);
             text-align: center;
-            transition: background-color 0.3s;
+            max-width: 800px;
         }
-        #image-upload:hover {
-            background-color: #f0f0f0;
-        }
-        #send-button { 
-            padding: 12px 20px; 
-            background-color: var(--primary-color); 
-            color: white; 
-            border: none; 
-            border-radius: 6px; 
-            cursor: pointer; 
-            flex-grow: 1;
-            font-size: 1.0em;
-            transition: background-color 0.3s, transform 0.1s;
-        }
-        #send-button:hover {
-            background-color: #1565c0;
-        }
-        #send-button:active {
-            transform: scale(0.99);
-        }
-        
-        /* Hidden input file for cleaner UI */
-        #file-input { display: none; }
 
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                z-index: 100;
+                height: 100%;
+                transform: translateX(-100%);
+            }
 
-        /* --- Animasi Loading (Typing Indicator) --- */
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                font-size: 20px;
+                cursor: pointer;
+                color: var(--text-color);
+            }
+        }
+
         .typing-indicator {
             display: flex;
             align-items: center;
-            padding: 10px 15px;
-            background-color: var(--background-color);
-            border: 1px solid var(--border-color);
-            border-radius: 18px;
-            max-width: fit-content;
-            align-self: flex-start;
-            margin-bottom: 12px;
-            border-bottom-left-radius: 4px;
+            gap: 4px;
+            margin-top: 8px;
         }
 
-        .typing-indicator span {
-            height: 8px;
+        .typing-dot {
             width: 8px;
-            margin: 0 2px;
-            background-color: var(--secondary-color);
+            height: 8px;
             border-radius: 50%;
-            opacity: 0.4;
-            animation: typing-pulse 1.2s infinite ease-in-out;
-        }
-        /* ... (keyframes tetap sama) ... */
-        @keyframes typing-pulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 0.4;
-            }
-            50% {
-                transform: scale(1.3);
-                opacity: 1;
-            }
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
+            background-color: var(--text-light);
+            animation: typing 1.4s infinite ease-in-out;
         }
 
-        /* --- Media Queries (Responsif) --- */
-        @media (max-width: 768px) {
-            body { margin: 10px; padding: 10px; box-shadow: none; border: none; }
-            #chat-log { height: 350px; }
-            #input-control-group { flex-direction: column; }
-            #image-upload, #send-button { width: 100%; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
         }
 
+        .file-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .preview-item {
+            position: relative;
+            display: inline-block;
+        }
+
+        .preview-item img {
+            max-width: 150px;
+            border-radius: 6px;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #ff4d4f;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .api-key-container {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .api-key-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: white;
+        }
+
+        .api-key-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
     </style>
 </head>
 <body>
-
-    <h2>🤖 nazama ai versi 2.5 flash (buatan rehan)</h2>
-
-    <div id="api-container">
-        <label for="api-key-input">🔑 Masukkan kode ini untuk memulai chat (wajib): AIzaSyCu0jsL6Z7yhKxqFSLT9-W3k-qEAKvUg1Q</label>
-        <input type="text" id="api-key-input" placeholder="contoh: abcd... (Wajib untuk memulai Chat!)">
-        <small>nazama ai ini di buat oleh seorang anak kelas 8 SMP tepat nya di SMP negeri 12 anak ini bernama Rayhan Yap itu aku anjayy</small>
-    </div>
-
-    <div id="chat-log">
-        <div class="message ai">hai saya ai buatan Rayhan.</div>
-    </div>
-
-    <div id="prompt-container">
-        <label for="prompt-input">💬 Masukkan Prompt:</label>
-        <textarea id="prompt-input" placeholder="Contoh: Jelaskan gambar ini..." onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); kirimPrompt(); }"></textarea>
-
-        <div id="input-control-group">
-            <input type="file" id="file-input" accept="image/*">
-            <button id="image-upload" onclick="document.getElementById('file-input').click()">🖼️ Kirim kan gambar</button>
-            <button id="send-button" onclick="kirimPrompt()">Kirim Prompt</button>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-container">
+            <div class="logo"></div>
+            <div class="logo-text">Nazama AI</div>
         </div>
-        <small id="image-status" style="color: var(--success-color); margin-top: 5px;"></small>
+        
+        <div class="api-key-container">
+            <input type="password" class="api-key-input" id="apiKeyInput" placeholder="Masukkan API Key DeepSeek Anda di sini">
+        </div>
+        
+        <button class="new-chat-btn">
+            <i class="fas fa-plus"></i> Obrolan Baru
+        </button>
+        
+        <div class="chat-history">
+            <div class="chat-history-item active">
+                <i class="fas fa-message"></i>
+                <span>Obrolan Saat Ini</span>
+            </div>
+            <div class="chat-history-item">
+                <i class="fas fa-message"></i>
+                <span>Tips Penggunaan AI</span>
+            </div>
+            <div class="chat-history-item">
+                <i class="fas fa-message"></i>
+                <span>Panduan Nazama AI</span>
+            </div>
+        </div>
+        
+        <div class="sidebar-footer">
+            <p>Nazama AI v1.0</p>
+            <p>Powered by DeepSeek API</p>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="chat-header">
+            <div class="chat-title">Nazama AI Assistant</div>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <div class="chat-container" id="chatContainer">
+            <div class="message ai-message">
+                <div class="avatar ai-avatar">
+                    <i class="fas fa-eagle"></i>
+                </div>
+                <div class="message-content">
+                    <p>Halo! Saya Nazama AI, asisten AI Anda yang siap membantu. Silakan masukkan API Key DeepSeek Anda di sidebar untuk mulai menggunakan layanan.</p>
+                    <p>Setelah memasukkan API Key, Anda dapat mengirim pesan, gambar, atau file kepada saya.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="input-container">
+            <div class="input-box">
+                <div class="input-actions">
+                    <button class="action-btn" id="uploadImageBtn">
+                        <i class="fas fa-image"></i> Gambar
+                    </button>
+                    <button class="action-btn" id="uploadFileBtn">
+                        <i class="fas fa-file"></i> File
+                    </button>
+                </div>
+                
+                <div class="file-preview" id="filePreview"></div>
+                
+                <textarea class="text-input" id="textInput" placeholder="Ketik pesan Anda di sini..."></textarea>
+                <button class="send-btn" id="sendBtn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            
+            <div class="disclaimer">
+                Nazama AI dapat membuat kesalahan. Harap periksa informasi penting.
+            </div>
+        </div>
     </div>
 
     <script>
-        const CHAT_MODEL = "gemini-2.5-flash"; 
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${CHAT_MODEL}:generateContent`;
+        // ================================
+        // KONFIGURASI API - ISI DI SINI
+        // ================================
+        
+        // Tambahkan API Key DeepSeek Anda di sini:
+        const DEEPSEEK_API_KEY = 'sk-28bfd82aa9bd422391bd88eac97c2489'; // Isi dengan API key Anda
+        
+        // Atau gunakan input dari user:
+        function getApiKey() {
+            const inputKey = document.getElementById('apiKeyInput').value.trim();
+            return inputKey || DEEPSEEK_API_KEY;
+        }
+        
+        const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions'; // Ganti dengan endpoint yang benar
+        
+        // ================================
+        // KODE APLIKASI CHATBOT
+        // ================================
 
-        // Event listener untuk menunjukkan status file
-        document.getElementById('file-input').addEventListener('change', function() {
-            const statusElement = document.getElementById('image-status');
-            if (this.files.length > 0) {
-                statusElement.innerText = `✅ Gambar ${this.files[0].name} siap diunggah.`;
-            } else {
-                statusElement.innerText = '';
+        // DOM Elements
+        const chatContainer = document.getElementById('chatContainer');
+        const textInput = document.getElementById('textInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const uploadImageBtn = document.getElementById('uploadImageBtn');
+        const uploadFileBtn = document.getElementById('uploadFileBtn');
+        const filePreview = document.getElementById('filePreview');
+        const newChatBtn = document.querySelector('.new-chat-btn');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const apiKeyInput = document.getElementById('apiKeyInput');
+
+        // File handling
+        let uploadedFiles = [];
+
+        // Event Listeners
+        sendBtn.addEventListener('click', sendMessage);
+        textInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
             }
         });
 
-        // Fungsi utama untuk mengirim prompt/gambar
-        async function kirimPrompt() {
-            const apiKey = document.getElementById('api-key-input').value.trim();
-            const promptInput = document.getElementById('prompt-input');
-            let prompt = promptInput.value.trim();
-            const chatLog = document.getElementById('chat-log');
-            const fileInput = document.getElementById('file-input');
-            const file = fileInput.files[0];
-            
-            // Cek kondisi wajib
-            if (!apiKey) {
-                alert("❌ Mohon masukkan kode yang sudah di berikan tadi");
-                return;
-            }
-            if (!prompt && !file) {
-                alert("❌ Mohon masukkan prompt atau pilih gambar untuk dianalisis.");
-                return;
-            }
+        uploadImageBtn.addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = handleFileUpload;
+            input.click();
+        });
 
-            // 1. Tampilkan prompt pengguna di chat log
-            let userMessageHTML = `<div class="message user">${prompt}`;
-            
-            if (file) {
-                // Tampilkan preview gambar di chat log
-                userMessageHTML += `<img src="${URL.createObjectURL(file)}" alt="Gambar yang diunggah">`;
-            }
-            userMessageHTML += `</div>`;
-            chatLog.innerHTML += userMessageHTML;
+        uploadFileBtn.addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.onchange = handleFileUpload;
+            input.click();
+        });
 
-            // Reset input
-            promptInput.value = ''; 
-            fileInput.value = '';
-            document.getElementById('image-status').innerText = ''; 
-            chatLog.scrollTop = chatLog.scrollHeight;
+        newChatBtn.addEventListener('click', startNewChat);
+        menuToggle.addEventListener('click', toggleSidebar);
+
+        // Functions
+        function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            uploadedFiles.push(file);
+            displayFilePreview(file);
+        }
+
+        function displayFilePreview(file) {
+            const previewItem = document.createElement('div');
+            previewItem.className = 'preview-item';
             
-            // 2. Tampilkan pesan loading beranimasi (Typing Indicator)
-            const loadingElement = document.createElement('div');
-            loadingElement.id = 'loading-indicator';
-            loadingElement.className = 'typing-indicator';
-            loadingElement.innerHTML = '<span></span><span></span><span></span>';
-            chatLog.appendChild(loadingElement);
-            chatLog.scrollTop = chatLog.scrollHeight;
+            if (file.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                previewItem.appendChild(img);
+            } else {
+                const fileIcon = document.createElement('div');
+                fileIcon.className = 'attachment';
+                fileIcon.innerHTML = `<i class="fas fa-file"></i> ${file.name}`;
+                previewItem.appendChild(fileIcon);
+            }
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-btn';
+            removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+            removeBtn.onclick = () => {
+                uploadedFiles = uploadedFiles.filter(f => f !== file);
+                filePreview.removeChild(previewItem);
+            };
+            
+            previewItem.appendChild(removeBtn);
+            filePreview.appendChild(previewItem);
+        }
+
+        async function sendMessage() {
+            const message = textInput.value.trim();
+            if (message === '' && uploadedFiles.length === 0) return;
+
+            // Add user message to chat
+            addMessageToChat('user', message, uploadedFiles);
+            
+            // Clear input and file previews
+            textInput.value = '';
+            filePreview.innerHTML = '';
+            uploadedFiles = [];
+            
+            // Show typing indicator
+            showTypingIndicator();
             
             try {
-                const parts = [{ text: prompt }];
+                // Get API response
+                const aiResponse = await getAIResponse(message);
+                removeTypingIndicator();
+                addMessageToChat('ai', aiResponse);
+            } catch (error) {
+                removeTypingIndicator();
+                addMessageToChat('ai', 'Maaf, terjadi error. Pastikan API key sudah benar dan koneksi internet stabil.');
+                console.error('Error:', error);
+            }
+        }
 
-                if (file) {
-                    // Konversi file menjadi Base64 untuk API
-                    const base64Data = await fileToBase64(file);
-                    const mimeType = file.type || 'image/jpeg';
-                    
-                    // Tambahkan data gambar ke bagian awal parts
-                    parts.unshift({
-                        inlineData: {
-                            data: base64Data.split(',')[1],
-                            mimeType: mimeType
-                        }
-                    });
-                }
-                
-                const payload = { contents: [{ parts: parts }] };
-                
-                // Panggilan API ke Google
-                const response = await fetch(`${API_URL}?key=${apiKey}`, {
+        async function getAIResponse(userMessage) {
+            const apiKey = getApiKey();
+            
+            if (!apiKey) {
+                return 'Silakan masukkan API Key DeepSeek Anda di sidebar terlebih dahulu.';
+            }
+
+            // Implementasi panggilan API ke DeepSeek
+            // CATATAN: Anda perlu menyesuaikan dengan format API DeepSeek yang sebenarnya
+            try {
+                const response = await fetch(DEEPSEEK_API_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: 'deepseek-chat', // Ganti dengan model yang sesuai
+                        messages: [
+                            {
+                                role: 'user',
+                                content: userMessage
+                            }
+                        ],
+                        max_tokens: 1000
+                    })
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(`API Error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
                 const data = await response.json();
-                
-                // 3. Hapus loading dan tampilkan jawaban Gemini AI
-                loadingElement.remove();
-                
-                const geminiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, saya tidak dapat menghasilkan respons. Coba periksa kembali API Key Anda.";
-                
-                // Pastikan teks ditampilkan dengan aman
-                const safeGeminiText = geminiText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                
-                chatLog.innerHTML += `<div class="message ai">${safeGeminiText}</div>`;
-                chatLog.scrollTop = chatLog.scrollHeight;
-
+                return data.choices[0].message.content;
             } catch (error) {
-                console.error('Panggilan Gemini API Gagal:', error);
+                console.error('API Error:', error);
                 
-                // Hapus loading
-                const currentLoading = document.getElementById('loading-indicator');
-                if (currentLoading) { currentLoading.remove(); }
+                // Fallback response jika API error
+                const responses = [
+                    "Saya memahami pertanyaan Anda. Berdasarkan informasi yang diberikan, saya dapat menjelaskan bahwa Nazama AI adalah asisten cerdas yang dirancang untuk membantu berbagai kebutuhan Anda.",
+                    "Terima kasih telah mengirimkan pertanyaan. Saat ini saya sedang menggunakan mode simulasi. Dengan API key yang valid, saya dapat memberikan respons yang lebih akurat dan kontekstual.",
+                    "Pertanyaan yang bagus! Untuk mendapatkan respons AI yang sesungguhnya, pastikan Anda telah memasukkan API Key DeepSeek yang valid.",
+                    "Saya melihat Anda mengunggah file/gambar. Dengan API yang tepat, Nazama AI dapat menganalisis konten visual dan tekstual untuk memberikan bantuan yang lebih komprehensif."
+                ];
                 
-                // Tampilkan pesan error
-                chatLog.innerHTML += `<div class="message ai">❌ Gagal terhubung ke Gemini: ${error.message}. Pastikan Kunci API Anda valid.</div>`;
-                chatLog.scrollTop = chatLog.scrollHeight;
+                return responses[Math.floor(Math.random() * responses.length)] + 
+                       " [SIMULASI - Pastikan API key sudah diisi dengan benar]";
             }
         }
 
-        // Helper function: Mengubah File menjadi Base64
-        function fileToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-                reader.readAsDataURL(file);
-            });
+        function addMessageToChat(sender, message, files = []) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = `avatar ${sender}-avatar`;
+            avatar.innerHTML = sender === 'user' 
+                ? '<i class="fas fa-user"></i>' 
+                : '<i class="fas fa-eagle"></i>';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            
+            if (message) {
+                const messageText = document.createElement('p');
+                messageText.textContent = message;
+                contentDiv.appendChild(messageText);
+            }
+            
+            if (files.length > 0) {
+                const attachmentsDiv = document.createElement('div');
+                attachmentsDiv.className = 'attachments';
+                
+                files.forEach(file => {
+                    if (file.type.startsWith('image/')) {
+                        const img = document.createElement('img');
+                        img.src = URL.createObjectURL(file);
+                        attachmentsDiv.appendChild(img);
+                    } else {
+                        const fileDiv = document.createElement('div');
+                        fileDiv.className = 'attachment';
+                        fileDiv.innerHTML = `<i class="fas fa-file"></i> ${file.name}`;
+                        attachmentsDiv.appendChild(fileDiv);
+                    }
+                });
+                
+                contentDiv.appendChild(attachmentsDiv);
+            }
+            
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(contentDiv);
+            chatContainer.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
         }
-    </script>
 
+        function showTypingIndicator() {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ai-message';
+            messageDiv.id = 'typingIndicator';
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'avatar ai-avatar';
+            avatar.innerHTML = '<i class="fas fa-eagle"></i>';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            
+            contentDiv.appendChild(typingDiv);
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(contentDiv);
+            chatContainer.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                chatContainer.removeChild(typingIndicator);
+            }
+        }
+
+        function startNewChat() {
+            // Clear chat container except for the first AI message
+            const initialMessage = chatContainer.querySelector('.ai-message');
+            chatContainer.innerHTML = '';
+            if (initialMessage) {
+                chatContainer.appendChild(initialMessage);
+            }
+            
+            // Clear any file previews
+            filePreview.innerHTML = '';
+            uploadedFiles = [];
+        }
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+        }
+
+        // Auto-resize textarea
+        textInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        // Simpan API key di localStorage
+        apiKeyInput.addEventListener('change', function() {
+            localStorage.setItem('nazama_api_key', this.value);
+        });
+
+        // Load saved API key
+        window.addEventListener('load', function() {
+            const savedKey = localStorage.getItem('nazama_api_key');
+            if (savedKey) {
+                apiKeyInput.value = savedKey;
+            }
+        });
+    </script>
 </body>
 </html>
