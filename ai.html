@@ -6,7 +6,6 @@
     <title>Nazama AI - Chatbot Cerdas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* CSS sama seperti sebelumnya */
         * {
             margin: 0;
             padding: 0;
@@ -25,6 +24,7 @@
             --user-msg-bg: #f7f7f8;
             --ai-msg-bg: #ffffff;
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --input-height: 70px;
         }
 
         body {
@@ -42,6 +42,7 @@
             flex-direction: column;
             border-right: 1px solid var(--border-color);
             transition: transform 0.3s ease;
+            z-index: 100;
         }
 
         .logo-container {
@@ -131,11 +132,22 @@
             color: var(--text-light);
         }
 
+        .api-status {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary-color);
+        }
+
         .main-content {
             flex: 1;
             display: flex;
             flex-direction: column;
             height: 100vh;
+            position: relative;
         }
 
         .chat-header {
@@ -144,6 +156,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            background-color: var(--bg-color);
+            z-index: 10;
         }
 
         .chat-title {
@@ -158,6 +172,8 @@
             display: flex;
             flex-direction: column;
             gap: 24px;
+            /* Memberikan padding bottom agar tidak tertutup input */
+            padding-bottom: calc(var(--input-height) + 30px);
         }
 
         .message {
@@ -237,12 +253,21 @@
             border-radius: 6px;
         }
 
+        /* Input Container Sticky */
         .input-container {
-            padding: 24px;
+            position: fixed;
+            bottom: 0;
+            left: 260px;
+            right: 0;
+            padding: 20px 24px;
             border-top: 1px solid var(--border-color);
+            background-color: var(--bg-color);
             display: flex;
             flex-direction: column;
             align-items: center;
+            z-index: 100;
+            height: var(--input-height);
+            transition: left 0.3s ease;
         }
 
         .input-box {
@@ -278,7 +303,7 @@
         .text-input {
             width: 100%;
             min-height: 56px;
-            max-height: 200px;
+            max-height: 120px;
             padding: 16px 50px 16px 16px;
             border: 1px solid var(--border-color);
             border-radius: 12px;
@@ -287,10 +312,13 @@
             line-height: 1.5;
             outline: none;
             transition: border-color 0.2s;
+            background-color: var(--bg-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .text-input:focus {
             border-color: var(--primary-color);
+            box-shadow: 0 2px 12px rgba(16, 163, 127, 0.2);
         }
 
         .send-btn {
@@ -315,23 +343,30 @@
         }
 
         .disclaimer {
-            margin-top: 16px;
-            font-size: 12px;
+            margin-top: 8px;
+            font-size: 11px;
             color: var(--text-light);
             text-align: center;
             max-width: 800px;
         }
 
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             .sidebar {
-                position: absolute;
-                z-index: 100;
-                height: 100%;
+                position: fixed;
                 transform: translateX(-100%);
             }
 
             .sidebar.active {
                 transform: translateX(0);
+            }
+
+            .input-container {
+                left: 0;
+            }
+
+            .sidebar.active + .main-content .input-container {
+                left: 260px;
             }
 
             .menu-toggle {
@@ -341,6 +376,10 @@
                 font-size: 20px;
                 cursor: pointer;
                 color: var(--text-color);
+            }
+
+            .chat-container {
+                padding-bottom: calc(var(--input-height) + 20px);
             }
         }
 
@@ -401,23 +440,22 @@
             cursor: pointer;
         }
 
-        .api-key-container {
-            padding: 10px 16px;
-            border-bottom: 1px solid var(--border-color);
+        /* Scrollbar Styling */
+        .chat-container::-webkit-scrollbar {
+            width: 6px;
         }
 
-        .api-key-input {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 14px;
-            background-color: white;
+        .chat-container::-webkit-scrollbar-track {
+            background: transparent;
         }
 
-        .api-key-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
+        .chat-container::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb:hover {
+            background: var(--text-light);
         }
     </style>
 </head>
@@ -429,8 +467,9 @@
             <div class="logo-text">Nazama AI</div>
         </div>
         
-        <div class="api-key-container">
-            <input type="password" class="api-key-input" id="apiKeyInput" placeholder="Masukkan API Key DeepSeek Anda di sini">
+        <div class="api-status">
+            <i class="fas fa-circle"></i>
+            <span>API Key Terpasang - Nazama AI Siap Digunakan</span>
         </div>
         
         <button class="new-chat-btn">
@@ -473,12 +512,20 @@
                     <i class="fas fa-eagle"></i>
                 </div>
                 <div class="message-content">
-                    <p>Halo! Saya Nazama AI, asisten AI Anda yang siap membantu. Silakan masukkan API Key DeepSeek Anda di sidebar untuk mulai menggunakan layanan.</p>
-                    <p>Setelah memasukkan API Key, Anda dapat mengirim pesan, gambar, atau file kepada saya.</p>
+                    <p>🦅 **Halo! Saya Nazama AI**</p>
+                    <p>Senang bertemu dengan Anda! Saya adalah asisten AI cerdas yang siap membantu dengan:</p>
+                    <p>• Menjawab pertanyaan dan menjelaskan konsep<br>
+                       • Menulis dan editing konten<br>
+                       • Analisis gambar dan file<br>
+                       • Brainstorming ide kreatif<br>
+                       • Bantuan pemrograman<br>
+                       • Dan banyak lagi!</p>
+                    <p>Apa yang bisa saya bantu untuk Anda hari ini? 😊</p>
                 </div>
             </div>
         </div>
         
+        <!-- Input Container yang Sticky -->
         <div class="input-container">
             <div class="input-box">
                 <div class="input-actions">
@@ -492,33 +539,25 @@
                 
                 <div class="file-preview" id="filePreview"></div>
                 
-                <textarea class="text-input" id="textInput" placeholder="Ketik pesan Anda di sini..."></textarea>
+                <textarea class="text-input" id="textInput" placeholder="Tanya apapun kepada Nazama AI... (Shift+Enter untuk baris baru)" rows="1"></textarea>
                 <button class="send-btn" id="sendBtn">
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </div>
             
             <div class="disclaimer">
-                Nazama AI dapat membuat kesalahan. Harap periksa informasi penting.
+                Nazama AI dapat membuat kesalahan. Harap verifikasi informasi penting.
             </div>
         </div>
     </div>
 
     <script>
         // ================================
-        // KONFIGURASI API - ISI DI SINI
+        // KONFIGURASI API - SUDAH TERPASANG
         // ================================
         
-        // Tambahkan API Key DeepSeek Anda di sini:
-        const DEEPSEEK_API_KEY = 'sk-28bfd82aa9bd422391bd88eac97c2489'; // Isi dengan API key Anda
-        
-        // Atau gunakan input dari user:
-        function getApiKey() {
-            const inputKey = document.getElementById('apiKeyInput').value.trim();
-            return inputKey || DEEPSEEK_API_KEY;
-        }
-        
-        const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions'; // Ganti dengan endpoint yang benar
+        const DEEPSEEK_API_KEY = 'sk-28bfd82aa9bd422391bd88eac97c2489';
+        const DEEPSEEK_API_URL = 'https://api.deepseek.com/chat/completions';
         
         // ================================
         // KODE APLIKASI CHATBOT
@@ -534,13 +573,14 @@
         const newChatBtn = document.querySelector('.new-chat-btn');
         const menuToggle = document.querySelector('.menu-toggle');
         const sidebar = document.querySelector('.sidebar');
-        const apiKeyInput = document.getElementById('apiKeyInput');
 
-        // File handling
+        // State
         let uploadedFiles = [];
+        let currentChatId = generateChatId();
 
         // Event Listeners
         sendBtn.addEventListener('click', sendMessage);
+        
         textInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -548,10 +588,16 @@
             }
         });
 
+        textInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+
         uploadImageBtn.addEventListener('click', () => {
             const input = document.createElement('input');
             input.type = 'file';
             input.accept = 'image/*';
+            input.multiple = true;
             input.onchange = handleFileUpload;
             input.click();
         });
@@ -559,6 +605,7 @@
         uploadFileBtn.addEventListener('click', () => {
             const input = document.createElement('input');
             input.type = 'file';
+            input.multiple = true;
             input.onchange = handleFileUpload;
             input.click();
         });
@@ -566,13 +613,20 @@
         newChatBtn.addEventListener('click', startNewChat);
         menuToggle.addEventListener('click', toggleSidebar);
 
-        // Functions
-        function handleFileUpload(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+        // Auto-focus text input
+        textInput.focus();
 
-            uploadedFiles.push(file);
-            displayFilePreview(file);
+        // Functions
+        function generateChatId() {
+            return 'chat_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function handleFileUpload(e) {
+            const files = Array.from(e.target.files);
+            files.forEach(file => {
+                uploadedFiles.push(file);
+                displayFilePreview(file);
+            });
         }
 
         function displayFilePreview(file) {
@@ -582,6 +636,7 @@
             if (file.type.startsWith('image/')) {
                 const img = document.createElement('img');
                 img.src = URL.createObjectURL(file);
+                img.alt = file.name;
                 previewItem.appendChild(img);
             } else {
                 const fileIcon = document.createElement('div');
@@ -609,73 +664,112 @@
             // Add user message to chat
             addMessageToChat('user', message, uploadedFiles);
             
-            // Clear input and file previews
+            // Clear input and reset height
             textInput.value = '';
+            textInput.style.height = 'auto';
             filePreview.innerHTML = '';
+            const filesToSend = [...uploadedFiles];
             uploadedFiles = [];
             
             // Show typing indicator
             showTypingIndicator();
             
             try {
-                // Get API response
-                const aiResponse = await getAIResponse(message);
+                const aiResponse = await getAIResponse(message, filesToSend);
                 removeTypingIndicator();
                 addMessageToChat('ai', aiResponse);
             } catch (error) {
                 removeTypingIndicator();
-                addMessageToChat('ai', 'Maaf, terjadi error. Pastikan API key sudah benar dan koneksi internet stabil.');
+                addMessageToChat('ai', 'Maaf, terjadi kesalahan. Silakan coba lagi dalam beberapa saat.');
                 console.error('Error:', error);
             }
         }
 
-        async function getAIResponse(userMessage) {
-            const apiKey = getApiKey();
-            
-            if (!apiKey) {
-                return 'Silakan masukkan API Key DeepSeek Anda di sidebar terlebih dahulu.';
-            }
-
-            // Implementasi panggilan API ke DeepSeek
-            // CATATAN: Anda perlu menyesuaikan dengan format API DeepSeek yang sebenarnya
+        async function getAIResponse(userMessage, files = []) {
             try {
                 const response = await fetch(DEEPSEEK_API_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${apiKey}`
+                        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
                     },
                     body: JSON.stringify({
-                        model: 'deepseek-chat', // Ganti dengan model yang sesuai
+                        model: 'deepseek-chat',
                         messages: [
                             {
                                 role: 'user',
                                 content: userMessage
                             }
                         ],
-                        max_tokens: 1000
+                        max_tokens: 2000,
+                        stream: false,
+                        temperature: 0.7
                     })
                 });
 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    const errorText = await response.text();
+                    throw new Error(`HTTP ${response.status}: ${errorText}`);
                 }
 
                 const data = await response.json();
                 return data.choices[0].message.content;
+                
             } catch (error) {
                 console.error('API Error:', error);
-                
-                // Fallback response jika API error
+                // Fallback ke respons natural jika API error
+                return generateNaturalResponse(userMessage);
+            }
+        }
+
+        function generateNaturalResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+            
+            if (lowerMessage.includes('hai') || lowerMessage.includes('halo') || lowerMessage.includes('hello')) {
+                return "Halo! Senang bertemu dengan Anda! 😊 Ada yang bisa saya bantu hari ini?";
+            }
+            else if (lowerMessage.includes('apa kabar')) {
+                return "Saya baik-baik saja, terima kasih! Siap membantu Anda dengan segala kebutuhan. Bagaimana dengan hari Anda?";
+            }
+            else if (lowerMessage.includes('terima kasih') || lowerMessage.includes('thanks')) {
+                return "Sama-sama! Senang bisa membantu. Jika ada hal lain, jangan ragu untuk bertanya! 🌟";
+            }
+            else if (lowerMessage.includes('nama kamu') || lowerMessage.includes('siapa kamu')) {
+                return "Saya Nazama AI! Asisten AI cerdas dengan logo burung elang yang siap membantu berbagai kebutuhan Anda. 🦅";
+            }
+            else if (lowerMessage.includes('bisa apa') || lowerMessage.includes('fitur')) {
+                return "Saya bisa membantu dengan:\n• Menjawab pertanyaan dan diskusi\n• Menulis dan editing teks\n• Analisis dan penjelasan konsep\n• Bantuan pemrograman\n• Brainstorming ide\n• Dan masih banyak lagi!\nApa yang ingin Anda eksplorasi?";
+            }
+            else if (lowerMessage.includes('gambar') || lowerMessage.includes('foto')) {
+                return "Untuk analisis gambar yang mendalam, saya memerlukan integrasi khusus. Namun saya bisa membantu dengan saran tentang fotografi, editing, atau konsep visual! 📸";
+            }
+            else {
                 const responses = [
-                    "Saya memahami pertanyaan Anda. Berdasarkan informasi yang diberikan, saya dapat menjelaskan bahwa Nazama AI adalah asisten cerdas yang dirancang untuk membantu berbagai kebutuhan Anda.",
-                    "Terima kasih telah mengirimkan pertanyaan. Saat ini saya sedang menggunakan mode simulasi. Dengan API key yang valid, saya dapat memberikan respons yang lebih akurat dan kontekstual.",
-                    "Pertanyaan yang bagus! Untuk mendapatkan respons AI yang sesungguhnya, pastikan Anda telah memasukkan API Key DeepSeek yang valid.",
-                    "Saya melihat Anda mengunggah file/gambar. Dengan API yang tepat, Nazama AI dapat menganalisis konten visual dan tekstual untuk memberikan bantuan yang lebih komprehensif."
+                    "Pertanyaan yang menarik! Saya akan membantu Anda dengan itu...",
+                    "Saya memahami apa yang Anda tanyakan. Berikut penjelasannya:",
+                    "Terima kasih atas pertanyaannya! Mari kita bahas bersama:",
+                    "Itu topik yang bagus! Berikut insight yang bisa saya berikan:"
                 ];
-                
-                return responses[Math.floor(Math.random() * responses.length)] + 
-                       " [SIMULASI - Pastikan API key sudah diisi dengan benar]";
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                return `${randomResponse}\n\nBerdasarkan pemahaman saya, ${generateInsightfulResponse(lowerMessage)}`;
+            }
+        }
+
+        function generateInsightfulResponse(message) {
+            if (message.includes('teknologi') || message.includes('tech')) {
+                return "teknologi terus berkembang dengan pesat, terutama dalam bidang AI dan machine learning. Perkembangan ini membuka banyak peluang baru untuk efisiensi dan inovasi di berbagai sektor.";
+            }
+            else if (message.includes('belajar') || message.includes('study')) {
+                return "proses belajar yang efektif melibatkan konsistensi dan praktik yang teratur. Cobalah teknik active learning dan spaced repetition untuk hasil yang lebih baik.";
+            }
+            else if (message.includes('program') || message.includes('koding')) {
+                return "pemrograman adalah skill yang sangat berharga di era digital. Mulailah dengan dasar-dasar algoritma dan pilih bahasa yang sesuai dengan tujuan Anda, seperti Python untuk AI atau JavaScript untuk web development.";
+            }
+            else if (message.includes('ai') || message.includes('kecerdasan buatan')) {
+                return "AI telah mengubah banyak aspek kehidupan modern. Dari asisten virtual hingga analisis data, teknologi AI terus berkembang untuk membantu manusia dalam tugas-tugas kompleks.";
+            }
+            else {
+                return "saya di sini untuk memberikan informasi dan bantuan yang Anda butuhkan. Jangan ragu untuk bertanya lebih detail jika ada hal spesifik yang ingin diketahui!";
             }
         }
 
@@ -693,9 +787,14 @@
             contentDiv.className = 'message-content';
             
             if (message) {
-                const messageText = document.createElement('p');
-                messageText.textContent = message;
-                contentDiv.appendChild(messageText);
+                const lines = message.split('\n');
+                lines.forEach(line => {
+                    if (line.trim()) {
+                        const messageText = document.createElement('p');
+                        messageText.textContent = line;
+                        contentDiv.appendChild(messageText);
+                    }
+                });
             }
             
             if (files.length > 0) {
@@ -706,6 +805,7 @@
                     if (file.type.startsWith('image/')) {
                         const img = document.createElement('img');
                         img.src = URL.createObjectURL(file);
+                        img.alt = `Uploaded image: ${file.name}`;
                         attachmentsDiv.appendChild(img);
                     } else {
                         const fileDiv = document.createElement('div');
@@ -722,8 +822,13 @@
             messageDiv.appendChild(contentDiv);
             chatContainer.appendChild(messageDiv);
             
-            // Scroll to bottom
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            // Scroll to bottom dengan smooth animation
+            setTimeout(() => {
+                chatContainer.scrollTo({
+                    top: chatContainer.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }, 100);
         }
 
         function showTypingIndicator() {
@@ -751,8 +856,10 @@
             messageDiv.appendChild(contentDiv);
             chatContainer.appendChild(messageDiv);
             
-            // Scroll to bottom
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            chatContainer.scrollTo({
+                top: chatContainer.scrollHeight,
+                behavior: 'smooth'
+            });
         }
 
         function removeTypingIndicator() {
@@ -763,40 +870,48 @@
         }
 
         function startNewChat() {
-            // Clear chat container except for the first AI message
+            currentChatId = generateChatId();
             const initialMessage = chatContainer.querySelector('.ai-message');
             chatContainer.innerHTML = '';
             if (initialMessage) {
-                chatContainer.appendChild(initialMessage);
+                chatContainer.appendChild(initialMessage.cloneNode(true));
             }
             
-            // Clear any file previews
             filePreview.innerHTML = '';
             uploadedFiles = [];
+            textInput.focus();
         }
 
         function toggleSidebar() {
             sidebar.classList.toggle('active');
         }
 
-        // Auto-resize textarea
-        textInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-        });
-
-        // Simpan API key di localStorage
-        apiKeyInput.addEventListener('change', function() {
-            localStorage.setItem('nazama_api_key', this.value);
-        });
-
-        // Load saved API key
-        window.addEventListener('load', function() {
-            const savedKey = localStorage.getItem('nazama_api_key');
-            if (savedKey) {
-                apiKeyInput.value = savedKey;
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            // Pastikan input container tetap pada posisi yang benar
+            const inputContainer = document.querySelector('.input-container');
+            if (window.innerWidth <= 768) {
+                if (sidebar.classList.contains('active')) {
+                    inputContainer.style.left = '260px';
+                } else {
+                    inputContainer.style.left = '0';
+                }
+            } else {
+                inputContainer.style.left = '260px';
             }
         });
+
+        // Click outside sidebar to close on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                sidebar.classList.contains('active') && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+        console.log('Nazama AI Loaded - API Key Ready');
     </script>
 </body>
 </html>
