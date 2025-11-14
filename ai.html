@@ -1,917 +1,306 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nazama AI - Chatbot Cerdas</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nazama AI Assistant</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        :root {
-            --primary-color: #10a37f;
-            --primary-dark: #0d8a6c;
-            --bg-color: #ffffff;
-            --sidebar-bg: #f7f7f8;
-            --text-color: #343541;
-            --text-light: #6e6e80;
-            --border-color: #e5e5e7;
-            --user-msg-bg: #f7f7f8;
-            --ai-msg-bg: #ffffff;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --input-height: 70px;
-        }
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+    }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
+    :root {
+        --primary: #10a37f;
+        --primary-dark: #0d8a6c;
+        --border: #e5e5e7;
+        --bg: #ffffff;
+        --sidebar-bg: #f7f7f8;
+        --text: #333;
+        --text-light: #777;
+        --input-height: 80px;
+    }
 
+    body {
+        background: var(--bg);
+        color: var(--text);
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+        width: 260px;
+        background: var(--sidebar-bg);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        z-index: 10;
+    }
+
+    .logo-box {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, #10a37f, #1a73e8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        color: white;
+        font-size: 20px;
+    }
+
+    .logo-text {
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .new-chat {
+        margin: 16px;
+        padding: 10px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    /* MAIN AREA */
+    .main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .topbar {
+        padding: 16px;
+        border-bottom: 1px solid var(--border);
+        font-size: 18px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        background: var(--bg);
+    }
+
+    .menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 22px;
+    }
+
+    /* CHAT */
+    .chat-area {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        padding-bottom: 140px; 
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .msg {
+        display: flex;
+        gap: 12px;
+        max-width: 800px;
+        width: 100%;
+        margin: auto;
+    }
+
+    .avatar {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--primary);
+        color: white;
+        border-radius: 6px;
+    }
+
+    .msg-box {
+        background: #f2f2f2;
+        padding: 14px;
+        border-radius: 10px;
+    }
+
+    .ai .msg-box {
+        background: #ffffff;
+        border: 1px solid var(--border);
+    }
+
+    /* INPUT BOX */
+    .input-area {
+        position: fixed;
+        bottom: 0;
+        left: 260px;
+        right: 0;
+        background: var(--bg);
+        border-top: 1px solid var(--border);
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .input-inner {
+        width: 100%;
+        max-width: 800px;
+        position: relative;
+    }
+
+    textarea {
+        width: 100%;
+        min-height: 60px;
+        max-height: 150px;
+        padding: 14px 50px 14px 14px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        resize: none;
+        outline: none;
+        background: #fff;
+    }
+
+    textarea:focus {
+        border-color: var(--primary);
+    }
+
+    .send-btn {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        background: var(--primary);
+        border: none;
+        color: white;
+        cursor: pointer;
+    }
+
+    /* MOBILE FIX */
+    @media(max-width: 768px) {
         .sidebar {
-            width: 260px;
-            background-color: var(--sidebar-bg);
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid var(--border-color);
-            transition: transform 0.3s ease;
-            z-index: 100;
-        }
-
-        .logo-container {
-            padding: 20px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .logo {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #10a37f, #1a73e8);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 18px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .logo:before {
-            content: "🦅";
-            font-size: 20px;
-        }
-
-        .logo-text {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-color);
-        }
-
-        .new-chat-btn {
-            margin: 16px;
-            padding: 10px 16px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.2s;
-        }
-
-        .new-chat-btn:hover {
-            background-color: var(--primary-dark);
-        }
-
-        .chat-history {
-            flex: 1;
-            overflow-y: auto;
-            padding: 8px;
-        }
-
-        .chat-history-item {
-            padding: 10px 12px;
-            border-radius: 6px;
-            margin-bottom: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-light);
-            transition: background-color 0.2s;
-        }
-
-        .chat-history-item:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-
-        .chat-history-item.active {
-            background-color: rgba(16, 163, 127, 0.1);
-            color: var(--primary-color);
-        }
-
-        .sidebar-footer {
-            padding: 16px;
-            border-top: 1px solid var(--border-color);
-            font-size: 14px;
-            color: var(--text-light);
-        }
-
-        .api-status {
-            padding: 10px 16px;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--primary-color);
-        }
-
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            position: relative;
-        }
-
-        .chat-header {
-            padding: 16px 24px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: var(--bg-color);
-            z-index: 10;
-        }
-
-        .chat-title {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .chat-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            /* Memberikan padding bottom agar tidak tertutup input */
-            padding-bottom: calc(var(--input-height) + 30px);
-        }
-
-        .message {
-            display: flex;
-            gap: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .user-message {
-            background-color: var(--user-msg-bg);
-            border-radius: 12px;
-            padding: 16px;
-        }
-
-        .ai-message {
-            background-color: var(--ai-msg-bg);
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: var(--shadow);
-        }
-
-        .avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            flex-shrink: 0;
-        }
-
-        .user-avatar {
-            background-color: #10a37f;
-            color: white;
-        }
-
-        .ai-avatar {
-            background: linear-gradient(135deg, #10a37f, #1a73e8);
-            color: white;
-        }
-
-        .message-content {
-            flex: 1;
-            line-height: 1.6;
-        }
-
-        .message-content p {
-            margin-bottom: 12px;
-        }
-
-        .message-content p:last-child {
-            margin-bottom: 0;
-        }
-
-        .attachments {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .attachment {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background-color: rgba(0, 0, 0, 0.05);
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        .attachment img {
-            max-width: 200px;
-            border-radius: 6px;
-        }
-
-        /* Input Container Sticky */
-        .input-container {
             position: fixed;
-            bottom: 0;
-            left: 260px;
-            right: 0;
-            padding: 20px 24px;
-            border-top: 1px solid var(--border-color);
-            background-color: var(--bg-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            z-index: 100;
-            height: var(--input-height);
-            transition: left 0.3s ease;
+            left: -260px;
+            height: 100%;
+            transition: 0.3s;
         }
-
-        .input-box {
-            width: 100%;
-            max-width: 800px;
-            position: relative;
+        .sidebar.show {
+            left: 0;
         }
-
-        .input-actions {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
+        .menu-btn {
+            display: block;
         }
-
-        .action-btn {
-            background: none;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 6px 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            color: var(--text-light);
-            transition: all 0.2s;
+        .input-area {
+            left: 0 !important;
+            right: 0 !important;
         }
-
-        .action-btn:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-
-        .text-input {
-            width: 100%;
-            min-height: 56px;
-            max-height: 120px;
-            padding: 16px 50px 16px 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            resize: none;
-            font-size: 16px;
-            line-height: 1.5;
-            outline: none;
-            transition: border-color 0.2s;
-            background-color: var(--bg-color);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .text-input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 2px 12px rgba(16, 163, 127, 0.2);
-        }
-
-        .send-btn {
-            position: absolute;
-            right: 12px;
-            bottom: 12px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .send-btn:hover {
-            background-color: var(--primary-dark);
-        }
-
-        .disclaimer {
-            margin-top: 8px;
-            font-size: 11px;
-            color: var(--text-light);
-            text-align: center;
-            max-width: 800px;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                transform: translateX(-100%);
-            }
-
-            .sidebar.active {
-                transform: translateX(0);
-            }
-
-            .input-container {
-                left: 0;
-            }
-
-            .sidebar.active + .main-content .input-container {
-                left: 260px;
-            }
-
-            .menu-toggle {
-                display: block;
-                background: none;
-                border: none;
-                font-size: 20px;
-                cursor: pointer;
-                color: var(--text-color);
-            }
-
-            .chat-container {
-                padding-bottom: calc(var(--input-height) + 20px);
-            }
-        }
-
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-top: 8px;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: var(--text-light);
-            animation: typing 1.4s infinite ease-in-out;
-        }
-
-        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-
-        @keyframes typing {
-            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
-            40% { transform: scale(1); opacity: 1; }
-        }
-
-        .file-preview {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .preview-item {
-            position: relative;
-            display: inline-block;
-        }
-
-        .preview-item img {
-            max-width: 150px;
-            border-radius: 6px;
-        }
-
-        .remove-btn {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background-color: #ff4d4f;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            cursor: pointer;
-        }
-
-        /* Scrollbar Styling */
-        .chat-container::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .chat-container::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .chat-container::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 3px;
-        }
-
-        .chat-container::-webkit-scrollbar-thumb:hover {
-            background: var(--text-light);
-        }
-    </style>
+    }
+</style>
 </head>
+
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="logo-container">
-            <div class="logo"></div>
-            <div class="logo-text">Nazama AI</div>
-        </div>
-        
-        <div class="api-status">
-            <i class="fas fa-circle"></i>
-            <span>API Key Terpasang - Nazama AI Siap Digunakan</span>
-        </div>
-        
-        <button class="new-chat-btn">
-            <i class="fas fa-plus"></i> Obrolan Baru
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+    <div class="logo-box">
+        <div class="logo">🦅</div>
+        <div class="logo-text">Nazama AI</div>
+    </div>
+
+    <button class="new-chat">+ Obrolan Baru</button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+    <div class="topbar">
+        Nazama AI Assistant
+        <button class="menu-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
         </button>
-        
-        <div class="chat-history">
-            <div class="chat-history-item active">
-                <i class="fas fa-message"></i>
-                <span>Obrolan Saat Ini</span>
+    </div>
+
+    <div class="chat-area" id="chat">
+        <div class="msg ai">
+            <div class="avatar"><i class="fas fa-robot"></i></div>
+            <div class="msg-box">
+                Halo! Saya Nazama AI 😊<br>
+                Ada yang bisa saya bantu hari ini?
             </div>
-            <div class="chat-history-item">
-                <i class="fas fa-message"></i>
-                <span>Tips Penggunaan AI</span>
-            </div>
-            <div class="chat-history-item">
-                <i class="fas fa-message"></i>
-                <span>Panduan Nazama AI</span>
-            </div>
-        </div>
-        
-        <div class="sidebar-footer">
-            <p>Nazama AI v1.0</p>
-            <p>Powered by DeepSeek API</p>
         </div>
     </div>
-    
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="chat-header">
-            <div class="chat-title">Nazama AI Assistant</div>
-            <button class="menu-toggle">
-                <i class="fas fa-bars"></i>
+
+    <div class="input-area" id="inputArea">
+        <div class="input-inner">
+            <textarea id="input" placeholder="Tulis pesan..." rows="1"></textarea>
+            <button class="send-btn" onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
             </button>
         </div>
-        
-        <div class="chat-container" id="chatContainer">
-            <div class="message ai-message">
-                <div class="avatar ai-avatar">
-                    <i class="fas fa-eagle"></i>
-                </div>
-                <div class="message-content">
-                    <p>🦅 **Halo! Saya Nazama AI**</p>
-                    <p>Senang bertemu dengan Anda! Saya adalah asisten AI cerdas yang siap membantu dengan:</p>
-                    <p>• Menjawab pertanyaan dan menjelaskan konsep<br>
-                       • Menulis dan editing konten<br>
-                       • Analisis gambar dan file<br>
-                       • Brainstorming ide kreatif<br>
-                       • Bantuan pemrograman<br>
-                       • Dan banyak lagi!</p>
-                    <p>Apa yang bisa saya bantu untuk Anda hari ini? 😊</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Input Container yang Sticky -->
-        <div class="input-container">
-            <div class="input-box">
-                <div class="input-actions">
-                    <button class="action-btn" id="uploadImageBtn">
-                        <i class="fas fa-image"></i> Gambar
-                    </button>
-                    <button class="action-btn" id="uploadFileBtn">
-                        <i class="fas fa-file"></i> File
-                    </button>
-                </div>
-                
-                <div class="file-preview" id="filePreview"></div>
-                
-                <textarea class="text-input" id="textInput" placeholder="Tanya apapun kepada Nazama AI... (Shift+Enter untuk baris baru)" rows="1"></textarea>
-                <button class="send-btn" id="sendBtn">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-            
-            <div class="disclaimer">
-                Nazama AI dapat membuat kesalahan. Harap verifikasi informasi penting.
-            </div>
-        </div>
     </div>
+</div>
 
-    <script>
-        // ================================
-        // KONFIGURASI API - SUDAH TERPASANG
-        // ================================
-        
-        const DEEPSEEK_API_KEY = 'sk-28bfd82aa9bd422391bd88eac97c2489';
-        const DEEPSEEK_API_URL = 'https://api.deepseek.com/chat/completions';
-        
-        // ================================
-        // KODE APLIKASI CHATBOT
-        // ================================
+<script>
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("show");
+}
 
-        // DOM Elements
-        const chatContainer = document.getElementById('chatContainer');
-        const textInput = document.getElementById('textInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const uploadImageBtn = document.getElementById('uploadImageBtn');
-        const uploadFileBtn = document.getElementById('uploadFileBtn');
-        const filePreview = document.getElementById('filePreview');
-        const newChatBtn = document.querySelector('.new-chat-btn');
-        const menuToggle = document.querySelector('.menu-toggle');
-        const sidebar = document.querySelector('.sidebar');
+const input = document.getElementById("input");
+const chat = document.getElementById("chat");
 
-        // State
-        let uploadedFiles = [];
-        let currentChatId = generateChatId();
+input.addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+});
 
-        // Event Listeners
-        sendBtn.addEventListener('click', sendMessage);
-        
-        textInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
+function sendMessage() {
+    const text = input.value.trim();
+    if (!text) return;
 
-        textInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-        });
+    // User message
+    chat.innerHTML += `
+        <div class="msg user">
+            <div class="avatar"><i class="fas fa-user"></i></div>
+            <div class="msg-box">${text}</div>
+        </div>
+    `;
 
-        uploadImageBtn.addEventListener('click', () => {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            input.multiple = true;
-            input.onchange = handleFileUpload;
-            input.click();
-        });
+    input.value = "";
+    chat.scrollTo(0, chat.scrollHeight);
 
-        uploadFileBtn.addEventListener('click', () => {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.multiple = true;
-            input.onchange = handleFileUpload;
-            input.click();
-        });
+    // Fake AI response
+    setTimeout(() => {
+        chat.innerHTML += `
+            <div class="msg ai">
+                <div class="avatar"><i class="fas fa-robot"></i></div>
+                <div class="msg-box">
+                    Saya menerima pesan Anda: <br><strong>${text}</strong>
+                </div>
+            </div>
+        `;
+        chat.scrollTo(0, chat.scrollHeight);
+    }, 800);
+}
+</script>
 
-        newChatBtn.addEventListener('click', startNewChat);
-        menuToggle.addEventListener('click', toggleSidebar);
-
-        // Auto-focus text input
-        textInput.focus();
-
-        // Functions
-        function generateChatId() {
-            return 'chat_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        }
-
-        function handleFileUpload(e) {
-            const files = Array.from(e.target.files);
-            files.forEach(file => {
-                uploadedFiles.push(file);
-                displayFilePreview(file);
-            });
-        }
-
-        function displayFilePreview(file) {
-            const previewItem = document.createElement('div');
-            previewItem.className = 'preview-item';
-            
-            if (file.type.startsWith('image/')) {
-                const img = document.createElement('img');
-                img.src = URL.createObjectURL(file);
-                img.alt = file.name;
-                previewItem.appendChild(img);
-            } else {
-                const fileIcon = document.createElement('div');
-                fileIcon.className = 'attachment';
-                fileIcon.innerHTML = `<i class="fas fa-file"></i> ${file.name}`;
-                previewItem.appendChild(fileIcon);
-            }
-            
-            const removeBtn = document.createElement('button');
-            removeBtn.className = 'remove-btn';
-            removeBtn.innerHTML = '<i class="fas fa-times"></i>';
-            removeBtn.onclick = () => {
-                uploadedFiles = uploadedFiles.filter(f => f !== file);
-                filePreview.removeChild(previewItem);
-            };
-            
-            previewItem.appendChild(removeBtn);
-            filePreview.appendChild(previewItem);
-        }
-
-        async function sendMessage() {
-            const message = textInput.value.trim();
-            if (message === '' && uploadedFiles.length === 0) return;
-
-            // Add user message to chat
-            addMessageToChat('user', message, uploadedFiles);
-            
-            // Clear input and reset height
-            textInput.value = '';
-            textInput.style.height = 'auto';
-            filePreview.innerHTML = '';
-            const filesToSend = [...uploadedFiles];
-            uploadedFiles = [];
-            
-            // Show typing indicator
-            showTypingIndicator();
-            
-            try {
-                const aiResponse = await getAIResponse(message, filesToSend);
-                removeTypingIndicator();
-                addMessageToChat('ai', aiResponse);
-            } catch (error) {
-                removeTypingIndicator();
-                addMessageToChat('ai', 'Maaf, terjadi kesalahan. Silakan coba lagi dalam beberapa saat.');
-                console.error('Error:', error);
-            }
-        }
-
-        async function getAIResponse(userMessage, files = []) {
-            try {
-                const response = await fetch(DEEPSEEK_API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
-                    },
-                    body: JSON.stringify({
-                        model: 'deepseek-chat',
-                        messages: [
-                            {
-                                role: 'user',
-                                content: userMessage
-                            }
-                        ],
-                        max_tokens: 2000,
-                        stream: false,
-                        temperature: 0.7
-                    })
-                });
-
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(`HTTP ${response.status}: ${errorText}`);
-                }
-
-                const data = await response.json();
-                return data.choices[0].message.content;
-                
-            } catch (error) {
-                console.error('API Error:', error);
-                // Fallback ke respons natural jika API error
-                return generateNaturalResponse(userMessage);
-            }
-        }
-
-        function generateNaturalResponse(userMessage) {
-            const lowerMessage = userMessage.toLowerCase();
-            
-            if (lowerMessage.includes('hai') || lowerMessage.includes('halo') || lowerMessage.includes('hello')) {
-                return "Halo! Senang bertemu dengan Anda! 😊 Ada yang bisa saya bantu hari ini?";
-            }
-            else if (lowerMessage.includes('apa kabar')) {
-                return "Saya baik-baik saja, terima kasih! Siap membantu Anda dengan segala kebutuhan. Bagaimana dengan hari Anda?";
-            }
-            else if (lowerMessage.includes('terima kasih') || lowerMessage.includes('thanks')) {
-                return "Sama-sama! Senang bisa membantu. Jika ada hal lain, jangan ragu untuk bertanya! 🌟";
-            }
-            else if (lowerMessage.includes('nama kamu') || lowerMessage.includes('siapa kamu')) {
-                return "Saya Nazama AI! Asisten AI cerdas dengan logo burung elang yang siap membantu berbagai kebutuhan Anda. 🦅";
-            }
-            else if (lowerMessage.includes('bisa apa') || lowerMessage.includes('fitur')) {
-                return "Saya bisa membantu dengan:\n• Menjawab pertanyaan dan diskusi\n• Menulis dan editing teks\n• Analisis dan penjelasan konsep\n• Bantuan pemrograman\n• Brainstorming ide\n• Dan masih banyak lagi!\nApa yang ingin Anda eksplorasi?";
-            }
-            else if (lowerMessage.includes('gambar') || lowerMessage.includes('foto')) {
-                return "Untuk analisis gambar yang mendalam, saya memerlukan integrasi khusus. Namun saya bisa membantu dengan saran tentang fotografi, editing, atau konsep visual! 📸";
-            }
-            else {
-                const responses = [
-                    "Pertanyaan yang menarik! Saya akan membantu Anda dengan itu...",
-                    "Saya memahami apa yang Anda tanyakan. Berikut penjelasannya:",
-                    "Terima kasih atas pertanyaannya! Mari kita bahas bersama:",
-                    "Itu topik yang bagus! Berikut insight yang bisa saya berikan:"
-                ];
-                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-                return `${randomResponse}\n\nBerdasarkan pemahaman saya, ${generateInsightfulResponse(lowerMessage)}`;
-            }
-        }
-
-        function generateInsightfulResponse(message) {
-            if (message.includes('teknologi') || message.includes('tech')) {
-                return "teknologi terus berkembang dengan pesat, terutama dalam bidang AI dan machine learning. Perkembangan ini membuka banyak peluang baru untuk efisiensi dan inovasi di berbagai sektor.";
-            }
-            else if (message.includes('belajar') || message.includes('study')) {
-                return "proses belajar yang efektif melibatkan konsistensi dan praktik yang teratur. Cobalah teknik active learning dan spaced repetition untuk hasil yang lebih baik.";
-            }
-            else if (message.includes('program') || message.includes('koding')) {
-                return "pemrograman adalah skill yang sangat berharga di era digital. Mulailah dengan dasar-dasar algoritma dan pilih bahasa yang sesuai dengan tujuan Anda, seperti Python untuk AI atau JavaScript untuk web development.";
-            }
-            else if (message.includes('ai') || message.includes('kecerdasan buatan')) {
-                return "AI telah mengubah banyak aspek kehidupan modern. Dari asisten virtual hingga analisis data, teknologi AI terus berkembang untuk membantu manusia dalam tugas-tugas kompleks.";
-            }
-            else {
-                return "saya di sini untuk memberikan informasi dan bantuan yang Anda butuhkan. Jangan ragu untuk bertanya lebih detail jika ada hal spesifik yang ingin diketahui!";
-            }
-        }
-
-        function addMessageToChat(sender, message, files = []) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}-message`;
-            
-            const avatar = document.createElement('div');
-            avatar.className = `avatar ${sender}-avatar`;
-            avatar.innerHTML = sender === 'user' 
-                ? '<i class="fas fa-user"></i>' 
-                : '<i class="fas fa-eagle"></i>';
-            
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'message-content';
-            
-            if (message) {
-                const lines = message.split('\n');
-                lines.forEach(line => {
-                    if (line.trim()) {
-                        const messageText = document.createElement('p');
-                        messageText.textContent = line;
-                        contentDiv.appendChild(messageText);
-                    }
-                });
-            }
-            
-            if (files.length > 0) {
-                const attachmentsDiv = document.createElement('div');
-                attachmentsDiv.className = 'attachments';
-                
-                files.forEach(file => {
-                    if (file.type.startsWith('image/')) {
-                        const img = document.createElement('img');
-                        img.src = URL.createObjectURL(file);
-                        img.alt = `Uploaded image: ${file.name}`;
-                        attachmentsDiv.appendChild(img);
-                    } else {
-                        const fileDiv = document.createElement('div');
-                        fileDiv.className = 'attachment';
-                        fileDiv.innerHTML = `<i class="fas fa-file"></i> ${file.name}`;
-                        attachmentsDiv.appendChild(fileDiv);
-                    }
-                });
-                
-                contentDiv.appendChild(attachmentsDiv);
-            }
-            
-            messageDiv.appendChild(avatar);
-            messageDiv.appendChild(contentDiv);
-            chatContainer.appendChild(messageDiv);
-            
-            // Scroll to bottom dengan smooth animation
-            setTimeout(() => {
-                chatContainer.scrollTo({
-                    top: chatContainer.scrollHeight,
-                    behavior: 'smooth'
-                });
-            }, 100);
-        }
-
-        function showTypingIndicator() {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'message ai-message';
-            messageDiv.id = 'typingIndicator';
-            
-            const avatar = document.createElement('div');
-            avatar.className = 'avatar ai-avatar';
-            avatar.innerHTML = '<i class="fas fa-eagle"></i>';
-            
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'message-content';
-            
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'typing-indicator';
-            typingDiv.innerHTML = `
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-            `;
-            
-            contentDiv.appendChild(typingDiv);
-            messageDiv.appendChild(avatar);
-            messageDiv.appendChild(contentDiv);
-            chatContainer.appendChild(messageDiv);
-            
-            chatContainer.scrollTo({
-                top: chatContainer.scrollHeight,
-                behavior: 'smooth'
-            });
-        }
-
-        function removeTypingIndicator() {
-            const typingIndicator = document.getElementById('typingIndicator');
-            if (typingIndicator) {
-                chatContainer.removeChild(typingIndicator);
-            }
-        }
-
-        function startNewChat() {
-            currentChatId = generateChatId();
-            const initialMessage = chatContainer.querySelector('.ai-message');
-            chatContainer.innerHTML = '';
-            if (initialMessage) {
-                chatContainer.appendChild(initialMessage.cloneNode(true));
-            }
-            
-            filePreview.innerHTML = '';
-            uploadedFiles = [];
-            textInput.focus();
-        }
-
-        function toggleSidebar() {
-            sidebar.classList.toggle('active');
-        }
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            // Pastikan input container tetap pada posisi yang benar
-            const inputContainer = document.querySelector('.input-container');
-            if (window.innerWidth <= 768) {
-                if (sidebar.classList.contains('active')) {
-                    inputContainer.style.left = '260px';
-                } else {
-                    inputContainer.style.left = '0';
-                }
-            } else {
-                inputContainer.style.left = '260px';
-            }
-        });
-
-        // Click outside sidebar to close on mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 && 
-                sidebar.classList.contains('active') && 
-                !sidebar.contains(e.target) && 
-                !menuToggle.contains(e.target)) {
-                sidebar.classList.remove('active');
-            }
-        });
-
-        console.log('Nazama AI Loaded - API Key Ready');
-    </script>
 </body>
 </html>
