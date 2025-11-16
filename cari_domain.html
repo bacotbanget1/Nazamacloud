@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domain Checker Premium</title>
+
+<style>
+    body{
+        margin:0;
+        padding:0;
+        font-family: Poppins, sans-serif;
+        background: linear-gradient(135deg,#020617,#031526,#06203a);
+        min-height:100vh;
+        color:white;
+        animation: bgmove 12s infinite alternate ease-in-out;
+    }
+
+    @keyframes bgmove{
+        0%{background-position:0% 50%}
+        100%{background-position:100% 50%}
+    }
+
+    .header{
+        position:fixed;
+        top:15px;
+        left:20px;
+        font-size:25px;
+        font-weight:700;
+        color:#60a5fa;
+        text-shadow:0 0 12px #3b82f6;
+        user-select:none;
+    }
+
+    /* Tombol kanan atas */
+    .top-button {
+        position: fixed;
+        top: 15px;
+        right: 20px;
+        background: #3b82f6;
+        padding: 10px 18px;
+        border-radius: 12px;
+        color: white;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 0 12px rgba(59,130,246,0.7);
+        transition: 0.2s;
+    }
+
+    .top-button:hover {
+        background: #2563eb;
+    }
+
+    .container{
+        width:90%;
+        max-width:650px;
+        margin:120px auto 0;
+        background:rgba(255,255,255,0.06);
+        padding:30px;
+        border-radius:20px;
+        backdrop-filter:blur(10px);
+        box-shadow:0 0 25px rgba(0,0,0,0.4);
+    }
+
+    input{
+        width:80%;
+        padding:12px 15px;
+        border-radius:12px;
+        border:none;
+        font-size:16px;
+    }
+
+    button{
+        padding:12px 25px;
+        background:#3b82f6;
+        border:none;
+        border-radius:12px;
+        color:white;
+        cursor:pointer;
+        font-size:15px;
+    }
+
+    button:hover{
+        background:#2563eb;
+    }
+
+    .domain-entry{
+        background:rgba(255,255,255,0.08);
+        padding:12px;
+        margin:8px 0;
+        border-radius:12px;
+        display:flex;
+        justify-content:space-between;
+    }
+
+    .available{color:#ef4444;font-weight:600;}
+    .taken{color:#22c55e;font-weight:600;}
+</style>
+</head>
+
+<body>
+
+<!-- Tombol kanan atas -->
+<a href="https://nazamacloud.my.id" class="top-button">menu utama</a>
+
+<div class="header">nazamacloud</div>
+
+<div class="container">
+    <h2>cek ketersediaan domain</h2>
+    <p>Masukkan nama domain tanpa TLD</p>
+
+    <input id="domainInput" placeholder="contoh: nazamacloud">
+    <br><br>
+    <button onclick="checkAll()">Cek Sekarang</button>
+
+    <div id="results" style="margin-top:20px;"></div>
+</div>
+
+<script>
+const API_KEY = "at_I2VwCsT4M8A0ns4hC64UgdsKiK9Lk"; 
+
+const TLDs = [
+    "com","net","org","xyz","info",
+    "id","co.id","my.id","biz.id","ai","io","tech","post","int","xxx","aero"
+];
+
+async function checkDomain(fullDomain){
+    const url = `https://domain-availability.whoisxmlapi.com/api/v1?apiKey=${API_KEY}&domainName=${fullDomain}`;
+
+    try {
+        const res = await fetch(url);
+        const json = await res.json();
+
+        if (!json.DomainInfo) return { domain: fullDomain, status: "unknown" };
+
+        const status = json.DomainInfo.domainAvailability; 
+
+        if (status === "UNAVAILABLE") return { domain: fullDomain, status: "taken" };
+        if (status === "AVAILABLE") return { domain: fullDomain, status: "available" };
+
+        return { domain: fullDomain, status: "unknown" };
+
+    } catch(e){
+        return { domain: fullDomain, status: "unknown" };
+    }
+}
+
+async function checkAll(){
+    const name = document.getElementById("domainInput").value.trim();
+    const box = document.getElementById("results");
+
+    if (!name){
+        box.innerHTML = "<p>Masukkan nama domain dulu.</p>";
+        return;
+    }
+
+    box.innerHTML = "<p>sedang melakukan pengecekan...</p>";
+
+    const promises = TLDs.map(tld => checkDomain(`${name}.${tld}`));
+    const results = await Promise.all(promises);
+
+    box.innerHTML = results.map(r => `
+        <div class="domain-entry">
+            <span>${r.domain}</span>
+            <span class="${r.status === 'taken' ? 'taken' : 'available'}">
+                ${r.status === "taken" ? "sudah ada" : "bisa di beli"}
+            </span>
+        </div>
+    `).join("");
+}
+</script>
+
+</body>
+</html>
