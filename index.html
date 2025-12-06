@@ -3,658 +3,605 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nazama cloud - Tempat Terbaik untuk Domain Anda</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Nazamacloud - Beli Domain Murah dan Terpercaya</title>
+    <link rel="icon" href="https://i.imgur.com/5nKiHXG.png" type="image/png">
+    
+    <meta property="og:title" content="Nazamacloud - Beli Domain Murah dan Terpercaya">
+    <meta property="og:description" content="Temukan dan beli domain populer, terbaru, dan terpercaya di Nazamacloud!">
+    <meta property="og:image" content="https://i.imgur.com/5nKiHXG.png">
+    <meta property="og:url" content="https://www.nazamacloud.my.id">
+    <meta property="og:type" content="website">
+
     <style>
-        /* --- Variabel Warna Disesuaikan --- */
+        /* CSS yang sama seperti sebelumnya (Tema Terang/Gelap, Layout) */
         :root {
-            --primary: #3b82f6; /* Biru terang */
-            --secondary: #7c3aed; /* Ungu */
-            --accent: #10b981; /* Hijau */
-            --dark: #111827; /* Darker background */
-            --light: #f8fafc;
-            /* Latar Belakang Baru: Biru Solid untuk Light Mode */
-            --bg-primary-color: #3b82f6; 
-            --text-primary: #f3f4f6;
-            --text-dark: #e5e7eb;
-            --text-light: #374151;
+            /* Tema Terang (Default) */
+            --bg-color: #f4f7f6;
+            --text-color: #1a1a1a;
+            --header-bg: #ffffff;
+            --card-bg: #ffffff;
+            --primary-color: #007bff; /* Warna tombol/utama */
+            --border-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
         }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Menggunakan warna solid/darker blue */
-            background-color: var(--bg-primary-color);
-            min-height: 100vh;
-            transition: background-color 0.5s ease; /* Transisi lebih halus */
-            color: var(--text-primary);
-        }
-        
+
+        /* Tema Gelap */
         body.dark-mode {
-            background-color: var(--dark);
+            --bg-color: #1a1a1a;
+            --text-color: #f4f7f6;
+            --header-bg: #2c2c2c;
+            --card-bg: #3c3c3c;
+            --primary-color: #0099ff;
+            --border-color: #4a4a4a;
+            --shadow-color: rgba(255, 255, 255, 0.1);
         }
-        
-        /* --- Peningkatan Card Domain --- */
-        .domain-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            /* Menambahkan bayangan lembut awal */
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); 
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
-        .dark-mode .domain-card {
-            background: rgba(31, 41, 55, 0.95);
-            color: var(--text-dark);
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.6;
         }
-        
-        .domain-card:hover {
-            transform: translateY(-8px); /* Efek melayang lebih dramatis */
-            /* Bayangan lebih besar dan jelas saat hover */
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2); 
-            border-color: var(--primary);
-        }
-        
-        .price-tag {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border-radius: 20px;
-            padding: 8px 16px;
-            font-weight: bold;
-        }
-        
-        .feature-item {
-            background: rgba(37, 99, 235, 0.05); /* Sedikit lebih transparan */
-            border-radius: 10px;
-            padding: 12px;
-            margin: 8px 0;
-            border-left: 4px solid var(--primary);
-            color: var(--text-light);
-        }
-        
-        .dark-mode .feature-item {
-            background: rgba(37, 99, 235, 0.2);
-            color: var(--text-dark);
-        }
-        
-        /* --- Tombol Beli Lebih Bersih --- */
-        .buy-btn {
-            background-color: var(--accent); /* Warna solid */
-            color: white;
-            border-radius: 25px;
-            padding: 12px 30px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            /* Bayangan awal yang lembut */
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.2); 
-        }
-        
-        .buy-btn:hover {
-            transform: scale(1.02);
-            background-color: #14b8a6; /* Sedikit lebih gelap saat hover */
-            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4);
-        }
-        
-        /* --- Hero Section Lebih Jelas --- */
-        .hero-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            /* Bayangan lembut pada hero */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
-        }
-        
-        .dark-mode .hero-section {
-            background: rgba(26, 32, 44, 0.3);
-        }
-        
-        /* Theme Toggle */
-        .theme-toggle {
-            /* ... (style tetap) */
-            z-index: 1001; /* Z-index lebih tinggi */
-        }
-        
-        /* Penyesuaian Teks Kontras */
-        .domain-card h3 {
-            color: #1f2937;
-        }
-        
-        .dark-mode .domain-card h3 {
-            color: #e5e7eb;
-        }
-        
-        /* Transisi Fitur */
-        .features-container {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-in-out; /* Transisi lebih lambat */
-        }
-        
-        .features-container.open {
-            max-height: 500px;
-            padding-top: 10px; /* Tambahkan sedikit padding saat terbuka */
-        }
-        
-        /* --- Floating Chat Button Styles --- */
-        .floating-chat-button {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #ff4757, #ee5a52); /* Merah/Orange */
+
+        /* Header */
+        header {
+            background-color: var(--header-bg);
+            box-shadow: 0 2px 4px var(--shadow-color);
+            padding: 15px 20px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(238, 90, 82, 0.4);
-            transition: all 0.3s ease;
+            position: sticky;
+            top: 0;
             z-index: 1000;
-            animation: chatPulse 2s infinite;
-            border: none;
-            text-decoration: none;
         }
 
-        .floating-chat-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 30px rgba(238, 90, 82, 0.6);
-        }
-
-        .chat-icon {
-            font-size: 28px; /* Menggunakan font-size untuk Font Awesome */
-            color: white;
-        }
-
-        .chat-notification {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #ff4757;
-            color: white;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
+        .logo-container {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-            animation: chatBounce 2s infinite;
         }
 
-        @keyframes chatPulse { /* ... (animasi tetap) */ }
-        @keyframes chatBounce { /* ... (animasi tetap) */ }
-        @keyframes float { /* ... (animasi tetap) */ }
-        .floating { /* ... (animasi tetap) */ }
+        .logo-container img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo-container h1 {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        /* Navigasi dan Tombol */
+        nav a, #theme-toggle, .external-link-btn {
+            text-decoration: none;
+            color: var(--text-color);
+            padding: 8px 15px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            font-weight: 600;
+        }
+
+        nav a.active {
+             background-color: var(--primary-color);
+             color: white;
+        }
         
-        /* Responsive design */
+        #theme-toggle {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+        }
+        
+        #theme-toggle:hover {
+            opacity: 0.8;
+        }
+
+        .external-link-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .external-link-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        /* Main Content */
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Search Bar */
+        .search-container {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .search-container input[type="text"] {
+            padding: 12px;
+            width: 80%;
+            max-width: 600px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1.1em;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            transition: border-color 0.3s;
+        }
+
+        .search-container input[type="text"]:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .category-tabs button {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .category-tabs button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .category-tabs button:hover:not(.active) {
+            background-color: var(--bg-color);
+        }
+
+        /* Domain List */
+        #domain-list-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .domain-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .domain-card.hidden {
+            display: none;
+        }
+
+        .domain-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px var(--shadow-color);
+        }
+
+        .domain-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 1.5em;
+        }
+
+        .domain-card p {
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .domain-card .price {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 15px;
+        }
+
+        .domain-card button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+
+        .domain-card button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Not Found Message */
+        #not-found-message {
+            text-align: center;
+            grid-column: 1 / -1; 
+            font-size: 1.2em;
+            color: #ff3b30;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            display: none;
+        }
+
+        /* Responsive adjustments */
         @media (max-width: 768px) {
-            .floating-chat-button { bottom: 30px; right: 30px; }
+            header {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .logo-container {
+                margin-bottom: 10px;
+            }
+
+            nav {
+                margin-bottom: 10px;
+            }
+            
+            nav a, #theme-toggle, .external-link-btn {
+                margin-left: 0;
+                margin-right: 5px;
+            }
+
+            .search-container input[type="text"] {
+                width: 100%;
+            }
+            
+            .category-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+                white-space: nowrap;
+            }
+            
+            .category-tabs::-webkit-scrollbar {
+                height: 5px;
+            }
+            
+            .category-tabs::-webkit-scrollbar-thumb {
+                background: var(--primary-color);
+                border-radius: 10px;
+            }
+            
+            .category-tabs button {
+                flex-shrink: 0;
+            }
         }
     </style>
 </head>
-<body class="min-h-screen py-8 px-4">
-    <button class="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-moon text-white text-xl"></i>
-    </button>
+<body>
 
-    <div class="max-w-6xl mx-auto">
-        <header class="text-center mb-16 pt-8">
-            <div class="hero-section p-10 md:p-16 mb-8">
-                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7d6e3614-bf40-43ea-9ed9-600da3ccae11.png" alt="Modern digital domain registration platform with glowing domain names floating in cyberspace" class="w-full max-w-lg mx-auto rounded-2xl mb-6" />
-                
-                <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-4 leading-tight">
-                    Temukan Domain <span class="text-yellow-400">Sempurna</span>
-                </h1>
-                <p class="text-xl md:text-2xl text-gray-200 mb-6 max-w-2xl mx-auto">
-                    Dapatkan domain profesional dengan harga terjangkau untuk bisnis dan proyek Anda
-                </p>
-            </div>
-        </header>
+    <header>
+        <div class="logo-container">
+            <img src="https://i.imgur.com/5nKiHXG.png" alt="Nazamacloud Logo">
+            <h1>Nazamacloud</h1>
+        </div>
+        <nav>
+            <a href="#" class="external-link-btn" onclick="navigateTo('https://shop.nazamacloud.my.id/cari_domain')">Cari Domain</a>
+            <a href="#" class="external-link-btn" onclick="navigateTo('https://shop.nazamacloud.my.id/phising_locator')">Phising Locator</a>
+            <button id="theme-toggle">Gelap</button>
+        </nav>
+    </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            
-            <div class="domain-card p-6 flex flex-col h-full">
-                <h3 class="text-3xl font-bold mb-3">.my.id</h3>
-                <div class="price-tag inline-block mb-4 mx-auto">Rp 10.000</div>
-                
-                <button onclick="toggleFeatures('myid')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
-                    <span id="button-text-myid">Lihat Fitur</span> <i class="ml-2 fas fa-arrow-down" id="icon-myid"></i>
-                </button>
-                
-                <div id="features-myid" class="features-container">
-                    <div class="feature-item">
-                        <i class="fas fa-shield-alt mr-2"></i> Memiliki full akses kontrol kepada domain
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-cloud mr-2"></i> Akun Cloudflare gratis setelah pembelian
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-unlock mr-2"></i> Bebas menggunakan domain sesuai kebutuhan
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-calendar-alt mr-2"></i> Pembayaran dilakukan per tahun
-                    </div>
-                </div>
-                
-                <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.my.id" 
-                   class="buy-btn block text-center mt-auto"> <i class="fas fa-shopping-cart mr-2"></i>Buy Now
-                </a>
-            </div>
+    <main>
+        <div class="search-container">
+            <input type="text" id="domain-search" placeholder="Cari domain (misal: .ai, .com, .id)...">
+        </div>
 
-            <div class="domain-card p-6 flex flex-col h-full">
-                <h3 class="text-3xl font-bold mb-3">.biz.id</h3>
-                <div class="price-tag inline-block mb-4 mx-auto">Rp 10.000</div>
-                <button onclick="toggleFeatures('bizid')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
-                    <span id="button-text-bizid">Lihat Fitur</span> <i class="ml-2 fas fa-arrow-down" id="icon-bizid"></i>
-                </button>
-                <div id="features-bizid" class="features-container">
-                    <div class="feature-item">
-                        <i class="fas fa-shield-alt mr-2"></i> Memiliki full akses kontrol kepada domain
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-cloud mr-2"></i> Akun Cloudflare gratis setelah pembelian
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-unlock mr-2"></i> Bebas menggunakan domain sesuai kebutuhan
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-calendar-alt mr-2"></i> Pembayaran dilakukan per tahun
-                    </div>
-                </div>
-                <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.biz.id" 
-                   class="buy-btn block text-center mt-auto">
-                   <i class="fas fa-shopping-cart mr-2"></i>Buy Now
-                </a>
-            </div>
+        <div class="category-tabs" id="category-tabs">
+            <button class="active" data-category="all">Semua</button>
+            <button data-category="populer">Populer</button>
+            <button data-category="trending">Trending 🚀</button>
+            <button data-category="business">Bisnis</button>
+            <button data-category="id">Indonesia 🇮🇩</button>
+            <button data-category="us">Amerika 🇺🇸</button>
+            <button data-category="tv">Tuvalu 🇹🇻</button>
+            <button data-category="is">Islandia 🇮🇸</button>
+            <button data-category="ps">Palestina 🇵🇸</button>
+            <button data-category="au">Australia 🇦🇺</button>
+            <button data-category="my">Malaysia 🇲🇾</button>
+        </div>
 
-            <div class="domain-card p-6 flex flex-col h-full">
-                <h3 class="text-3xl font-bold mb-3">.cloud</h3>
-                <div class="price-tag inline-block mb-4 mx-auto">Rp 48.000</div>
-                <button onclick="toggleFeatures('cloud')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
-                    <span id="button-text-cloud">Lihat Fitur</span> <i class="ml-2 fas fa-arrow-down" id="icon-cloud"></i>
-                </button>
-                <div id="features-cloud" class="features-container">
-                    <div class="feature-item">
-                        <i class="fas fa-shield-alt mr-2"></i> Memiliki full akses kontrol kepada domain
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-cloud mr-2"></i> Akun Cloudflare gratis setelah pembelian
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-unlock mr-2"></i> Bebas menggunakan domain sesuai kebutuhan
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-calendar-alt mr-2"></i> Pembayaran dilakukan per tahun
-                    </div>
-                </div>
-                <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.cloud" 
-                   class="buy-btn block text-center mt-auto">
-                   <i class="fas fa-shopping-cart mr-2"></i>Buy Now
-                </a>
+        <div id="domain-list-container">
             </div>
-            
-            <div class="domain-card p-6 flex flex-col h-full">
-                <h3 class="text-3xl font-bold mb-3">.online</h3>
-                <div class="price-tag inline-block mb-4 mx-auto">Rp 45.000</div>
-                <button onclick="toggleFeatures('online')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
-                    <span id="button-text-online">Lihat Fitur</span> <i class="ml-2 fas fa-arrow-down" id="icon-online"></i>
-                </button>
-                <div id="features-online" class="features-container">
-                    <div class="feature-item">
-                        <i class="fas fa-shield-alt mr-2"></i> Memiliki full akses kontrol kepada domain
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-cloud mr-2"></i> Akun Cloudflare gratis setelah pembelian
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-unlock mr-2"></i> Bebas menggunakan domain sesuai kebutuhan
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-calendar-alt mr-2"></i> Pembayaran dilakukan per tahun
-                    </div>
-                </div>
-                <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.online" 
-                   class="buy-btn block text-center mt-auto">
-                   <i class="fas fa-shopping-cart mr-2"></i>Buy Now
-                </a>
-            </div>
-
-            <div class="domain-card p-6 flex flex-col h-full">
-                <h3 class="text-3xl font-bold mb-3">.xyz</h3>
-                <div class="price-tag inline-block mb-4 mx-auto">Rp 48.000</div>
-                <button onclick="toggleFeatures('xyz')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
-                    <span id="button-text-xyz">Lihat Fitur</span> <i class="ml-2 fas fa-arrow-down" id="icon-xyz"></i>
-                </button>
-                <div id="features-xyz" class="features-container">
-                    <div class="feature-item">
-                        <i class="fas fa-shield-alt mr-2"></i> Memiliki full akses kontrol kepada domain
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-cloud mr-2"></i> Akun Cloudflare gratis setelah pembelian
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-unlock mr-2"></i> Bebas menggunakan domain sesuai kebutuhan
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-calendar-alt mr-2"></i> Pembayaran dilakukan per tahun
-                    </div>
-                </div>
-                <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.xyz" 
-                   class="buy-btn block text-center mt-auto">
-                   <i class="fas fa-shopping-cart mr-2"></i>Buy Now
-                </a>
-            </div>
-            
-            <div class="domain-card p-6 flex flex-col h-full">
-                <h3 class="text-3xl font-bold mb-3">.click</h3>
-                <div class="price-tag inline-block mb-4 mx-auto">Rp 40.000</div>
-                <button onclick="toggleFeatures('click')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
-                    <span id="button-text-click">Lihat Fitur</span> <i class="ml-2 fas fa-arrow-down" id="icon-click"></i>
-                </button>
-                <div id="features-click" class="features-container">
-                    <div class="feature-item">
-                        <i class="fas fa-shield-alt mr-2"></i> Memiliki full akses kontrol kepada domain
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-cloud mr-2"></i> Akun Cloudflare gratis setelah pembelian
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-unlock mr-2"></i> Bebas menggunakan domain sesuai kebutuhan
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-calendar-alt mr-2"></i> Pembayaran dilakukan per tahun
-                    </div>
-                </div>
-                <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.click" 
-                   class="buy-btn block text-center mt-auto">
-                   <i class="fas fa-shopping-cart mr-2"></i>Buy Now
-                </a>
-            </div>
-            
-            <div class="domain-card p-6 flex flex-col h-full">
-                <h3 class="text-3xl font-bold mb-3">.site</h3>
-                <div class="price-tag inline-block mb-4 mx-auto">Rp 55.000</div>
-                <button onclick="toggleFeatures('site')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
-                    <span id="button-text-site">Lihat Fitur</span> <i class="ml-2 fas fa-arrow-down" id="icon-site"></i>
-                </button>
-                <div id="features-site" class="features-container">
-                    <div class="feature-item">
-                        <i class="fas fa-shield-alt mr-2"></i> Memiliki full akses kontrol kepada domain
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-cloud mr-2"></i> Akun Cloudflare gratis setelah pembelian
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-unlock mr-2"></i> Bebas menggunakan domain sesuai kebutuhan
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-calendar-alt mr-2"></i> Pembayaran dilakukan per tahun
-                    </div>
-                </div>
-                <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.site" 
-                   class="buy-btn block text-center mt-auto">
-                   <i class="fas fa-shopping-cart mr-2"></i>Buy Now
-                </a>
-            </div>
-
-            <div class="domain-card p-6 flex flex-col h-full">
-                <h3 class="text-3xl font-bold mb-3">.web.id</h3>
-                <div class="price-tag inline-block mb-4 mx-auto">Rp 58.000</div>
-                <button onclick="toggleFeatures('webid')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
-                    <span id="button-text-webid">Lihat Fitur</span> <i class="ml-2 fas fa-arrow-down" id="icon-webid"></i>
-                </button>
-                <div id="features-webid" class="features-container">
-                    <div class="feature-item">
-                        <i class="fas fa-shield-alt mr-2"></i> Memiliki full akses kontrol kepada domain
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-cloud mr-2"></i> Akun Cloudflare gratis setelah pembelian
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-unlock mr-2"></i> Bebas menggunakan domain sesuai kebutuhan
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-calendar-alt mr-2"></i> Pembayaran dilakukan per tahun
-                    </div>
-                </div>
-                <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.web.id" 
-                   class="buy-btn block text-center mt-auto">
-                   <i class="fas fa-shopping-cart mr-2"></i>Buy Now
-                </a>
-            </div>
-            
-            <div class="domain-card p-6 flex flex-col h-full">
-                <h3 class="text-3xl font-bold mb-3">.fun</h3>
-                <div class="price-tag inline-block mb-4 mx-auto">Rp 55.000</div>
-                <button onclick="toggleFeatures('fun')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
-                    <span id="button-text-fun">Lihat Fitur</span> <i class="ml-2 fas fa-arrow-down" id="icon-fun"></i>
-                </button>
-                <div id="features-fun" class="features-container">
-                    <div class="feature-item">
-                        <i class="fas fa-shield-alt mr-2"></i> Memiliki full akses kontrol kepada domain
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-cloud mr-2"></i> Akun Cloudflare gratis setelah pembelian
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-unlock mr-2"></i> Bebas menggunakan domain sesuai kebutuhan
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-calendar-alt mr-2"></i> Pembayaran dilakukan per tahun
-                    </div>
-                </div>
-                <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.fun" 
-                   class="buy-btn block text-center mt-auto">
-                   <i class="fas fa-shopping-cart mr-2"></i>Buy Now
-                </a>
-            </div>
-
-            <div class="domain-card p-6 flex flex-col h-full">
-                <h3 class="text-3xl font-bold mb-3">.tech</h3>
-                <div class="price-tag inline-block mb-4 mx-auto">Rp 65.000</div>
-                <button onclick="toggleFeatures('tech')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
-                    <span id="button-text-tech">Lihat Fitur</span> <i class="ml-2 fas fa-arrow-down" id="icon-tech"></i>
-                </button>
-                <div id="features-tech" class="features-container">
-                    <div class="feature-item">
-                        <i class="fas fa-shield-alt mr-2"></i> Memiliki full akses kontrol kepada domain
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-cloud mr-2"></i> Akun Cloudflare gratis setelah pembelian
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-unlock mr-2"></i> Bebas menggunakan domain sesuai kebutuhan
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-calendar-alt mr-2"></i> Pembayaran dilakukan per tahun
-                    </div>
-                </div>
-                <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.tech" 
-                   class="buy-btn block text-center mt-auto">
-                   <i class="fas fa-shopping-cart mr-2"></i>Buy Now
-                </a>
-            </div>
-
-            <div class="domain-card p-6 flex flex-col h-full">
-                <h3 class="text-3xl font-bold mb-3">.pw</h3>
-                <div class="price-tag inline-block mb-4 mx-auto">Rp 28.000</div>
-                <button onclick="toggleFeatures('pw')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
-                    <span id="button-text-pw">Lihat Fitur</span> <i class="ml-2 fas fa-arrow-down" id="icon-pw"></i>
-                </button>
-                <div id="features-pw" class="features-container">
-                    <div class="feature-item">
-                        <i class="fas fa-shield-alt mr-2"></i> Memiliki full akses kontrol kepada domain
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-cloud mr-2"></i> Akun Cloudflare gratis setelah pembelian
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-unlock mr-2"></i> Bebas menggunakan domain sesuai kebutuhan
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-calendar-alt mr-2"></i> Pembayaran dilakukan per tahun
-                    </div>
-                </div>
-                <a href="https://wa.me/6283142474788?text=Halo,%20saya%20ingin%20membeli%20domain%20.pw" 
-                   class="buy-btn block text-center mt-auto">
-                   <i class="fas fa-shopping-cart mr-2"></i>Buy Now
-                </a>
-            </div>
-
-            </div>
-
-        <footer class="text-center text-white py-12 border-t border-gray-700/50">
-            <div class="floating mb-4">
-                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/62642f7d-6d1b-42f2-b476-bdcb9ea1c8fb.png" alt="Customer support team ready to assist with domain registration and technical questions" class="w-full max-w-md mx-auto rounded-2xl" />
-            </div>
-            <h3 class="text-3xl font-bold mb-4">Siap Memulai Proyek Anda?</h3>
-            <p class="mb-8 text-lg text-gray-200">Hubungi kami melalui WhatsApp untuk konsultasi dan dapatkan domain impian Anda hari ini.</p>
-            <a href="https://wa.me/6283142474788" 
-               class="buy-btn inline-block mx-auto text-lg">
-               <i class="fas fa-comments mr-2"></i>Chat via WhatsApp
-            </a>
-            <p class="mt-8 text-sm text-gray-400">&copy; 2024 Nazama cloud. Hak Cipta Dilindungi.</p>
-        </footer>
-    </div>
-    
-    <a href="https://wa.me/6283142474788" class="floating-chat-button" id="chatButton">
-        <i class="fas fa-comment-dots chat-icon"></i>
-        <div class="chat-notification">1</div>
-    </a>
-
+        
+        <div id="not-found-message">
+            😔 Domain tidak ditemukan dalam kategori atau pencarian ini. Coba kata kunci lain!
+        </div>
+    </main>
 
     <script>
-        // Toggle theme function
-        function toggleTheme() {
-            const body = document.body;
-            const themeToggle = document.querySelector('.theme-toggle i');
+        // Data Domain - LEBIH DARI 100 DOMAIN (Populer, Trending, dan ccTLD)
+        // Harga disesuaikan (Harga Registrasi Publik + Rp3.000)
+        const domainList = [
+            // Domain Populer & Besar (Wajib Ada)
+            { name: '.com', price: 139000 + 3000, category: ['all', 'populer', 'business', 'us'] },
+            { name: '.net', price: 105000 + 3000, category: ['all', 'populer', 'business'] },
+            { name: '.org', price: 185000 + 3000, category: ['all', 'business'] },
+            { name: '.co', price: 479000 + 3000, category: ['all', 'business'] },
+            { name: '.info', price: 325000 + 3000, category: ['all', 'business'] },
+            { name: '.biz', price: 189000 + 3000, category: ['all', 'business'] },
+            { name: '.me', price: 289000 + 3000, category: ['all', 'populer'] }, 
+            { name: '.ws', price: 250000 + 3000, category: ['all'] },
+            { name: '.mobi', price: 215000 + 3000, category: ['all', 'populer'] },
+            { name: '.pro', price: 199000 + 3000, category: ['all', 'business'] },
+            { name: '.name', price: 185000 + 3000, category: ['all'] },
+            { name: '.asia', price: 175000 + 3000, category: ['all', 'business'] },
+
+            // Trending Domain (2024-2025) & AI/Tech
+            { name: '.ai', price: 790000 + 3000, category: ['all', 'trending', 'business'] }, // Anguilla (AI/Teknologi)
+            { name: '.io', price: 590000 + 3000, category: ['all', 'trending', 'business'] }, // British Indian Ocean Territory
+            { name: '.dev', price: 195000 + 3000, category: ['all', 'trending', 'business'] },
+            { name: '.app', price: 249000 + 3000, category: ['all', 'trending', 'business'] },
+            { name: '.tech', price: 65000 + 3000, category: ['all', 'trending', 'business'] },
+            { name: '.xyz', price: 29900 + 3000, category: ['all', 'populer', 'trending'] },
+            { name: '.online', price: 27500 + 3000, category: ['all', 'populer', 'trending', 'business'] },
+            { name: '.site', price: 27500 + 3000, category: ['all', 'populer', 'trending'] },
+            { name: '.store', price: 47500 + 3000, category: ['all', 'trending', 'business'] },
+            { name: '.cloud', price: 27500 + 3000, category: ['all', 'trending', 'business'] },
+            { name: '.space', price: 25000 + 3000, category: ['all', 'trending'] },
+            { name: '.fun', price: 125000 + 3000, category: ['all', 'trending'] },
+            { name: '.vip', price: 145000 + 3000, category: ['all', 'trending'] },
+            { name: '.icu', price: 25000 + 3000, category: ['all', 'trending'] },
+            { name: '.top', price: 29000 + 3000, category: ['all', 'populer', 'trending'] },
+            { name: '.pw', price: 195000 + 3000, category: ['all', 'populer'] }, // Palau
+
+            // Domain Indonesia (ID)
+            { name: '.id', price: 219000 + 3000, category: ['all', 'populer', 'id'] },
+            { name: '.co.id', price: 150000 + 3000, category: ['all', 'business', 'id'] },
+            { name: '.web.id', price: 65000 + 3000, category: ['all', 'id'] },
+            { name: '.or.id', price: 65000 + 3000, category: ['all', 'id'] },
+            { name: '.sch.id', price: 65000 + 3000, category: ['all', 'id'] },
+            { name: '.ac.id', price: 65000 + 3000, category: ['all', 'id'] },
+            { name: '.my.id', price: 25000 + 3000, category: ['all', 'id'] },
+            { name: '.biz.id', price: 75000 + 3000, category: ['all', 'business', 'id'] },
+            { name: '.ponpes.id', price: 65000 + 3000, category: ['all', 'id'] },
+            { name: '.go.id', price: 65000 + 3000, category: ['all', 'id'] }, // *Hanya untuk instansi pemerintah
+
+            // Domain Negara (ccTLD)
+            { name: '.tv', price: 325000 + 3000, category: ['all', 'tv'] }, // Tuvalu
+            { name: '.is', price: 450000 + 3000, category: ['all', 'is'] }, // Islandia
+            { name: '.ps', price: 385000 + 3000, category: ['all', 'ps'] }, // Palestina
+            { name: '.au', price: 364000 + 3000, category: ['all', 'au'] }, // Australia
+            { name: '.my', price: 122000 + 3000, category: ['all', 'my'] }, // Malaysia
+            { name: '.us', price: 115000 + 3000, category: ['all', 'us'] }, // Amerika
+            { name: '.sg', price: 395000 + 3000, category: ['all', 'business'] }, // Singapura
+            { name: '.ca', price: 198000 + 3000, category: ['all'] }, // Kanada
+            { name: '.uk', price: 125000 + 3000, category: ['all'] }, // Inggris
+            { name: '.de', price: 175000 + 3000, category: ['all'] }, // Jerman
+            { name: '.fr', price: 185000 + 3000, category: ['all'] }, // Prancis
+            { name: '.jp', price: 420000 + 3000, category: ['all'] }, // Jepang
+            { name: '.ph', price: 250000 + 3000, category: ['all'] }, // Filipina
+            { name: '.hk', price: 350000 + 3000, category: ['all', 'business'] }, // Hong Kong
+
+            // Domain Bisnis, Perdagangan, dan Profesi
+            { name: '.shop', price: 150000 + 3000, category: ['all', 'business'] },
+            { name: '.storefront', price: 199000 + 3000, category: ['all', 'business'] },
+            { name: '.trade', price: 189000 + 3000, category: ['all', 'business'] },
+            { name: '.money', price: 185000 + 3000, category: ['all', 'business'] },
+            { name: '.financial', price: 210000 + 3000, category: ['all', 'business'] },
+            { name: '.management', price: 220000 + 3000, category: ['all', 'business'] },
+            { name: '.capital', price: 190000 + 3000, category: ['all', 'business'] },
+            { name: '.loan', price: 219000 + 3000, category: ['all', 'business'] },
+            { name: '.credit', price: 205000 + 3000, category: ['all', 'business'] },
+            { name: '.tax', price: 225000 + 3000, category: ['all', 'business'] },
+            { name: '.attorney', price: 299000 + 3000, category: ['all', 'business'] },
+            { name: '.law', price: 279000 + 3000, category: ['all', 'business'] },
+            { name: '.dentist', price: 249000 + 3000, category: ['all', 'business'] },
+            { name: '.doctor', price: 269000 + 3000, category: ['all', 'business'] },
+
+            // Domain Gaya Hidup dan Komunitas
+            { name: '.blog', price: 249000 + 3000, category: ['all', 'populer'] },
+            { name: '.link', price: 79000 + 3000, category: ['all', 'populer'] },
+            { name: '.live', price: 119000 + 3000, category: ['all', 'populer'] },
+            { name: '.media', price: 139000 + 3000, category: ['all'] },
+            { name: '.design', price: 299000 + 3000, category: ['all', 'business'] },
+            { name: '.group', price: 189000 + 3000, category: ['all', 'business'] },
+            { name: '.today', price: 119000 + 3000, category: ['all'] },
+            { name: '.world', price: 119000 + 3000, category: ['all'] },
+            { name: '.solutions', price: 159000 + 3000, category: ['all', 'business'] },
+            { name: '.expert', price: 219000 + 3000, category: ['all', 'business'] },
+            { name: '.digital', price: 129000 + 3000, category: ['all', 'business'] },
+            { name: '.art', price: 179000 + 3000, category: ['all'] },
+            { name: '.host', price: 199000 + 3000, category: ['all', 'business'] },
+            { name: '.life', price: 115000 + 3000, category: ['all'] },
+            { name: '.games', price: 149000 + 3000, category: ['all'] },
+            { name: '.travel', price: 189000 + 3000, category: ['all'] },
+            { name: '.community', price: 199000 + 3000, category: ['all'] },
+            { name: '.church', price: 159000 + 3000, category: ['all'] },
+            { name: '.yoga', price: 199000 + 3000, category: ['all'] },
+            { name: '.fitness', price: 175000 + 3000, category: ['all'] },
+            { name: '.school', price: 169000 + 3000, category: ['all'] },
+
+            // Domain E-commerce dan Makanan
+            { name: '.market', price: 179000 + 3000, category: ['all', 'business'] },
+            { name: '.pizza', price: 250000 + 3000, category: ['all'] },
+            { name: '.rest', price: 155000 + 3000, category: ['all'] },
+            { name: '.menu', price: 180000 + 3000, category: ['all'] },
+            { name: '.delivery', price: 210000 + 3000, category: ['all', 'business'] },
             
-            body.classList.toggle('dark-mode');
+            // Domain Alternatif dan Lain-Lain (Mencapai 100+)
+            { name: '.global', price: 230000 + 3000, category: ['all', 'business'] },
+            { name: '.network', price: 170000 + 3000, category: ['all'] },
+            { name: '.systems', price: 185000 + 3000, category: ['all', 'business'] },
+            { name: '.tools', price: 160000 + 3000, category: ['all'] },
+            { name: '.wiki', price: 170000 + 3000, category: ['all'] },
+            { name: '.tel', price: 199000 + 3000, category: ['all', 'business'] },
+            { name: '.fm', price: 299000 + 3000, category: ['all'] },
+            { name: '.tv.id', price: 95000 + 3000, category: ['all', 'id'] },
+            { name: '.com.au', price: 364000 + 3000, category: ['all', 'au', 'business'] },
+            { name: '.co.uk', price: 125000 + 3000, category: ['all'] },
+            { name: '.online.id', price: 149000 + 3000, category: ['all', 'id'] },
+            { name: '.click', price: 99000 + 3000, category: ['all', 'populer'] },
+            { name: '.realty', price: 239000 + 3000, category: ['all', 'business'] },
+            { name: '.agency', price: 169000 + 3000, category: ['all', 'business'] },
+            { name: '.news', price: 179000 + 3000, category: ['all'] },
+            { name: '.cab', price: 149000 + 3000, category: ['all'] },
+            { name: '.gmbh', price: 249000 + 3000, category: ['all', 'business'] },
+            { name: '.llc', price: 219000 + 3000, category: ['all', 'business'] },
+            { name: '.photos', price: 179000 + 3000, category: ['all'] },
+            { name: '.graphics', price: 189000 + 3000, category: ['all'] },
+            { name: '.video', price: 199000 + 3000, category: ['all'] },
+            { name: '.engineer', price: 249000 + 3000, category: ['all', 'business'] },
+            { name: '.sydney', price: 199000 + 3000, category: ['all', 'au'] },
+
+        ];
+
+        // --- Fungsionalitas JavaScript (SAMA SEPERTI SEBELUMNYA) ---
+        // Semua fungsi seperti filter, render, dark mode, dan WhatsApp tetap sama dan berfungsi.
+
+        const domainContainer = document.getElementById('domain-list-container');
+        const searchInput = document.getElementById('domain-search');
+        const categoryTabs = document.getElementById('category-tabs');
+        const notFoundMessage = document.getElementById('not-found-message');
+        let currentCategory = 'all';
+
+        const formatRupiah = (amount) => {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(amount);
+        };
+
+        const renderDomains = (domains) => {
+            domainContainer.innerHTML = '';
+            let foundCount = 0;
             
-            if (body.classList.contains('dark-mode')) {
-                themeToggle.classList.remove('fa-moon');
-                themeToggle.classList.add('fa-sun');
+            domains.forEach(domain => {
+                const card = document.createElement('div');
+                card.className = 'domain-card';
+                
+                if (currentCategory !== 'all' && !domain.category.includes(currentCategory)) {
+                    card.classList.add('hidden');
+                    return;
+                }
+                
+                card.innerHTML = `
+                    <h3>${domain.name}</h3>
+                    <p>Per Tahun</p>
+                    <div class="price">${formatRupiah(domain.price)}</div>
+                    <button onclick="handleBuyClick('${domain.name}')">Beli Sekarang</button>
+                `;
+                domainContainer.appendChild(card);
+                foundCount++;
+            });
+            
+            notFoundMessage.style.display = foundCount === 0 ? 'block' : 'none';
+        };
+
+        const handleBuyClick = (domainName) => {
+            const phoneNumber = '6283142474788';
+            const message = encodeURIComponent(`Halo, saya ingin membeli domain ${domainName} ini. Mohon info ketersediaannya.`);
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+            
+            window.open(whatsappUrl, '_self'); 
+        };
+
+        const filterDomains = () => {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const filtered = domainList.filter(domain => {
+                const matchesSearch = domain.name.toLowerCase().includes(searchTerm);
+                const matchesCategory = currentCategory === 'all' || domain.category.includes(currentCategory);
+                return matchesSearch && matchesCategory;
+            });
+            
+            domainContainer.innerHTML = '';
+            let foundCount = 0;
+
+            filtered.forEach(domain => {
+                const card = document.createElement('div');
+                card.className = 'domain-card';
+                card.innerHTML = `
+                    <h3>${domain.name}</h3>
+                    <p>Per Tahun</p>
+                    <div class="price">${formatRupiah(domain.price)}</div>
+                    <button onclick="handleBuyClick('${domain.name}')">Beli Sekarang</button>
+                `;
+                domainContainer.appendChild(card);
+                foundCount++;
+            });
+
+            notFoundMessage.style.display = foundCount === 0 ? 'block' : 'none';
+        };
+
+        const handleCategoryClick = (category) => {
+            currentCategory = category;
+
+            categoryTabs.querySelectorAll('button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`button[data-category="${category}"]`).classList.add('active');
+
+            filterDomains();
+        };
+
+        searchInput.addEventListener('input', filterDomains);
+
+        categoryTabs.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', () => {
+                handleCategoryClick(button.dataset.category);
+            });
+        });
+
+        // Fungsionalitas Tema Gelap/Terang
+        const themeToggle = document.getElementById('theme-toggle');
+
+        const setDarkMode = (isDark) => {
+            if (isDark) {
+                document.body.classList.add('dark-mode');
+                themeToggle.textContent = 'Terang';
                 localStorage.setItem('theme', 'dark');
             } else {
-                themeToggle.classList.remove('fa-sun');
-                themeToggle.classList.add('fa-moon');
+                document.body.classList.remove('dark-mode');
+                themeToggle.textContent = 'Gelap';
                 localStorage.setItem('theme', 'light');
             }
-        }
-        
-        // Load saved theme
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const themeToggle = document.querySelector('.theme-toggle i');
-            
-            if (savedTheme === 'dark') {
-                document.body.classList.add('dark-mode');
-                themeToggle.classList.remove('fa-moon');
-                themeToggle.classList.add('fa-sun');
-            }
-        }
-        
-        // Toggle features function (logika penutupan yang disempurnakan)
-        function toggleFeatures(domain) {
-            const featureContainer = document.getElementById('features-' + domain);
-            const buttonText = document.getElementById('button-text-' + domain);
-            const buttonIcon = document.getElementById('icon-' + domain);
-            
-            // Tutup semua fitur lain
-            const allFeatures = document.querySelectorAll('.features-container');
-            const allButtonTexts = document.querySelectorAll('[id^="button-text-"]');
-            const allButtonIcons = document.querySelectorAll('[id^="icon-"]');
-            
-            allFeatures.forEach(feature => {
-                if (feature.id !== 'features-' + domain) {
-                    feature.classList.remove('open');
-                }
-            });
-            
-            allButtonTexts.forEach(text => {
-                if (text.id !== 'button-text-' + domain) {
-                    text.textContent = 'Lihat Fitur';
-                }
-            });
-            
-            allButtonIcons.forEach(icon => {
-                if (icon.id !== 'icon-' + domain) {
-                    icon.classList.remove('fa-arrow-up');
-                    icon.classList.add('fa-arrow-down');
-                }
-            });
-            
-            // Toggle fitur yang diklik
-            featureContainer.classList.toggle('open');
-            
-            if (featureContainer.classList.contains('open')) {
-                buttonText.textContent = 'Tutup Fitur';
-                buttonIcon.classList.remove('fa-arrow-down');
-                buttonIcon.classList.add('fa-arrow-up');
-                // Scroll agar fitur yang terbuka terlihat
-                featureContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            } else {
-                buttonText.textContent = 'Lihat Fitur';
-                buttonIcon.classList.remove('fa-arrow-up');
-                buttonIcon.classList.add('fa-arrow-down');
-            }
-        }
-        
-        // Close features when clicking outside (disempurnakan)
-        document.addEventListener('click', function(event) {
-            // Cek apakah klik berasal dari luar kartu domain DAN bukan tombol toggle tema
-            if (!event.target.closest('.domain-card') && 
-                !event.target.closest('.theme-toggle') && 
-                !event.target.closest('.floating-chat-button')) {
-                
-                const allFeatures = document.querySelectorAll('.features-container.open');
-                const allButtonTexts = document.querySelectorAll('[id^="button-text-"]');
-                const allButtonIcons = document.querySelectorAll('[id^="icon-"]');
-                
-                allFeatures.forEach(feature => {
-                    feature.classList.remove('open');
-                    // Cari ID domain dari ID fitur (e.g., features-myid -> myid)
-                    const domainId = feature.id.replace('features-', '');
-                    
-                    const buttonText = document.getElementById('button-text-' + domainId);
-                    const buttonIcon = document.getElementById('icon-' + domainId);
-                    
-                    if(buttonText) buttonText.textContent = 'Lihat Fitur';
-                    if(buttonIcon) {
-                        buttonIcon.classList.remove('fa-arrow-up');
-                        buttonIcon.classList.add('fa-arrow-down');
-                    }
-                });
-            }
+        };
+
+        themeToggle.addEventListener('click', () => {
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            setDarkMode(!isDarkMode);
         });
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            setDarkMode(true);
+        } else {
+            setDarkMode(false);
+        }
         
-        // Floating Chat Button Functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            loadTheme();
-            const chatButton = document.getElementById('chatButton');
-            const notification = chatButton.querySelector('.chat-notification');
-            
-            // Smooth click animation
-            chatButton.addEventListener('click', function(e) {
-                this.style.transform = 'scale(0.9)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 150);
-            });
-            
-            // Auto-hide notification after 5 seconds
-            setTimeout(() => {
-                if (notification) {
-                    notification.style.opacity = '0';
-                    notification.style.transform = 'scale(0)';
-                    notification.style.transition = 'all 0.3s ease';
-                }
-            }, 5000);
-        });
+        // Fungsionalitas Navigasi
+        const navigateTo = (url) => {
+            window.location.href = url;
+        }
+
+        // Inisialisasi
+        renderDomains(domainList);
+        
     </script>
+
 </body>
 </html>
