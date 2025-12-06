@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta property="og:title" content="Everse Legend - Minecraft Server">
+    <meta property="og:description" content="Gabung sekarang! Server Survival dengan Senjata Legendaris Custom. Java & Bedrock Support.">
+    <meta property="og:image" content="https://i.imgur.com/Jquopfg.png">
+    <meta property="og:url" content="https://mc.everse.my.id">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#6c5ce7">
+
+    <title>Everse Legend | Minecraft Server</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- RESET & DASAR --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0f0f13;
+            background-image: radial-gradient(circle at 50% 50%, #1e1e2f 0%, #0f0f13 100%);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            cursor: pointer;
+            border: none;
+            margin: 10px;
+        }
+
+        /* --- HERO SECTION --- */
+        header {
+            padding: 60px 20px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .logo-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid #6c5ce7;
+            box-shadow: 0 0 30px rgba(108, 92, 231, 0.5);
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive; /* Font Gaming Pixel */
+            font-size: 2rem;
+            color: #a29bfe;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 0px #2d3436;
+            line-height: 1.5;
+        }
+
+        p.subtitle {
+            font-size: 1.1rem;
+            color: #dfe6e9;
+            margin-bottom: 30px;
+        }
+
+        /* --- IP SECTION --- */
+        .ip-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .ip-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            width: 300px;
+            transition: transform 0.3s;
+        }
+
+        .ip-card:hover {
+            transform: translateY(-5px);
+            border-color: #6c5ce7;
+        }
+
+        .platform-badge {
+            background: #6c5ce7;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .platform-badge.bedrock {
+            background: #00b894;
+        }
+
+        .ip-address {
+            background: #2d3436;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 1.1rem;
+            margin: 10px 0;
+            color: #fab1a0;
+            border: 1px dashed #636e72;
+        }
+
+        .btn-copy {
+            background: transparent;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        .btn-copy:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* --- FEATURES SECTION --- */
+        .features {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 50px 20px;
+            border-radius: 20px;
+            margin-bottom: 50px;
+        }
+
+        .features h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #ffeaa7;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            color: #fdcb6e;
+        }
+
+        /* --- WHATSAPP SECTION --- */
+        .cta-section {
+            margin-bottom: 80px;
+        }
+
+        .btn-wa {
+            background: #25D366;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-wa:hover {
+            background: #1ebc57;
+            transform: scale(1.05);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #636e72;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* --- NOTIFIKASI COPY --- */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 17px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+        @keyframes fadeIn { from {opacity: 0; transform: translateY(-20px);} to {opacity: 1; transform: translateY(0);} }
+        
+        /* Mobile adjustment */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.5rem; }
+            .ip-card { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <img src="https://i.imgur.com/Jquopfg.png" alt="Logo Everse Legend" class="logo-img">
+            <h1>EVERSE LEGEND</h1>
+            <p class="subtitle">Server Minecraft Indonesia dengan Senjata Legendaris!</p>
+        </header>
+
+        <div class="ip-container">
+            <div class="ip-card">
+                <span class="platform-badge"><i class="fab fa-java"></i> Java Edition</span>
+                <p>Versi: 1.16 - 1.21+</p>
+                <div class="ip-address" id="java-ip">mc.everse.my.id:19154</div>
+                <button class="btn btn-copy" onclick="copyText('mc.everse.my.id:19154')">
+                    <i class="fas fa-copy"></i> Salin IP Java
+                </button>
+            </div>
+
+            <div class="ip-card">
+                <span class="platform-badge bedrock"><i class="fas fa-mobile-alt"></i> Bedrock / PE</span>
+                <p>Support MCPE / Win10</p>
+                <div class="ip-address">
+                    IP: mc.everse.my.id<br>
+                    Port: 19154
+                </div>
+                <button class="btn btn-copy" onclick="copyText('bedrock')">
+                    <i class="fas fa-copy"></i> Salin Data Bedrock
+                </button>
+            </div>
+        </div>
+
+        <div class="features">
+            <h2><i class="fas fa-dungeon"></i> Fitur Eksklusif</h2>
+            <div class="feature-item">
+                <i class="fas fa-khanda feature-icon"></i>
+                <p><strong>Custom Legendary Weapons:</strong> Senjata dengan skill unik yang hanya ada di sini.</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-gem feature-icon"></i>
+                <p><strong>Ekonomi Seimbang:</strong> Sistem trading dan shop yang adil.</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-users feature-icon"></i>
+                <p><strong>Komunitas Ramah:</strong> Staff aktif dan player yang solid.</p>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h3>Bergabunglah dengan Komunitas Kami!</h3>
+            <p style="margin-bottom: 20px; color: #b2bec3;">Dapatkan info update dan event terbaru di grup WhatsApp.</p>
+            <a href="https://chat.whatsapp.com/FsyDpczAeHrHb6m8ErIyIK?mode=hqrt2" target="_blank" class="btn btn-wa">
+                <i class="fab fa-whatsapp"></i> Masuk Grup WhatsApp
+            </a>
+        </div>
+
+        <footer>
+            &copy; 2025 Everse Legend Server. All Rights Reserved.
+        </footer>
+    </div>
+
+    <div id="toast">IP Berhasil Disalin!</div>
+
+    <script>
+        function copyText(type) {
+            let textToCopy = "";
+            
+            if (type === 'bedrock') {
+                textToCopy = "IP: mc.everse.my.id Port: 19154";
+            } else {
+                textToCopy = type;
+            }
+
+            navigator.clipboard.writeText(textToCopy).then(function() {
+                var x = document.getElementById("toast");
+                x.className = "show";
+                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            }, function(err) {
+                console.error('Gagal menyalin: ', err);
+            });
+        }
+    </script>
+</body>
+      </html>
