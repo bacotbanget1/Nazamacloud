@@ -11,7 +11,7 @@ import {
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
-// Your Firebase configuration - PASTE YANG ANDA PUNYA
+// PASTE CONFIG ANDA DISINI:
 const firebaseConfig = {
     apiKey: "AIzaSyCMAyuNDEX3O6t3L55Ah7bovQdlIT5YOow",
     authDomain: "namacloud-51780.firebaseapp.com",
