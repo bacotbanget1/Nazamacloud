@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nazamacloud - Beli Domain Murah dan Terpercaya</title>
+    <link rel="icon" href="https://i.imgur.com/5nKiHXG.png" type="image/png">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    
+    <!-- External Scripts -->
+    <script src="firebase.js" defer></script>
+    <script src="app.js" defer></script>
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <meta property="og:title" content="Nazamacloud - Beli Domain Murah dan Terpercaya">
+    <meta property="og:description" content="Temukan dan beli domain populer, terbaru, dan terpercaya di Nazamacloud!">
+    <meta property="og:image" content="https://i.imgur.com/5nKiHXG.png">
+    <meta property="og:url" content="https://shop.nazamacloud.my.id">
+    <meta property="og:type" content="website">
+    
+    <!-- Google Analytics (Optional) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXX');
+    </script>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="https://i.imgur.com/5nKiHXG.png" alt="Nazamacloud Logo">
+            <h1>Nazamacloud Shop</h1>
+        </div>
+        <nav>
+            <a href="#" class="external-link-btn" onclick="App.navigateTo('https://shop.nazamacloud.my.id/cari_domain')">
+                Cari Domain
+            </a>
+            <a href="#" class="external-link-btn" onclick="App.navigateTo('https://shop.nazamacloud.my.id/phising_locator')">
+                Phising Locator
+            </a>
+            <button id="theme-toggle">Gelap</button>
+            
+            <!-- Auth Section -->
+            <div id="auth-section">
+                <!-- Filled by JavaScript -->
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Login Modal -->
+        <div id="loginModal" class="login-modal">
+            <div class="login-content">
+                <button class="close-modal" onclick="App.closeLoginModal()">&times;</button>
+                <h2>🔐 Login ke Nazamacloud</h2>
+                <p>Masuk untuk mendapatkan diskon eksklusif 10% dan fitur premium lainnya!</p>
+                <button class="modal-login-btn" onclick="App.signInWithGoogle()">
+                    <svg class="google-icon" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    Login dengan Google
+                </button>
+                <p class="login-note">Login aman dengan akun Google Anda. Kami tidak akan membagikan data pribadi.</p>
+            </div>
+        </div>
+
+        <!-- Premium Features (Visible when logged in) -->
+        <div id="premiumSection" class="premium-features">
+            <h2>🌟 Selamat Datang di Nazamacloud Premium!</h2>
+            <p>Nikmati berbagai keuntungan khusus member:</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎁</div>
+                    <h3>Diskon 10%</h3>
+                    <p>Harga khusus untuk semua domain</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Prioritas Support</h3>
+                    <p>Bantuan lebih cepat 24/7</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Dashboard Domain</h3>
+                    <p>Kelola semua domain Anda</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <section class="hero-section">
+            <h2>Temukan Domain Perfect Anda</h2>
+            <p>Lebih dari 100+ ekstensi domain tersedia dengan harga terbaik</p>
+            <div class="search-container">
+                <input type="text" id="domain-search" 
+                       placeholder="Cari domain (contoh: .com, .id, .ai, .tech)..."
+                       autocomplete="off">
+                <div class="search-hint">
+                    💡 Tips: Coba ".com", ".id", ".ai", atau ".tech"
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Tabs -->
+        <section class="categories-section">
+            <h3>Kategori Populer</h3>
+            <div class="category-tabs" id="category-tabs">
+                <button class="active" data-category="all">🌟 Semua</button>
+                <button data-category="populer">🔥 Populer</button>
+                <button data-category="trending">🚀 Trending</button>
+                <button data-category="business">💼 Bisnis</button>
+                <button data-category="id">🇮🇩 Indonesia</button>
+                <button data-category="us">🇺🇸 Amerika</button>
+            </div>
+        </section>
+
+        <!-- Domain List -->
+        <section class="domains-section">
+            <div id="domain-list-container" class="domains-grid">
+                <!-- Domain cards will be rendered here -->
+            </div>
+            
+            <div id="not-found-message" class="not-found">
+                <div class="not-found-icon">🔍</div>
+                <h4>Domain tidak ditemukan</h4>
+                <p>Coba kata kunci lain atau pilih kategori yang berbeda</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="https://i.imgur.com/5nKiHXG.png" alt="Nazamacloud">
+                    <h3>Nazamacloud</h3>
+                    <p>Domain murah dan terpercaya sejak 2024</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Tautan Cepat</h4>
+                    <a href="#" onclick="App.navigateTo('https://shop.nazamacloud.my.id/cari_domain')">Cari Domain</a>
+                    <a href="#" onclick="App.navigateTo('https://shop.nazamacloud.my.id/phising_locator')">Phising Locator</a>
+                    <a href="mailto:support@nazamacloud.my.id">Support</a>
+                </div>
+                <div class="footer-contact">
+                    <h4>Kontak</h4>
+                    <p>📧 support@nazamacloud.my.id</p>
+                    <p>📱 +62 831-4247-4788</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year">2024</span> Nazamacloud. All rights reserved.</p>
+            </div>
+        </footer>
+    </main>
+
+</body>
+</html>
