@@ -6,31 +6,477 @@
     <title>Nazamacloud - Beli Domain Murah dan Terpercaya</title>
     <link rel="icon" href="https://i.imgur.com/5nKiHXG.png" type="image/png">
     
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <!-- Firebase SDK di-import di firebase.js -->
     
     <!-- External Scripts -->
-    <script src="firebase.js" defer></script>
+    <script src="firebase.js" type="module" defer></script>
     <script src="app.js" defer></script>
     
     <!-- External CSS -->
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* CSS Utama */
+        :root {
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --header-bg: #ffffff;
+            --card-bg: #ffffff;
+            --primary-color: #3b82f6;
+            --secondary-color: #10b981;
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+        }
+
+        body.dark-mode {
+            --bg-color: #0f172a;
+            --text-color: #f1f5f9;
+            --header-bg: #1e293b;
+            --card-bg: #334155;
+            --primary-color: #60a5fa;
+            --secondary-color: #34d399;
+            --border-color: #475569;
+            --shadow-color: rgba(255, 255, 255, 0.05);
+            --success-color: #34d399;
+            --danger-color: #f87171;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--header-bg);
+            box-shadow: 0 2px 10px var(--shadow-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-container img {
+            height: 40px;
+            width: 40px;
+            border-radius: 8px;
+        }
+
+        .logo-container h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        nav a, button {
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .external-link-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .external-link-btn:hover {
+            background-color: var(--primary-color);
+            opacity: 0.9;
+        }
+
+        #theme-toggle {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        #theme-toggle:hover {
+            background-color: var(--border-color);
+        }
+
+        /* Auth Buttons */
+        .login-btn {
+            background-color: #4285f4;
+            color: white;
+            padding: 8px 16px;
+        }
+
+        .login-btn:hover {
+            background-color: #3367d6;
+        }
+
+        .logout-btn {
+            background-color: var(--danger-color);
+            color: white;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+
+        .logout-btn:hover {
+            background-color: var(--danger-color);
+            opacity: 0.9;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+        }
+
+        .user-name {
+            font-weight: 500;
+            font-size: 0.9rem;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Login Modal */
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-modal.active {
+            display: flex;
+        }
+
+        .login-content {
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+            opacity: 0.6;
+        }
+
+        .close-modal:hover {
+            opacity: 1;
+        }
+
+        .login-content h2 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .login-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        .modal-login-btn {
+            background-color: #4285f4;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .modal-login-btn:hover {
+            background-color: #3367d6;
+        }
+
+        .google-icon {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 3px;
+            padding: 3px;
+        }
+
+        /* Premium Features */
+        .premium-features {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            display: none;
+        }
+
+        .premium-features h2 {
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Search & Categories */
+        .search-container {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .search-container input {
+            padding: 1rem 1.5rem;
+            width: 80%;
+            max-width: 600px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 1rem auto;
+            max-width: 1200px;
+            padding: 0 1rem;
+        }
+
+        .category-tabs button {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+        }
+
+        .category-tabs button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Domain Cards */
+        .domains-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .domain-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .domain-card.premium-discount {
+            border: 2px solid var(--success-color);
+        }
+
+        .domain-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px var(--shadow-color);
+        }
+
+        .domain-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .discount-badge {
+            background-color: var(--success-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .domain-card .price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin: 1rem 0;
+        }
+
+        .domain-card .price.discounted {
+            color: var(--success-color);
+        }
+
+        .domain-card button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .domain-card button:hover {
+            background-color: var(--primary-color);
+            opacity: 0.9;
+        }
+
+        /* Not Found */
+        #not-found-message {
+            text-align: center;
+            padding: 3rem;
+            display: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--header-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .user-name {
+                display: none;
+            }
+            
+            .search-container input {
+                width: 100%;
+            }
+            
+            .domains-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .category-tabs {
+                overflow-x: auto;
+                padding-bottom: 10px;
+                justify-content: flex-start;
+            }
+            
+            .category-tabs button {
+                flex-shrink: 0;
+            }
+        }
+    </style>
     
     <meta property="og:title" content="Nazamacloud - Beli Domain Murah dan Terpercaya">
     <meta property="og:description" content="Temukan dan beli domain populer, terbaru, dan terpercaya di Nazamacloud!">
     <meta property="og:image" content="https://i.imgur.com/5nKiHXG.png">
     <meta property="og:url" content="https://shop.nazamacloud.my.id">
     <meta property="og:type" content="website">
-    
-    <!-- Google Analytics (Optional) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXXX');
-    </script>
 </head>
 <body>
 
@@ -40,17 +486,17 @@
             <h1>Nazamacloud Shop</h1>
         </div>
         <nav>
-            <a href="#" class="external-link-btn" onclick="App.navigateTo('https://shop.nazamacloud.my.id/cari_domain')">
+            <a href="https://shop.nazamacloud.my.id/cari_domain" class="external-link-btn" target="_blank">
                 Cari Domain
             </a>
-            <a href="#" class="external-link-btn" onclick="App.navigateTo('https://shop.nazamacloud.my.id/phising_locator')">
+            <a href="https://shop.nazamacloud.my.id/phising_locator" class="external-link-btn" target="_blank">
                 Phising Locator
             </a>
             <button id="theme-toggle">Gelap</button>
             
             <!-- Auth Section -->
             <div id="auth-section">
-                <!-- Filled by JavaScript -->
+                <!-- Will be filled by JavaScript -->
             </div>
         </nav>
     </header>
@@ -59,10 +505,10 @@
         <!-- Login Modal -->
         <div id="loginModal" class="login-modal">
             <div class="login-content">
-                <button class="close-modal" onclick="App.closeLoginModal()">&times;</button>
+                <button class="close-modal">&times;</button>
                 <h2>🔐 Login ke Nazamacloud</h2>
                 <p>Masuk untuk mendapatkan diskon eksklusif 10% dan fitur premium lainnya!</p>
-                <button class="modal-login-btn" onclick="App.signInWithGoogle()">
+                <button class="modal-login-btn" id="googleLoginBtn">
                     <svg class="google-icon" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -71,98 +517,67 @@
                     </svg>
                     Login dengan Google
                 </button>
-                <p class="login-note">Login aman dengan akun Google Anda. Kami tidak akan membagikan data pribadi.</p>
+                <p style="margin-top: 15px; font-size: 0.8em; color: #666;">
+                    Login aman dengan akun Google Anda.
+                </p>
             </div>
         </div>
 
-        <!-- Premium Features (Visible when logged in) -->
+        <!-- Premium Features -->
         <div id="premiumSection" class="premium-features">
             <h2>🌟 Selamat Datang di Nazamacloud Premium!</h2>
-            <p>Nikmati berbagai keuntungan khusus member:</p>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">🎁</div>
-                    <h3>Diskon 10%</h3>
+                    <h3>🎁 Diskon 10%</h3>
                     <p>Harga khusus untuk semua domain</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🚀</div>
-                    <h3>Prioritas Support</h3>
-                    <p>Bantuan lebih cepat 24/7</p>
+                    <h3>📊 Dashboard</h3>
+                    <p>Kelola domain dengan mudah</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3>Dashboard Domain</h3>
-                    <p>Kelola semua domain Anda</p>
+                    <h3>⚡ Prioritas</h3>
+                    <p>Support 24/7 lebih cepat</p>
                 </div>
             </div>
         </div>
 
         <!-- Search Section -->
-        <section class="hero-section">
-            <h2>Temukan Domain Perfect Anda</h2>
-            <p>Lebih dari 100+ ekstensi domain tersedia dengan harga terbaik</p>
-            <div class="search-container">
-                <input type="text" id="domain-search" 
-                       placeholder="Cari domain (contoh: .com, .id, .ai, .tech)..."
-                       autocomplete="off">
-                <div class="search-hint">
-                    💡 Tips: Coba ".com", ".id", ".ai", atau ".tech"
-                </div>
-            </div>
-        </section>
+        <div class="search-container">
+            <input type="text" id="domain-search" 
+                   placeholder="Cari domain (contoh: .com, .id, .ai, .tech)..."
+                   autocomplete="off">
+        </div>
 
         <!-- Category Tabs -->
-        <section class="categories-section">
-            <h3>Kategori Populer</h3>
-            <div class="category-tabs" id="category-tabs">
-                <button class="active" data-category="all">🌟 Semua</button>
-                <button data-category="populer">🔥 Populer</button>
-                <button data-category="trending">🚀 Trending</button>
-                <button data-category="business">💼 Bisnis</button>
-                <button data-category="id">🇮🇩 Indonesia</button>
-                <button data-category="us">🇺🇸 Amerika</button>
-            </div>
-        </section>
+        <div class="category-tabs" id="category-tabs">
+            <button class="active" data-category="all">🌟 Semua</button>
+            <button data-category="populer">🔥 Populer</button>
+            <button data-category="trending">🚀 Trending</button>
+            <button data-category="business">💼 Bisnis</button>
+            <button data-category="id">🇮🇩 Indonesia</button>
+            <button data-category="us">🇺🇸 Amerika</button>
+            <button data-category="tv">🇹🇻 Tuvalu</button>
+            <button data-category="au">🇦🇺 Australia</button>
+            <button data-category="my">🇲🇾 Malaysia</button>
+        </div>
 
         <!-- Domain List -->
-        <section class="domains-section">
-            <div id="domain-list-container" class="domains-grid">
-                <!-- Domain cards will be rendered here -->
-            </div>
-            
-            <div id="not-found-message" class="not-found">
-                <div class="not-found-icon">🔍</div>
-                <h4>Domain tidak ditemukan</h4>
-                <p>Coba kata kunci lain atau pilih kategori yang berbeda</p>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer>
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="https://i.imgur.com/5nKiHXG.png" alt="Nazamacloud">
-                    <h3>Nazamacloud</h3>
-                    <p>Domain murah dan terpercaya sejak 2024</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Tautan Cepat</h4>
-                    <a href="#" onclick="App.navigateTo('https://shop.nazamacloud.my.id/cari_domain')">Cari Domain</a>
-                    <a href="#" onclick="App.navigateTo('https://shop.nazamacloud.my.id/phising_locator')">Phising Locator</a>
-                    <a href="mailto:support@nazamacloud.my.id">Support</a>
-                </div>
-                <div class="footer-contact">
-                    <h4>Kontak</h4>
-                    <p>📧 support@nazamacloud.my.id</p>
-                    <p>📱 +62 831-4247-4788</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; <span id="current-year">2024</span> Nazamacloud. All rights reserved.</p>
-            </div>
-        </footer>
+        <div id="domain-list-container" class="domains-grid">
+            <!-- Domain cards will be rendered here -->
+        </div>
+        
+        <!-- Not Found Message -->
+        <div id="not-found-message">
+            <h3>😔 Domain tidak ditemukan</h3>
+            <p>Coba kata kunci lain atau pilih kategori yang berbeda</p>
+        </div>
     </main>
+
+    <footer>
+        <p>&copy; 2024 Nazamacloud. All rights reserved.</p>
+        <p>Email: support@nazamacloud.my.id | WhatsApp: +62 831-4247-4788</p>
+    </footer>
 
 </body>
 </html>
