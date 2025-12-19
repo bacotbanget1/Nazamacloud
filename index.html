@@ -12,7 +12,12 @@
     <script src="firebase.js" type="module" defer></script>
     <script src="app.js" defer></script>
     
-    <!-- External CSS -->
+    <meta property="og:title" content="Nazamacloud - Beli Domain Murah dan Terpercaya">
+    <meta property="og:description" content="Temukan dan beli domain populer, terbaru, dan terpercaya di Nazamacloud!">
+    <meta property="og:image" content="https://i.imgur.com/5nKiHXG.png">
+    <meta property="og:url" content="https://shop.nazamacloud.my.id">
+    <meta property="og:type" content="website">
+
     <style>
         /* CSS Utama */
         :root {
@@ -470,20 +475,31 @@
                 flex-shrink: 0;
             }
         }
+
+        /* Debug Button */
+        #debugBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 9999;
+        }
     </style>
-    
-    <meta property="og:title" content="Nazamacloud - Beli Domain Murah dan Terpercaya">
-    <meta property="og:description" content="Temukan dan beli domain populer, terbaru, dan terpercaya di Nazamacloud!">
-    <meta property="og:image" content="https://i.imgur.com/5nKiHXG.png">
-    <meta property="og:url" content="https://shop.nazamacloud.my.id">
-    <meta property="og:type" content="website">
 </head>
 <body>
 
     <header>
         <div class="logo-container">
             <img src="https://i.imgur.com/5nKiHXG.png" alt="Nazamacloud Logo">
-            <h1>Nazama Shop</h1>
+            <h1>Nazamacloud Shop</h1>
         </div>
         <nav>
             <a href="https://shop.nazamacloud.my.id/cari_domain" class="external-link-btn" target="_blank">
@@ -578,6 +594,68 @@
         <p>&copy; 2024 Nazamacloud. All rights reserved.</p>
         <p>Email: support@nazamacloud.my.id | WhatsApp: +62 831-4247-4788</p>
     </footer>
+
+    <!-- Debug Button -->
+    <button id="debugBtn" title="Debug Firebase">🔧</button>
+
+    <!-- Inline Debug Script -->
+    <script>
+        // Debug Button
+        document.getElementById('debugBtn').addEventListener('click', function() {
+            console.clear();
+            console.group("🔧 NAZAMACLOUD DEBUG PANEL");
+            
+            // Check Firebase
+            console.log("=== FIREBASE STATUS ===");
+            console.log("FirebaseAuth:", typeof FirebaseAuth !== 'undefined' ? "✅ Loaded" : "❌ Missing");
+            
+            if (typeof FirebaseAuth !== 'undefined') {
+                console.log("Current User:", FirebaseAuth.getCurrentUser());
+                console.log("Is Logged In:", FirebaseAuth.isLoggedIn());
+                
+                // Test connection
+                console.log("Domain:", window.location.hostname);
+                console.log("URL:", window.location.href);
+                
+                // Try to test login
+                console.log("\n=== TEST LOGIN ===");
+                console.log("Click the login button to test");
+            }
+            
+            // Check config
+            console.log("\n=== CONFIG ===");
+            console.log("API Key present:", firebaseConfig?.apiKey ? "✅ Yes" : "❌ No");
+            console.log("API Key length:", firebaseConfig?.apiKey?.length || 0);
+            
+            console.groupEnd();
+            alert("Debug info logged to Console (F12)");
+        });
+        
+        // Auto-check Firebase on load
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                if (typeof FirebaseAuth === 'undefined') {
+                    console.warn("⚠️ FirebaseAuth not loaded after 3 seconds");
+                    console.warn("Check: 1. firebase.js exists 2. type='module' 3. No console errors");
+                } else {
+                    console.log("✅ FirebaseAuth loaded successfully");
+                    
+                    // Check auth state
+                    FirebaseAuth.onAuthStateChanged(function(user) {
+                        console.log("Auth state changed:", user ? "Logged in" : "Logged out");
+                    });
+                }
+            }, 3000);
+        });
+        
+        // Listen for login errors
+        window.addEventListener('unhandledrejection', function(event) {
+            if (event.reason && event.reason.message && event.reason.message.includes('auth/')) {
+                console.error("🔥 Firebase Auth Error:", event.reason);
+                alert("Firebase Error: " + event.reason.message);
+            }
+        });
+    </script>
 
 </body>
 </html>
