@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Panel - Manage Discounts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1e293b;
+            --accent: #3b82f6;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background: #f1f5f9; padding: 20px; }
+        .admin-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        h1 { color: var(--primary); border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        
+        .form-group { margin-bottom: 20px; background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; }
+        
+        .btn-save { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; }
+        .btn-save:hover { opacity: 0.9; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #eee; }
+        th { background: #f8fafc; }
+        
+        .delete-btn { color: var(--danger); cursor: pointer; border: none; background: none; font-size: 1.1rem; }
+        .status-badge { background: var(--success); color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+<div class="admin-container" id="adminContent" style="display: none;">
+    <h1><i class="fas fa-user-shield"></i> Owner Dashboard</h1>
+    <p>Kelola kode promo untuk Nazamacloud Shop</p>
+
+    <div class="form-group">
+        <h3>Tambah Kupon Baru</h3>
+        <label>Kode Kupon (Contoh: HEMAT50)</label>
+        <input type="text" id="couponCode" placeholder="Masukkan kode unik...">
+        
+        <label>Potongan Harga (%)</label>
+        <input type="number" id="couponPercent" placeholder="Masukkan angka saja (1-100)">
+        
+        <button class="btn-save" onclick="addCoupon()">Simpan Kupon</button>
+    </div>
+
+    <h3>Daftar Kupon Aktif</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Kode</th>
+                <th>Diskon</th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="couponTableBody">
+            </tbody>
+    </table>
+    
+    <div style="margin-top: 30px;">
+        <a href="home.html" style="text-decoration: none; color: var(--accent);"><i class="fas fa-arrow-left"></i> Kembali ke Website</a>
+    </div>
+</div>
+
+<script>
+    // Fitur Keamanan Sederhana
+    const pass = prompt("Masukkan Password Owner:");
+    if (pass === "admin123") { // Ganti admin123 dengan password keinginan Anda
+        document.getElementById('adminContent').style.display = 'block';
+        loadCoupons();
+    } else {
+        alert("Password Salah!");
+        window.location.href = "home.html";
+    }
+
+    function addCoupon() {
+        const code = document.getElementById('couponCode').value.trim().toUpperCase();
+        const percent = document.getElementById('couponPercent').value;
+
+        if (!code || !percent) {
+            alert("Harap isi semua kolom!");
+            return;
+        }
+
+        if (percent < 1 || percent > 100) {
+            alert("Persen diskon harus antara 1 - 100");
+            return;
+        }
+
+        let coupons = JSON.parse(localStorage.getItem('nazama_coupons')) || [];
+        
+        // Cek jika kode sudah ada
+        if (coupons.find(c => c.code === code)) {
+            alert("Kode kupon ini sudah ada!");
+            return;
+        }
+
+        coupons.push({ code, percent: parseInt(percent) });
+        localStorage.setItem('nazama_coupons', JSON.stringify(coupons));
+        
+        // Reset form
+        document.getElementById('couponCode').value = "";
+        document.getElementById('couponPercent').value = "";
+        
+        alert("Kupon " + code + " berhasil diaktifkan!");
+        loadCoupons();
+    }
+
+    function loadCoupons() {
+        const coupons = JSON.parse(localStorage.getItem('nazama_coupons')) || [];
+        const tableBody = document.getElementById('couponTableBody');
+        tableBody.innerHTML = "";
+
+        if (coupons.length === 0) {
+            tableBody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>Belum ada kupon aktif</td></tr>";
+            return;
+        }
+
+        coupons.forEach((c, index) => {
+            tableBody.innerHTML += `
+                <tr>
+                    <td><strong>${c.code}</strong></td>
+                    <td>${c.percent}%</td>
+                    <td><span class="status-badge">Aktif</span></td>
+                    <td>
+                        <button class="delete-btn" onclick="deleteCoupon(${index})">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    function deleteCoupon(index) {
+        if (confirm("Hapus kupon ini?")) {
+            let coupons = JSON.parse(localStorage.getItem('nazama_coupons')) || [];
+            coupons.splice(index, 1);
+            localStorage.setItem('nazama_coupons', JSON.stringify(coupons));
+            loadCoupons();
+        }
+    }
+</script>
+
+</body>
+          </html>
