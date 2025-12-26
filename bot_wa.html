@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nazamacloud - Sewa Hosting Bot WA</title>
+    <link rel="icon" href="https://i.imgur.com/5nKiHXG.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --header-bg: #ffffff;
+            --card-bg: #ffffff;
+            --primary-color: #3b82f6;
+            --secondary-color: #10b981;
+            --border-color: #e2e8f0;
+            --sidebar-width: 280px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; }
+
+        /* Header */
+        header {
+            background: var(--header-bg);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .menu-btn { font-size: 1.5rem; cursor: pointer; color: var(--primary-color); }
+        
+        /* Sidebar */
+        .sidebar {
+            position: fixed; top: 0; right: -300px; width: var(--sidebar-width); height: 100%;
+            background: var(--header-bg); box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: 0.3s; z-index: 2000; padding: 2rem 1rem;
+        }
+        .sidebar.active { right: 0; }
+        .close-sidebar { position: absolute; top: 1rem; left: 1rem; cursor: pointer; font-size: 1.2rem; }
+
+        .nav-link { 
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px; text-decoration: none; color: var(--text-color);
+            font-weight: 500; border-radius: 8px; margin-bottom: 5px; cursor: pointer;
+        }
+        .nav-link:hover { background: #f1f5f9; }
+        .submenu { display: none; padding-left: 1.5rem; flex-direction: column; }
+        .submenu.show { display: flex; }
+
+        /* Main Content */
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; text-align: center; }
+        .section-title { margin: 3rem 0 1.5rem; color: var(--primary-color); border-bottom: 2px solid var(--primary-color); display: inline-block; padding-bottom: 5px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+        
+        .bot-card {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            padding: 1.5rem; border-radius: 16px; transition: 0.3s;
+        }
+        .bot-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        
+        .price { font-size: 1.5rem; font-weight: 800; margin: 0.5rem 0; color: var(--text-color); }
+        .btn-buy {
+            background: var(--primary-color); color: white; border: none;
+            width: 100%; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px;
+        }
+
+        /* Language Toggle */
+        .lang-section { margin-top: auto; border-top: 1px solid #eee; padding-top: 1rem; position: absolute; bottom: 20px; width: calc(100% - 2rem); }
+        .lang-btn { background: none; border: 1px solid #ccc; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="https://i.imgur.com/5nKiHXG.png" width="40" alt="Logo">
+            <b>Nazamacloud Bot WA</b>
+        </div>
+        <div style="display: flex; gap: 20px; align-items: center;">
+            <a href="cart.html" style="text-decoration: none; color: inherit;">🛒 <span id="cart-count">0</span></a>
+            <i class="fas fa-bars menu-btn" onclick="toggleSidebar()"></i>
+        </div>
+    </header>
+
+    <div class="sidebar" id="sidebar">
+        <i class="fas fa-times close-sidebar" onclick="toggleSidebar()"></i>
+        <div style="margin-top: 2rem;">
+            <a href="home.html" class="nav-link">
+                <span><i class="fas fa-home"></i> HOME</span>
+            </a>
+            
+            <div class="nav-link" onclick="toggleShop()">
+                <span><i class="fas fa-shopping-cart"></i> SHOP</span>
+                <i class="fas fa-chevron-down" id="shop-icon"></i>
+            </div>
+            <div class="submenu" id="shop-menu">
+                <a href="domain.html" class="nav-link">Domain</a>
+                <a href="panel_mc.html" class="nav-link">Panel MC</a>
+                <a href="bot_wa.html" class="nav-link">Bot WA</a>
+            </div>
+        </div>
+
+        <div class="lang-section">
+            <p style="font-size: 0.8rem; margin-bottom: 10px;">Language / Bahasa:</p>
+            <button class="lang-btn" onclick="setLang('id')">🇮🇩 Indonesia</button>
+            <button class="lang-btn" onclick="setLang('en')">🇺🇸 English</button>
+        </div>
+    </div>
+
+    <main class="container">
+        <h1>Hosting Bot WhatsApp</h1>
+        <p>Pilih paket hosting terbaik untuk bot WhatsApp Anda agar selalu online 24/7.</p>
+
+        <h2 class="section-title">Low Paket</h2>
+        <div class="grid" id="low-grid"></div>
+
+        <h2 class="section-title">High Paket</h2>
+        <div class="grid" id="high-grid"></div>
+    </main>
+
+    <script>
+        const lowPaket = [
+            { ram: "1GB", price: 2000 }, { ram: "2GB", price: 3000 },
+            { ram: "3GB", price: 4000 }, { ram: "4GB", price: 5000 },
+            { ram: "5GB", price: 6000 }, { ram: "Unlimited", price: 10000 }
+        ];
+
+        const highPaket = [
+            { ram: "1GB", price: 3000 }, { ram: "2GB", price: 5000 },
+            { ram: "3GB", price: 7000 }, { ram: "4GB", price: 9000 },
+            { ram: "5GB", price: 11000 }, { ram: "Unlimited", price: 15000 }
+        ];
+
+        function renderBotPaket() {
+            const lowContainer = document.getElementById('low-grid');
+            const highContainer = document.getElementById('high-grid');
+
+            lowContainer.innerHTML = lowPaket.map(p => `
+                <div class="bot-card">
+                    <h3>Bot WA Low ${p.ram}</h3>
+                    <div class="price">Rp ${p.price.toLocaleString()}</div>
+                    <p style="font-size: 0.8rem; color: #666;">Uptime 99.9% | Fast Response</p>
+                    <button class="btn-buy" onclick="addToCart('Bot WA Low ${p.ram}', ${p.price})">Add to Cart</button>
+                </div>
+            `).join('');
+
+            highContainer.innerHTML = highPaket.map(p => `
+                <div class="bot-card">
+                    <h3 style="color: #ef4444;">Bot WA High ${p.ram}</h3>
+                    <div class="price">Rp ${p.price.toLocaleString()}</div>
+                    <p style="font-size: 0.8rem; color: #666;">High Priority | Anti Delay</p>
+                    <button class="btn-buy" style="background:#ef4444;" onclick="addToCart('Bot WA High ${p.ram}', ${p.price})">Add to Cart</button>
+                </div>
+            `).join('');
+        }
+
+        // Sidebar Logic
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
+        function toggleShop() {
+            document.getElementById('shop-menu').classList.toggle('show');
+            document.getElementById('shop-icon').classList.toggle('fa-rotate-180');
+        }
+
+        // Cart Logic
+        function addToCart(name, price) {
+            let cart = JSON.parse(localStorage.getItem('nazama_cart')) || [];
+            cart.push({
+                nama: name,
+                harga: price,
+                type: 'Bot WA',
+                fileSource: 'bot_wa.html'
+            });
+            localStorage.setItem('nazama_cart', JSON.stringify(cart));
+            updateCartCount();
+            alert(name + " berhasil masuk keranjang!");
+        }
+
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('nazama_cart')) || [];
+            document.getElementById('cart-count').innerText = cart.length;
+        }
+
+        function setLang(lang) {
+            alert(lang === 'id' ? "Bahasa diubah ke Indonesia" : "Language changed to English");
+        }
+
+        window.onload = () => {
+            renderBotPaket();
+            updateCartCount();
+        };
+    </script>
+</body>
+                  </html>
