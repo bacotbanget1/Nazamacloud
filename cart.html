@@ -3,201 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keranjang Belanja - Nazamacloud</title>
-    <link rel="icon" href="https://i.imgur.com/5nKiHXG.png" type="image/png">
+    <title>Keranjang - Nazamacloud</title>
+    <link rel="icon" href="https://i.imgur.com/iyWLyWw.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
     <style>
-        :root {
-            --bg-color: #f8fafc;
-            --text-color: #1e293b;
-            --header-bg: #ffffff;
-            --primary-color: #3b82f6;
-            --secondary-color: #10b981;
-            --border-color: #e2e8f0;
-            --sidebar-width: 280px;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; }
-
-        /* Header & Sidebar */
-        header {
-            background: var(--header-bg); padding: 1rem 2rem;
-            display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000;
-        }
-
-        .sidebar {
-            position: fixed; top: 0; right: -300px; width: var(--sidebar-width); height: 100%;
-            background: var(--header-bg); box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-            transition: 0.3s; z-index: 2000; padding: 2rem 1rem;
-        }
-        .sidebar.active { right: 0; }
-        .close-sidebar { position: absolute; top: 1rem; left: 1rem; cursor: pointer; font-size: 1.2rem; }
-
-        .nav-link { 
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 12px; text-decoration: none; color: var(--text-color);
-            font-weight: 500; border-radius: 8px; margin-bottom: 5px; cursor: pointer;
-        }
-        .nav-link:hover { background: #f1f5f9; }
-
-        /* Cart Styles */
-        .container { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
-        .cart-card { background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color); }
-        .cart-item { border-bottom: 1px solid #eee; padding: 15px 0; }
-        
-        .detail-input { 
-            width: 100%; padding: 12px; margin-top: 10px; 
-            border: 1px solid var(--border-color); border-radius: 8px; 
-            background: #f8fafc; font-size: 0.9rem;
-        }
-
-        .old-price { text-decoration: line-through; color: #94a3b8; font-size: 1.2rem; margin-right: 10px; }
-        .btn-checkout {
-            background: #25d366; color: white; border: none; width: 100%; padding: 15px;
-            border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 1.5rem;
-        }
-        
-        .btn-remove { color: #ef4444; cursor: pointer; background: none; border: none; }
+        :root { --primary: #3b82f6; --bg: #f8fafc; }
+        body { font-family: sans-serif; background: var(--bg); color: #1e293b; padding: 20px; }
+        .card { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .cart-item { border-bottom: 1px solid #eee; padding: 15px 0; position: relative; }
+        .old-price { text-decoration: line-through; color: #94a3b8; margin-right: 8px; }
+        .detail-input { width: 100%; padding: 10px; margin-top: 10px; border: 1px solid #ddd; border-radius: 8px; background: #f1f5f9; }
+        .btn-wa { background: #25d366; color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .coupon-section { background: #f1f5f9; padding: 15px; border-radius: 10px; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <img src="https://i.imgur.com/5nKiHXG.png" width="40" alt="Logo">
-            <b>Keranjang Belanja</b>
-        </div>
-        <i class="fas fa-bars" style="cursor:pointer; font-size: 1.5rem;" onclick="toggleSidebar()"></i>
-    </header>
+<div class="card">
+    <h2>🛒 Keranjang Belanja</h2>
+    <div id="cart-list"></div>
 
-    <div class="sidebar" id="sidebar">
-        <i class="fas fa-times close-sidebar" onclick="toggleSidebar()"></i>
-        <div style="margin-top: 2rem;">
-            <a href="https://shop.nazamacloud.my.id/" class="nav-link"><span><i class="fas fa-home"></i> HOME</span></a>
-            <a href="https://shop.nazamacloud.my.id/domain" class="nav-link"><span><i class="fas fa-globe"></i> DOMAIN</span></a>
-            <a href="https://shop.nazamacloud.my.id/panel_mc" class="nav-link"><span><i class="fas fa-server"></i> PANEL MC</span></a>
+    <div class="coupon-section">
+        <p>Gunakan Kupon:</p>
+        <div style="display:flex; gap:10px;">
+            <input type="text" id="coupon-input" style="flex:1; padding:10px; border-radius:8px; border:1px solid #ddd;" placeholder="KODE KUPON">
+            <button id="apply-btn" style="padding:10px; background:var(--primary); color:white; border:none; border-radius:8px;">Pakai</button>
         </div>
+        <p id="coupon-msg" style="margin-top:5px; font-size:0.8rem;"></p>
     </div>
 
-    <main class="container">
-        <div class="cart-card">
-            <h2>🛒 Barang dalam Keranjang</h2>
-            <div id="cart-items">
-                </div>
+    <div id="total-area" style="font-size: 1.4rem; font-weight: bold; margin-top: 20px;">Total: Rp 0</div>
+    <button class="btn-wa" onclick="checkoutWA()"><i class="fab fa-whatsapp"></i> Checkout via WhatsApp</button>
+</div>
 
-            <div style="background: #f1f5f9; padding: 1.5rem; border-radius: 12px; margin-top: 2rem;">
-                <p style="font-weight: bold; margin-bottom: 10px;">Punya Kode Promo?</p>
-                <div style="display: flex; gap: 10px;">
-                    <input type="text" id="coupon-input" style="flex:1; padding:10px; border-radius:8px; border:1px solid #ddd;" placeholder="KODE DISKON">
-                    <button onclick="applyCoupon()" style="padding:10px 20px; background:var(--primary-color); color:white; border:none; border-radius:8px; cursor:pointer;">Pakai</button>
-                </div>
-                <p id="coupon-status" style="margin-top: 8px; font-size: 0.85rem;"></p>
-            </div>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-            <div id="total-area" style="font-size: 1.5rem; font-weight: bold; margin-top: 1.5rem;">
-                Total: Rp 0
-            </div>
+    const firebaseConfig = { /* SAMA DENGAN DI ATAS */ };
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-            <button class="btn-checkout" onclick="checkoutWhatsApp()">
-                <i class="fab fa-whatsapp"></i> Beli via WhatsApp
-            </button>
-        </div>
-    </main>
+    let cart = JSON.parse(localStorage.getItem('nazama_cart')) || [];
+    let discount = 0;
+    let activeCode = "";
 
-    <script>
-        let cart = JSON.parse(localStorage.getItem('nazama_cart')) || [];
-        let discountPercent = 0;
+    function render() {
+        const list = document.getElementById('cart-list');
+        let subtotal = 0;
+        list.innerHTML = cart.length ? "" : "Keranjang kosong.";
 
-        function renderCart() {
-            const container = document.getElementById('cart-items');
-            let total = 0;
-            container.innerHTML = cart.length === 0 ? "<p>Keranjang kosong.</p>" : "";
+        cart.forEach((item, i) => {
+            subtotal += item.harga;
+            let hint = item.type === 'Panel MC' ? "Username & Nama Server" : "Detail Pesanan (Contoh: nama.com)";
+            list.innerHTML += `
+                <div class="cart-item">
+                    <b>${item.nama}</b> (${item.type}) <br>
+                    <span style="color:var(--primary); font-weight:bold;">Rp ${item.harga.toLocaleString()}</span>
+                    <input type="text" class="detail-input" placeholder="${hint}" onchange="saveDetail(${i}, this.value)" value="${item.detail||''}">
+                </div>`;
+        });
 
-            cart.forEach((item, index) => {
-                total += item.harga;
-                
-                // LOGIKA SMART PLACEHOLDER
-                let hint = "Masukkan detail pesanan...";
-                if (item.type === 'Domain') hint = "Contoh: namamu.com";
-                else if (item.type === 'Panel MC') hint = "Contoh: Username Panel & Nama Server";
-                else if (item.type === 'Bot WA') hint = "Contoh: Nomor WhatsApp Bot";
-
-                container.innerHTML += `
-                    <div class="cart-item">
-                        <div style="display:flex; justify-content:space-between;">
-                            <div>
-                                <strong>${item.nama}</strong> <small>(${item.type})</small><br>
-                                <span style="color:var(--primary-color); font-weight:bold;">Rp ${item.harga.toLocaleString()}</span>
-                            </div>
-                            <button class="btn-remove" onclick="removeItem(${index})"><i class="fas fa-trash"></i></button>
-                        </div>
-                        <input type="text" class="detail-input" 
-                               placeholder="${hint}" 
-                               onchange="updateDetail(${index}, this.value)" 
-                               value="${item.detail || ''}">
-                    </div>
-                `;
-            });
-
-            // Update Harga Coret
-            const totalArea = document.getElementById('total-area');
-            if (discountPercent > 0) {
-                let discounted = total - (total * discountPercent / 100);
-                totalArea.innerHTML = `Total: <span class="old-price">~Rp ${total.toLocaleString()}~</span> <span style="color:var(--secondary-color)">Rp ${discounted.toLocaleString()}</span>`;
-            } else {
-                totalArea.innerHTML = `Total: Rp ${total.toLocaleString()}`;
-            }
+        const totalArea = document.getElementById('total-area');
+        if(discount > 0) {
+            let final = subtotal - (subtotal * discount / 100);
+            totalArea.innerHTML = `Total: <span class="old-price">~Rp ${subtotal.toLocaleString()}~</span> <span style="color:#10b981">Rp ${final.toLocaleString()}</span>`;
+        } else {
+            totalArea.innerHTML = `Total: Rp ${subtotal.toLocaleString()}`;
         }
+    }
 
-        function updateDetail(index, val) {
-            cart[index].detail = val;
-            localStorage.setItem('nazama_cart', JSON.stringify(cart));
-        }
+    window.saveDetail = (i, val) => { cart[i].detail = val; localStorage.setItem('nazama_cart', JSON.stringify(cart)); };
 
-        function removeItem(index) {
-            cart.splice(index, 1);
-            localStorage.setItem('nazama_cart', JSON.stringify(cart));
-            renderCart();
-        }
+    document.getElementById('apply-btn').onclick = async () => {
+        const code = document.getElementById('coupon-input').value.toUpperCase();
+        const snap = await get(ref(db, 'coupons/' + code));
+        if(snap.exists()) {
+            discount = snap.val().percent;
+            activeCode = code;
+            document.getElementById('coupon-msg').innerText = `Diskon ${discount}% Berhasil!`;
+            document.getElementById('coupon-msg').style.color = "green";
+            render();
+        } else { alert("Kupon tidak ditemukan di database!"); }
+    };
 
-        function applyCoupon() {
-            const code = document.getElementById('coupon-input').value.toUpperCase();
-            const saved = JSON.parse(localStorage.getItem('nazama_coupons')) || [];
-            const found = saved.find(c => c.code === code);
-            
-            if (found) {
-                discountPercent = found.percent;
-                document.getElementById('coupon-status').innerText = "Diskon " + found.percent + "% Aktif!";
-                document.getElementById('coupon-status').style.color = "green";
-            } else {
-                alert("Kupon tidak ditemukan!");
-            }
-            renderCart();
-        }
+    window.checkoutWA = () => {
+        let text = "*ORDER NAZAMACLOUD*\n\n";
+        cart.forEach(item => { text += `- ${item.nama}: ${item.detail || '-'}\n`; });
+        text += `\n*Kupon:* ${activeCode || '-'}\n*Total:* ${document.getElementById('total-area').innerText}`;
+        window.open(`https://wa.me/6283142474788?text=${encodeURIComponent(text)}`);
+    };
 
-        function checkoutWhatsApp() {
-            if (cart.length === 0) return;
-            let detailPesan = "";
-            let subtotal = 0;
-
-            cart.forEach(item => {
-                detailPesan += `- ${item.nama} (${item.type}): ${item.detail || 'Tidak ada detail'}\n`;
-                subtotal += item.harga;
-            });
-
-            let final = subtotal - (subtotal * discountPercent / 100);
-            let totalTxt = discountPercent > 0 ? `~Rp ${subtotal.toLocaleString()}~ Rp ${final.toLocaleString()}` : `Rp ${subtotal.toLocaleString()}`;
-
-            let pesan = `*ORDER BARU NAZAMACLOUD*\n\n${detailPesan}\n*TOTAL:* ${totalTxt}`;
-            window.open(`https://wa.me/6283142474788?text=${encodeURIComponent(pesan)}`, '_blank');
-        }
-
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
-        
-        window.onload = renderCart;
-    </script>
+    render();
+</script>
 </body>
 </html>
