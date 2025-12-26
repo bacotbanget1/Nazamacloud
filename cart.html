@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keranjang Belanja - Nazamacloud</title>
+    <link rel="icon" href="https://i.imgur.com/5nKiHXG.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --header-bg: #ffffff;
+            --card-bg: #ffffff;
+            --primary-color: #3b82f6;
+            --secondary-color: #10b981;
+            --border-color: #e2e8f0;
+            --sidebar-width: 280px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; }
+
+        /* Header */
+        header {
+            background: var(--header-bg);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .menu-btn { font-size: 1.5rem; cursor: pointer; color: var(--primary-color); }
+        
+        /* Sidebar */
+        .sidebar {
+            position: fixed; top: 0; right: -300px; width: var(--sidebar-width); height: 100%;
+            background: var(--header-bg); box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: 0.3s; z-index: 2000; padding: 2rem 1rem;
+        }
+        .sidebar.active { right: 0; }
+        .close-sidebar { position: absolute; top: 1rem; left: 1rem; cursor: pointer; font-size: 1.2rem; }
+
+        .nav-link { 
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px; text-decoration: none; color: var(--text-color);
+            font-weight: 500; border-radius: 8px; margin-bottom: 5px; cursor: pointer;
+        }
+        .nav-link:hover { background: #f1f5f9; }
+        .submenu { display: none; padding-left: 1.5rem; flex-direction: column; }
+        .submenu.show { display: flex; }
+
+        /* Cart Content */
+        .container { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+        .cart-card { background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color); }
+        
+        .cart-item { border-bottom: 1px solid #eee; padding: 15px 0; }
+        .cart-item:last-child { border-bottom: none; }
+        
+        input[type="text"] { width: 100%; padding: 10px; margin-top: 8px; border: 1px solid var(--border-color); border-radius: 8px; outline: none; }
+        
+        .coupon-box { background: #f1f5f9; padding: 1.5rem; border-radius: 12px; margin-top: 2rem; }
+        
+        .price-display { font-size: 1.5rem; font-weight: bold; margin-top: 1.5rem; }
+        .old-price { text-decoration: line-through; color: #94a3b8; font-size: 1.2rem; margin-right: 10px; }
+        
+        .btn-checkout {
+            background: #25d366; color: white; border: none; width: 100%; padding: 15px;
+            border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 1.5rem;
+        }
+        
+        .btn-remove { color: #ef4444; cursor: pointer; font-size: 0.8rem; background: none; border: none; margin-top: 5px; }
+
+        /* Language Toggle */
+        .lang-section { margin-top: auto; border-top: 1px solid #eee; padding-top: 1rem; position: absolute; bottom: 20px; width: calc(100% - 2rem); }
+        .lang-btn { background: none; border: 1px solid #ccc; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="https://i.imgur.com/5nKiHXG.png" width="40" alt="Logo">
+            <b>Keranjang Saya</b>
+        </div>
+        <i class="fas fa-bars menu-btn" onclick="toggleSidebar()"></i>
+    </header>
+
+    <div class="sidebar" id="sidebar">
+        <i class="fas fa-times close-sidebar" onclick="toggleSidebar()"></i>
+        <div style="margin-top: 2rem;">
+            <a href="home.html" class="nav-link">
+                <span><i class="fas fa-home"></i> HOME</span>
+            </a>
+            <div class="nav-link" onclick="toggleShop()">
+                <span><i class="fas fa-shopping-cart"></i> SHOP</span>
+                <i class="fas fa-chevron-down" id="shop-icon"></i>
+            </div>
+            <div class="submenu" id="shop-menu">
+                <a href="domain.html" class="nav-link">Domain</a>
+                <a href="panel_mc.html" class="nav-link">Panel MC</a>
+                <a href="bot_wa.html" class="nav-link">Bot WA</a>
+            </div>
+        </div>
+        <div class="lang-section">
+            <button class="lang-btn" onclick="alert('Bahasa Indonesia Aktif')">🇮🇩 Indonesia</button>
+            <button class="lang-btn" onclick="alert('English Language Active')">🇺🇸 English</button>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="cart-card">
+            <h2>🛒 Daftar Belanja</h2>
+            <div id="cart-items">
+                </div>
+
+            <div class="coupon-box">
+                <p style="font-weight: bold; margin-bottom: 10px;">Gunakan Kode Potongan</p>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="coupon-input" placeholder="KODE DISKON">
+                    <button onclick="applyCoupon()" style="padding: 10px 20px; background: var(--primary-color); color:white; border:none; border-radius:8px; cursor:pointer;">Pakai</button>
+                </div>
+                <p id="coupon-status" style="margin-top: 8px; font-size: 0.85rem;"></p>
+            </div>
+
+            <div class="price-display" id="total-area">
+                Total: Rp 0
+            </div>
+
+            <button class="btn-checkout" onclick="checkoutWhatsApp()">
+                <i class="fab fa-whatsapp"></i> Beli Sekarang via WhatsApp
+            </button>
+            <a href="home.html" style="display: block; text-align: center; margin-top: 15px; color: #64748b; text-decoration: none;">← Kembali Belanja</a>
+        </div>
+    </main>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('nazama_cart')) || [];
+        let discountPercent = 0;
+        let activeCouponCode = "";
+
+        function renderCart() {
+            const container = document.getElementById('cart-items');
+            let total = 0;
+            container.innerHTML = cart.length === 0 ? "<p style='padding:20px; color:#64748b;'>Keranjang kosong.</p>" : "";
+
+            cart.forEach((item, index) => {
+                total += item.harga;
+                container.innerHTML += `
+                    <div class="cart-item">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                            <div>
+                                <strong>${item.nama}</strong> <span style="font-size:0.7rem; background:#e2e8f0; padding:2px 5px; border-radius:4px;">${item.type}</span><br>
+                                <span style="color:var(--primary-color); font-weight:bold;">Rp ${item.harga.toLocaleString()}</span>
+                            </div>
+                            <button class="btn-remove" onclick="removeItem(${index})"><i class="fas fa-trash"></i></button>
+                        </div>
+                        <input type="text" placeholder="Detail (Contoh: nama-domain.my.id)" onchange="updateItemDetail(${index}, this.value)" value="${item.detail || ''}">
+                    </div>
+                `;
+            });
+
+            // Logika Harga Coret
+            const totalArea = document.getElementById('total-area');
+            if (discountPercent > 0) {
+                let discountedPrice = total - (total * discountPercent / 100);
+                totalArea.innerHTML = `
+                    <span style="font-size: 0.9rem; display:block; color:#64748b;">Total Pembayaran:</span>
+                    <span class="old-price">~Rp ${total.toLocaleString()}~</span>
+                    <span style="color: var(--secondary-color);">Rp ${discountedPrice.toLocaleString()}</span>
+                `;
+            } else {
+                totalArea.innerHTML = `Total: Rp ${total.toLocaleString()}`;
+            }
+        }
+
+        function updateItemDetail(index, val) {
+            cart[index].detail = val;
+            localStorage.setItem('nazama_cart', JSON.stringify(cart));
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('nazama_cart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        function applyCoupon() {
+            const codeInput = document.getElementById('coupon-input').value.toUpperCase();
+            const status = document.getElementById('coupon-status');
+            const savedCoupons = JSON.parse(localStorage.getItem('nazama_coupons')) || [];
+            
+            const found = savedCoupons.find(c => c.code === codeInput);
+
+            if (found) {
+                discountPercent = found.percent;
+                activeCouponCode = found.code;
+                status.innerText = `Kupon Berhasil! Diskon ${found.percent}% digunakan.`;
+                status.style.color = "green";
+            } else {
+                discountPercent = 0;
+                activeCouponCode = "";
+                status.innerText = "Kupon tidak valid.";
+                status.style.color = "red";
+            }
+            renderCart();
+        }
+
+        function checkoutWhatsApp() {
+            if (cart.length === 0) return alert("Keranjang belanja kosong!");
+            
+            // Cek apakah ada detail yang kosong
+            let emptyDetail = cart.some(item => !item.detail);
+            if(emptyDetail) {
+                alert("Harap isi DETAIL untuk setiap produk (seperti Nama Domain atau Nama Server)!");
+                return;
+            }
+
+            let barangList = "";
+            let typeList = "";
+            let detailList = "";
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                barangList += `- ${item.nama}\n`;
+                typeList += `- ${item.type}\n`;
+                detailList += `- ${item.nama}: ${item.detail}\n`;
+                subtotal += item.harga;
+            });
+
+            let finalTotal = subtotal - (subtotal * discountPercent / 100);
+            let totalTxt = discountPercent > 0 
+                ? `~Rp ${subtotal.toLocaleString()}~ Rp ${finalTotal.toLocaleString()}`
+                : `Rp ${subtotal.toLocaleString()}`;
+
+            let pesan = `*ORDER BARU - NAZAMACLOUD*\n\n` +
+                        `*BARANG :*\n${barangList}\n` +
+                        `*TYPE :*\n${typeList}\n` +
+                        `*DETAIL :*\n${detailList}\n` +
+                        `*KODE DISKON :* ${activeCouponCode || '-'}\n` +
+                        `*TOTAL PEMBAYARAN :* ${totalTxt}`;
+
+            window.open(`https://wa.me/6283142474788?text=${encodeURIComponent(pesan)}`, '_blank');
+            
+            // Hapus keranjang setelah checkout sukses
+            localStorage.removeItem('nazama_cart');
+            location.reload();
+        }
+
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
+        function toggleShop() {
+            document.getElementById('shop-menu').classList.toggle('show');
+            document.getElementById('shop-icon').classList.toggle('fa-rotate-180');
+        }
+
+        renderCart();
+    </script>
+</body>
+  </html>
