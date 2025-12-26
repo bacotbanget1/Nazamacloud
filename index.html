@@ -3,23 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nazamacloud - Beli Domain Murah dan Terpercaya</title>
+    <title>Nazamacloud - Solusi Cloud & Digital Terbaik</title>
     <link rel="icon" href="https://i.imgur.com/5nKiHXG.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- Firebase SDK di-import di firebase.js -->
-    
-    <!-- External Scripts -->
-    <script src="firebase.js" type="module" defer></script>
-    <script src="app.js" defer></script>
-    
-    <meta property="og:title" content="Nazamacloud - Beli Domain Murah dan Terpercaya">
-    <meta property="og:description" content="Temukan dan beli domain populer, terbaru, dan terpercaya di Nazamacloud!">
-    <meta property="og:image" content="https://i.imgur.com/5nKiHXG.png">
-    <meta property="og:url" content="https://shop.nazamacloud.my.id">
-    <meta property="og:type" content="website">
-
     <style>
-        /* CSS Utama */
         :root {
             --bg-color: #f8fafc;
             --text-color: #1e293b;
@@ -28,634 +16,197 @@
             --primary-color: #3b82f6;
             --secondary-color: #10b981;
             --border-color: #e2e8f0;
-            --shadow-color: rgba(0, 0, 0, 0.08);
-            --success-color: #10b981;
-            --danger-color: #ef4444;
+            --sidebar-width: 280px;
         }
 
-        body.dark-mode {
-            --bg-color: #0f172a;
-            --text-color: #f1f5f9;
-            --header-bg: #1e293b;
-            --card-bg: #334155;
-            --primary-color: #60a5fa;
-            --secondary-color: #34d399;
-            --border-color: #475569;
-            --shadow-color: rgba(255, 255, 255, 0.05);
-            --success-color: #34d399;
-            --danger-color: #f87171;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: background-color 0.3s, color 0.3s;
-            line-height: 1.6;
-            min-height: 100vh;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; }
 
         /* Header */
         header {
-            background-color: var(--header-bg);
-            box-shadow: 0 2px 10px var(--shadow-color);
+            background: var(--header-bg);
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 1000;
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .menu-btn { font-size: 1.5rem; cursor: pointer; color: var(--primary-color); }
 
-        .logo-container img {
-            height: 40px;
-            width: 40px;
-            border-radius: 8px;
+        /* Sidebar */
+        .sidebar {
+            position: fixed; top: 0; right: -300px; width: var(--sidebar-width); height: 100%;
+            background: var(--header-bg); box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: 0.3s; z-index: 2000; padding: 2rem 1rem;
         }
+        .sidebar.active { right: 0; }
+        .close-sidebar { position: absolute; top: 1rem; left: 1rem; cursor: pointer; font-size: 1.2rem; }
 
-        .logo-container h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
+        .nav-link { 
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px; text-decoration: none; color: var(--text-color);
+            font-weight: 500; border-radius: 8px; margin-bottom: 5px; cursor: pointer;
         }
+        .nav-link:hover { background: #f1f5f9; }
+        .submenu { display: none; padding-left: 1.5rem; flex-direction: column; }
+        .submenu.show { display: flex; }
 
-        /* Navigation */
-        nav {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        nav a, button {
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 500;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .external-link-btn {
-            background-color: var(--primary-color);
+        /* Hero Section */
+        .hero {
+            padding: 5rem 1rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
             color: white;
-        }
-
-        .external-link-btn:hover {
-            background-color: var(--primary-color);
-            opacity: 0.9;
-        }
-
-        #theme-toggle {
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-        }
-
-        #theme-toggle:hover {
-            background-color: var(--border-color);
-        }
-
-        /* Auth Buttons */
-        .login-btn {
-            background-color: #4285f4;
-            color: white;
-            padding: 8px 16px;
-        }
-
-        .login-btn:hover {
-            background-color: #3367d6;
-        }
-
-        .logout-btn {
-            background-color: var(--danger-color);
-            color: white;
-            padding: 6px 12px;
-            font-size: 0.8rem;
-        }
-
-        .logout-btn:hover {
-            background-color: var(--danger-color);
-            opacity: 0.9;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--primary-color);
-        }
-
-        .user-name {
-            font-weight: 500;
-            font-size: 0.9rem;
-            max-width: 150px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        /* Login Modal */
-        .login-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .login-modal.active {
-            display: flex;
-        }
-
-        .login-content {
-            background-color: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-color);
-            opacity: 0.6;
-        }
-
-        .close-modal:hover {
-            opacity: 1;
-        }
-
-        .login-content h2 {
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-            font-size: 1.5rem;
-        }
-
-        .login-content p {
-            margin-bottom: 1.5rem;
-            color: var(--text-color);
-            opacity: 0.8;
-            font-size: 0.95rem;
-        }
-
-        .modal-login-btn {
-            background-color: #4285f4;
-            color: white;
-            padding: 14px 24px;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 500;
-            width: 100%;
-            max-width: 300px;
-            margin: 0 auto;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .modal-login-btn:hover {
-            background-color: #3367d6;
-        }
-
-        .google-icon {
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 3px;
-            padding: 3px;
-        }
-
-        /* Premium Features */
-        .premium-features {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 2rem auto;
-            max-width: 1200px;
-            display: none;
-        }
-
-        .premium-features h2 {
-            margin-bottom: 1rem;
-            text-align: center;
-            font-size: 1.5rem;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 12px;
             text-align: center;
         }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; opacity: 0.9; max-width: 700px; margin: 0 auto 2rem; }
+        .hero-btns { display: flex; justify-content: center; gap: 15px; }
+        .btn-main { background: white; color: var(--primary-color); padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; }
+        .btn-alt { background: rgba(255,255,255,0.1); color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; border: 1px solid white; }
 
-        .feature-card h3 {
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
+        /* Feature Section */
+        .container { max-width: 1200px; margin: 4rem auto; padding: 0 1.5rem; }
+        .section-title { text-align: center; margin-bottom: 3rem; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .feature-card { background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; border: 1px solid var(--border-color); }
+        .feature-card i { font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem; }
+        .feature-card h3 { margin-bottom: 1rem; font-size: 1.5rem; }
 
-        /* Search & Categories */
-        .search-container {
-            text-align: center;
-            padding: 2rem 1rem;
-        }
+        /* Promo Section */
+        .promo-banner { background: #1e293b; color: white; padding: 3rem; border-radius: 20px; display: flex; align-items: center; justify-content: space-between; margin-top: 4rem; overflow: hidden; position: relative; }
+        .promo-content { position: relative; z-index: 2; }
+        .promo-banner h2 { font-size: 2rem; margin-bottom: 10px; }
+        
+        /* Language Toggle */
+        .lang-section { margin-top: auto; border-top: 1px solid #eee; padding-top: 1rem; position: absolute; bottom: 20px; width: calc(100% - 2rem); }
+        .lang-btn { background: none; border: 1px solid #ccc; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
 
-        .search-container input {
-            padding: 1rem 1.5rem;
-            width: 80%;
-            max-width: 600px;
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            font-size: 1rem;
-            background-color: var(--card-bg);
-            color: var(--text-color);
-        }
-
-        .search-container input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-
-        .category-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin: 1rem auto;
-            max-width: 1200px;
-            padding: 0 1rem;
-        }
-
-        .category-tabs button {
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-        }
-
-        .category-tabs button.active {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        /* Domain Cards */
-        .domains-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        .domain-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 12px var(--shadow-color);
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .domain-card.premium-discount {
-            border: 2px solid var(--success-color);
-        }
-
-        .domain-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 24px var(--shadow-color);
-        }
-
-        .domain-card h3 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-            font-size: 1.5rem;
-        }
-
-        .discount-badge {
-            background-color: var(--success-color);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .domain-card .price {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text-color);
-            margin: 1rem 0;
-        }
-
-        .domain-card .price.discounted {
-            color: var(--success-color);
-        }
-
-        .domain-card button {
-            width: 100%;
-            padding: 12px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 1rem;
-        }
-
-        .domain-card button:hover {
-            background-color: var(--primary-color);
-            opacity: 0.9;
-        }
-
-        /* Not Found */
-        #not-found-message {
-            text-align: center;
-            padding: 3rem;
-            display: none;
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--header-bg);
-            border-top: 1px solid var(--border-color);
-            padding: 2rem 1rem;
-            margin-top: 3rem;
-            text-align: center;
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
-            }
-            
-            nav {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .user-name {
-                display: none;
-            }
-            
-            .search-container input {
-                width: 100%;
-            }
-            
-            .domains-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-            
-            .category-tabs {
-                overflow-x: auto;
-                padding-bottom: 10px;
-                justify-content: flex-start;
-            }
-            
-            .category-tabs button {
-                flex-shrink: 0;
-            }
-        }
-
-        /* Debug Button */
-        #debugBtn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #4285f4;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 20px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            z-index: 9999;
+            .hero h1 { font-size: 2rem; }
+            .promo-banner { flex-direction: column; text-align: center; gap: 20px; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-container">
-            <img src="https://i.imgur.com/5nKiHXG.png" alt="Nazamacloud Logo">
-            <h1>Nazamacloud Shop</h1>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="https://i.imgur.com/5nKiHXG.png" width="40" alt="Logo">
+            <b style="font-size: 1.2rem;">Nazamacloud</b>
         </div>
-        <nav>
-            <a href="https://shop.nazamacloud.my.id/cari_domain" class="external-link-btn" target="_blank">
-                Cari Domain
-            </a>
-            <a href="https://shop.nazamacloud.my.id/phising_locator" class="external-link-btn" target="_blank">
-                Phising Locator
-            </a>
-            <button id="theme-toggle">Gelap</button>
-            
-            <!-- Auth Section -->
-            <div id="auth-section">
-                <!-- Will be filled by JavaScript -->
-            </div>
-        </nav>
+        <div style="display: flex; gap: 20px; align-items: center;">
+            <a href="cart.html" style="text-decoration: none; color: inherit;">🛒 <span id="cart-count">0</span></a>
+            <i class="fas fa-bars menu-btn" onclick="toggleSidebar()"></i>
+        </div>
     </header>
 
-    <main>
-        <!-- Login Modal -->
-        <div id="loginModal" class="login-modal">
-            <div class="login-content">
-                <button class="close-modal">&times;</button>
-                <h2>🔐 Login ke Nazamacloud</h2>
-                <p>Masuk untuk mendapatkan diskon eksklusif 10% dan fitur premium lainnya!</p>
-                <button class="modal-login-btn" id="googleLoginBtn">
-                    <svg class="google-icon" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                    </svg>
-                    Login dengan Google
-                </button>
-                <p style="margin-top: 15px; font-size: 0.8em; color: #666;">
-                    Login aman dengan akun Google Anda.
-                </p>
+    <div class="sidebar" id="sidebar">
+        <i class="fas fa-times close-sidebar" onclick="toggleSidebar()"></i>
+        <div style="margin-top: 2rem;">
+            <a href="home.html" class="nav-link">
+                <span><i class="fas fa-home"></i> HOME</span>
+            </a>
+            
+            <div class="nav-link" onclick="toggleShop()">
+                <span><i class="fas fa-shopping-cart"></i> SHOP</span>
+                <i class="fas fa-chevron-down" id="shop-icon"></i>
+            </div>
+            <div class="submenu" id="shop-menu">
+                <a href="domain.html" class="nav-link">Domain</a>
+                <a href="panel_mc.html" class="nav-link">Panel MC</a>
+                <a href="bot_wa.html" class="nav-link">Bot WA</a>
             </div>
         </div>
 
-        <!-- Premium Features -->
-        <div id="premiumSection" class="premium-features">
-            <h2>🌟 Selamat Datang di Nazamacloud Premium!</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3>🎁 Diskon 10%</h3>
-                    <p>Harga khusus untuk semua domain</p>
-                </div>
-                <div class="feature-card">
-                    <h3>📊 Dashboard</h3>
-                    <p>Kelola domain dengan mudah</p>
-                </div>
-                <div class="feature-card">
-                    <h3>⚡ Prioritas</h3>
-                    <p>Support 24/7 lebih cepat</p>
-                </div>
+        <div class="lang-section">
+            <p style="font-size: 0.8rem; margin-bottom: 10px;">Language / Bahasa:</p>
+            <button class="lang-btn" onclick="setLang('id')">🇮🇩 Indonesia</button>
+            <button class="lang-btn" onclick="setLang('en')">🇺🇸 English</button>
+        </div>
+    </div>
+
+    <section class="hero">
+        <h1>High Performance Digital Solution</h1>
+        <p>Layanan Cloud Hosting, Panel Minecraft, dan Domain Murah dengan uptime 99.9%. Solusi terbaik untuk kebutuhan server Anda.</p>
+        <div class="hero-btns">
+            <a href="panel_mc.html" class="btn-main">Mulai Sekarang</a>
+            <a href="domain.html" class="btn-alt">Cek Domain</a>
+        </div>
+    </section>
+
+    <main class="container">
+        <div class="section-title">
+            <h2>Layanan Unggulan Kami</h2>
+            <p>Dukungan infrastruktur modern untuk performa maksimal</p>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <i class="fas fa-server"></i>
+                <h3>Server Minecraft</h3>
+                <p>Prosesor Intel® Xeon® E5-2650 v4 dengan RAM DDR4 ECC. Dilengkapi perlindungan Anti-DDoS terintegrasi agar permainan tetap lancar.</p>
+                <a href="panel_mc.html" style="color: var(--primary-color); text-decoration: none; font-weight: bold; display: block; margin-top: 15px;">Mulai Rp 10rb →</a>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-globe"></i>
+                <h3>Domain Murah</h3>
+                <p>Amankan identitas digital Anda dengan berbagai ekstensi populer seperti .COM, .ID, hingga .MY.ID dengan harga paling kompetitif.</p>
+                <a href="domain.html" style="color: var(--primary-color); text-decoration: none; font-weight: bold; display: block; margin-top: 15px;">Cek Ketersediaan →</a>
+            </div>
+
+            <div class="feature-card">
+                <i class="fab fa-whatsapp"></i>
+                <h3>Hosting Bot WA</h3>
+                <p>Node JS Hosting khusus untuk bot WhatsApp. Uptime tinggi dan low latency untuk memastikan respon bot Anda secepat kilat.</p>
+                <a href="bot_wa.html" style="color: var(--primary-color); text-decoration: none; font-weight: bold; display: block; margin-top: 15px;">Lihat Paket →</a>
             </div>
         </div>
 
-        <!-- Search Section -->
-        <div class="search-container">
-            <input type="text" id="domain-search" 
-                   placeholder="Cari domain (contoh: .com, .id, .ai, .tech)..."
-                   autocomplete="off">
+        <div class="promo-banner">
+            <div class="promo-content">
+                <h2>Infrastruktur NVME Sat-Set</h2>
+                <p>Kami menggunakan storage NVME Gen 4 terbaru yang 10x lebih cepat dari SSD biasa. Loading website dan server MC jadi jauh lebih instan.</p>
+            </div>
+            <i class="fas fa-bolt" style="font-size: 5rem; opacity: 0.2; position: absolute; right: 20px;"></i>
         </div>
 
-        <!-- Category Tabs -->
-        <div class="category-tabs" id="category-tabs">
-            <button class="active" data-category="all">🌟 Semua</button>
-            <button data-category="populer">🔥 Populer</button>
-            <button data-category="trending">🚀 Trending</button>
-            <button data-category="business">💼 Bisnis</button>
-            <button data-category="id">🇮🇩 Indonesia</button>
-            <button data-category="us">🇺🇸 Amerika</button>
-            <button data-category="tv">🇹🇻 Tuvalu</button>
-            <button data-category="au">🇦🇺 Australia</button>
-            <button data-category="my">🇲🇾 Malaysia</button>
-        </div>
-
-        <!-- Domain List -->
-        <div id="domain-list-container" class="domains-grid">
-            <!-- Domain cards will be rendered here -->
-        </div>
-        
-        <!-- Not Found Message -->
-        <div id="not-found-message">
-            <h3>😔 Domain tidak ditemukan</h3>
-            <p>Coba kata kunci lain atau pilih kategori yang berbeda</p>
+        <div style="margin-top: 4rem; text-align: center;">
+            <p style="color: #64748b;">Dukungan Pembayaran:</p>
+            <div style="font-size: 1.5rem; display: flex; justify-content: center; gap: 20px; margin-top: 10px; opacity: 0.6;">
+                <i class="fas fa-wallet" title="QRIS/E-Wallet"></i>
+                <i class="fas fa-university" title="Bank Transfer"></i>
+                <i class="fas fa-money-bill-wave" title="Retail Store"></i>
+            </div>
         </div>
     </main>
 
-    <footer>
-        <p>&copy; 2024 Nazamacloud. All rights reserved.</p>
-        <p>Email: support@nazamacloud.my.id | WhatsApp: +62 831-4247-4788</p>
+    <footer style="text-align: center; padding: 3rem; background: #f1f5f9; border-top: 1px solid #e2e8f0;">
+        <p>&copy; 2024 Nazamacloud Shop. All Rights Reserved.</p>
+        <p style="font-size: 0.8rem; color: #64748b; margin-top: 5px;">Powered by Nazamacloud Infrastructure</p>
     </footer>
 
-    <!-- Debug Button -->
-    <button id="debugBtn" title="Debug Firebase">🔧</button>
-
-    <!-- Inline Debug Script -->
     <script>
-        // Debug Button
-        document.getElementById('debugBtn').addEventListener('click', function() {
-            console.clear();
-            console.group("🔧 NAZAMACLOUD DEBUG PANEL");
-            
-            // Check Firebase
-            console.log("=== FIREBASE STATUS ===");
-            console.log("FirebaseAuth:", typeof FirebaseAuth !== 'undefined' ? "✅ Loaded" : "❌ Missing");
-            
-            if (typeof FirebaseAuth !== 'undefined') {
-                console.log("Current User:", FirebaseAuth.getCurrentUser());
-                console.log("Is Logged In:", FirebaseAuth.isLoggedIn());
-                
-                // Test connection
-                console.log("Domain:", window.location.hostname);
-                console.log("URL:", window.location.href);
-                
-                // Try to test login
-                console.log("\n=== TEST LOGIN ===");
-                console.log("Click the login button to test");
-            }
-            
-            // Check config
-            console.log("\n=== CONFIG ===");
-            console.log("API Key present:", firebaseConfig?.apiKey ? "✅ Yes" : "❌ No");
-            console.log("API Key length:", firebaseConfig?.apiKey?.length || 0);
-            
-            console.groupEnd();
-            alert("Debug info logged to Console (F12)");
-        });
-        
-        // Auto-check Firebase on load
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                if (typeof FirebaseAuth === 'undefined') {
-                    console.warn("⚠️ FirebaseAuth not loaded after 3 seconds");
-                    console.warn("Check: 1. firebase.js exists 2. type='module' 3. No console errors");
-                } else {
-                    console.log("✅ FirebaseAuth loaded successfully");
-                    
-                    // Check auth state
-                    FirebaseAuth.onAuthStateChanged(function(user) {
-                        console.log("Auth state changed:", user ? "Logged in" : "Logged out");
-                    });
-                }
-            }, 3000);
-        });
-        
-        // Listen for login errors
-        window.addEventListener('unhandledrejection', function(event) {
-            if (event.reason && event.reason.message && event.reason.message.includes('auth/')) {
-                console.error("🔥 Firebase Auth Error:", event.reason);
-                alert("Firebase Error: " + event.reason.message);
-            }
-        });
-    </script>
+        // Sidebar Logic
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
+        function toggleShop() {
+            document.getElementById('shop-menu').classList.toggle('show');
+            document.getElementById('shop-icon').classList.toggle('fa-rotate-180');
+        }
 
+        // Update Cart Count
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('nazama_cart')) || [];
+            document.getElementById('cart-count').innerText = cart.length;
+        }
+
+        function setLang(lang) {
+            alert(lang === 'id' ? "Bahasa diubah ke Indonesia" : "Language changed to English");
+        }
+
+        window.onload = updateCartCount;
+    </script>
 </body>
 </html>
